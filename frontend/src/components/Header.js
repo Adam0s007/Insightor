@@ -1,5 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
-import classes from "./MainNavigation.module.css";
+import classes from "./Header.module.css";
 const Header = (props) => {
   return (
     <header>
@@ -8,19 +8,15 @@ const Header = (props) => {
       </Link>
       <nav>
         <NavLink
-          to="/login"
-          className={({ isActive }) => 
-            isActive ? classes.active : undefined
-          }
+          to="/"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
           end
         >
           Login
         </NavLink>
         <NavLink
-          className={({ isActive }) => 
-            isActive ? classes.active : undefined
-          }
-          to="/register"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+          to="/"
           end
         >
           Register
