@@ -1,0 +1,45 @@
+:root {
+  --main-color: #333;
+  --font-family: 'Inconsolata', monospace;
+  --max-width: 500px;
+  --header-margin: 50px;
+  --post-background-start: rgb(81, 0, 108);
+  --post-background-end: rgba(40, 0, 54, 1);
+  --box-shadow-color: rgba(66, 68, 90, 1);
+  --scale-transition-duration: 0.1s;
+  --clip-path-transition-duration: 0.3s;
+  --filter-transition-duration: 0.3s;
+  --text-shadow-color: rgba(255, 111, 255, 1);
+}
+
+body {
+  color: var(--main-color);
+  font-family: var(--font-family);
+}
+
+main {
+  padding: 10px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--header-margin);
+}
+
+header a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header a.logo {
+  font-weight: bold;
+}
+
+header nav {
+  display: flex;
+  gap: 15px;
+}
+
