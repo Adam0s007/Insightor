@@ -1,10 +1,11 @@
 :root {
-  --main-color: #333;
+  --main-color: rgb(81, 0, 108);
   --font-family: 'Inconsolata', monospace;
   --max-width: 500px;
   --header-margin: 50px;
   --post-background-start: rgb(81, 0, 108);
   --post-background-end: rgba(40, 0, 54, 1);
+  --body-background: rgb(241, 241, 241);
   --box-shadow-color: rgba(66, 68, 90, 1);
   --scale-transition-duration: 0.1s;
   --clip-path-transition-duration: 0.3s;
@@ -15,6 +16,7 @@
 body {
   color: var(--main-color);
   font-family: var(--font-family);
+  background: var(--body-background);
 }
 
 main {
