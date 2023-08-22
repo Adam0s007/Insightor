@@ -1,13 +1,17 @@
 :root {
-  --main-color: rgb(81, 0, 108);
-  --font-family: 'Inconsolata', monospace;
+  --main-color: rgb(39, 39, 39);
+  --color-white:rgb(234, 234, 234);
+  --description-color: rgb(93, 93, 93);
+  --person-info-color: rgb(93, 93, 93);
+  --read-more-button: rgb(255, 65, 106);
+  --font-family: 'Arial', 'sans-serif';
   --max-width: 500px;
   --header-margin: 50px;
   --post-background-start: rgb(81, 0, 108);
   --post-background-end: rgba(40, 0, 54, 1);
   --body-background: rgb(241, 241, 241);
   --box-shadow-color: rgba(66, 68, 90, 1);
-  --scale-transition-duration: 0.1s;
+  --scale-transition-duration: 0.2s;
   --clip-path-transition-duration: 0.3s;
   --filter-transition-duration: 0.3s;
   --text-shadow-color: rgba(255, 111, 255, 1);
