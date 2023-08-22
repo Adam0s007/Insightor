@@ -2,26 +2,20 @@ import { NavLink, Link } from "react-router-dom";
 import classes from "./Header.module.css";
 const Header = (props) => {
   return (
-    <header>
-      <Link to="/" end>
-        MyBlog
-      </Link>
-      <nav>
-        <NavLink
-          to="/"
-          className={({ isActive }) => (isActive ? classes.active : undefined)}
-          end
-        >
-          Login
-        </NavLink>
-        <NavLink
-          className={({ isActive }) => (isActive ? classes.active : undefined)}
-          to="/"
-          end
-        >
-          Register
-        </NavLink>
-      </nav>
+    <header className={classes.header}>
+        <h1 className={classes.logo}>Logo</h1>
+        <input type="checkbox" id="nav-toggle" className={classes["nav-toggle"]}/>
+        <nav className={classes.nav}>
+            <ul>
+                <li><a className={classes.link} href="#">Home</a> </li>
+                <li><a className={classes.link} href="#">About</a></li>
+                <li><a className={classes.link} href="#">Blog</a></li>
+                <li><a className={classes.link} href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <label htmlFor="nav-toggle" className={classes["nav-toggle-label"]}>
+        <span></span>
+        </label>
     </header>
   );
 };
