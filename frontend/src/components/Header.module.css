@@ -15,7 +15,7 @@
   text-align:center;
   position:sticky;
   top:0;
-  width:100%;
+  width:inherit;
   z-index:999;
   display:flex;
   align-items:center;
@@ -86,11 +86,13 @@ transition:all 200ms ease-in-out;
 
 .nav{
   position:absolute;
+  box-sizing:border-box;
+  width:100%;
   top:100%;
   left:0;
   padding:1em;
   background-color: var(--background);
-  width:100%;
+  
   transform:scale(1,0);
   transition:transform 400ms ease-in-out;
   transform-origin:top;
@@ -145,6 +147,7 @@ transition:all 200ms ease-in-out;
   align-items:center;
   justify-content: space-around;
   padding: 0 1em;
+
   }
 
   .nav-toggle:checked ~ .header{
@@ -157,7 +160,6 @@ transition:all 200ms ease-in-out;
       ta wlasciwosc  all:unset; usuwa wszystkie wlasciwosci nadane wczesniej, w tym przypadku usuwa transform:scale(1,0);
       
       */
-      
       display:flex;
       justify-content:flex-end;
       align-items:center;
