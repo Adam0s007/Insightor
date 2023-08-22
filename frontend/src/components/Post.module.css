@@ -29,9 +29,12 @@
 
 .post-title{
   position:absolute;
-  transform:translateY(-100%);
-  top:240px;
-  background:rgba(0, 0, 0, 0.705);
+  transform:translate(-100%,-100%);
+  top:220px;
+  left:100%;
+  
+  width: 80%;
+  background:rgba(0, 0, 0, 0.8);
   padding-left:0.8em;
   padding:0.4em 0.8em 2px 0.8em;
   color:var(--color-white);
