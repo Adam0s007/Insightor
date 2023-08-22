@@ -3,19 +3,67 @@ import classes from "./Header.module.css";
 const Header = (props) => {
   return (
     <header className={classes.header}>
-        <h1 className={classes.logo}>Logo</h1>
-        <input type="checkbox" id="nav-toggle" className={classes["nav-toggle"]}/>
-        <nav className={classes.nav}>
-            <ul>
-                <li><a className={classes.link} href="#">Home</a> </li>
-                <li><a className={classes.link} href="#">About</a></li>
-                <li><a className={classes.link} href="#">Blog</a></li>
-                <li><a className={classes.link} href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <label htmlFor="nav-toggle" className={classes["nav-toggle-label"]}>
+      <h1 className={classes.logo}>Logo</h1>
+      <input
+        type="checkbox"
+        id="nav-toggle"
+        className={classes["nav-toggle"]}
+      />
+      <nav className={classes.nav}>
+        <ul>
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                (isActive = isActive
+                  ? `${classes.link}  ${classes.active}`
+                  : `${classes.link}`)
+              }
+            >
+              Home
+            </NavLink>{" "}
+          </li>
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                (isActive = isActive
+                  ? `${classes.link}  ${classes.active}`
+                  : `${classes.link}`)
+              }
+            >
+              About
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="posts"
+              className={({ isActive }) =>
+                (isActive = isActive
+                  ? `${classes.link}  ${classes.active}`
+                  : `${classes.link}`)
+              }
+            >
+              Blog
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                (isActive = isActive
+                  ? `${classes.link}  ${classes.active}`
+                  : `${classes.link}`)
+              }
+            >
+              Contact
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+      <label htmlFor="nav-toggle" className={classes["nav-toggle-label"]}>
         <span></span>
-        </label>
+      </label>
     </header>
   );
 };
