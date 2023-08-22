@@ -1,14 +1,18 @@
 import { NavLink, Link } from "react-router-dom";
+import { useState,Fragment } from "react";
 import classes from "./Header.module.css";
 const Header = (props) => {
+
   return (
-    <header className={classes.header}>
+    <Fragment>
+    <input
+    type="checkbox"
+    id="nav-toggle"
+    className={classes["nav-toggle"]}
+  />
+   <header className={classes.header}>
       <h1 className={classes.logo}>Logo</h1>
-      <input
-        type="checkbox"
-        id="nav-toggle"
-        className={classes["nav-toggle"]}
-      />
+      
       <nav className={classes.nav}>
         <ul>
           <li>
@@ -61,10 +65,11 @@ const Header = (props) => {
           </li>
         </ul>
       </nav>
-      <label htmlFor="nav-toggle" className={classes["nav-toggle-label"]}>
+      <label htmlFor="nav-toggle" className={classes["nav-toggle-label"]} >
         <span></span>
       </label>
     </header>
+    </Fragment>
   );
 };
 
