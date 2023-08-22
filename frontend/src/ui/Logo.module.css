@@ -1,0 +1,30 @@
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #92c2f8;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    background-color: #f2f2f223;
+    border-radius: 5px;
+    cursor:pointer; 
+    transition: all 0.2s ease-in-out;
+    
+}
+
+.logo:hover {
+    animation: bumpAnimation 0.5s ease-in-out;
+}
+/* make animation with keyframes - bump animation when clicked .logo*/
+
+@keyframes bumpAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

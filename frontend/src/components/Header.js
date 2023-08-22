@@ -1,5 +1,8 @@
-import { NavLink, Link } from "react-router-dom";
-import { useState,Fragment } from "react";
+import { NavLink, } from "react-router-dom";
+import { Fragment } from "react";
+
+import Logo from "../ui/Logo";
+
 import classes from "./Header.module.css";
 const Header = (props) => {
 
@@ -11,7 +14,7 @@ const Header = (props) => {
     className={classes["nav-toggle"]}
   />
    <header className={classes.header}>
-      <h1 className={classes.logo}>Logo</h1>
+      <h1 className={classes.logo}><Logo/></h1>
       
       <nav className={classes.nav}>
         <ul>
