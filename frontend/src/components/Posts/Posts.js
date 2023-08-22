@@ -1,4 +1,5 @@
 import Post from './Post'
+import Search from './Search'
 import classes from './Posts.module.css'
 //dummy data with 6 elements containing title, description, date, personName, img
 const DUMMY_DATA = [
@@ -57,6 +58,8 @@ const DUMMY_DATA = [
 
 const Posts = () =>{
     return(
+            <>
+            <Search/>
             <section className={classes.posts}>
                 {DUMMY_DATA.map((post) => (
                     <Post key={post.id}
@@ -68,6 +71,7 @@ const Posts = () =>{
                     />
                 ))}
             </section>
+            </>
         )
         
 }

@@ -5,7 +5,7 @@
   --background:rgba(0, 0, 0, 0.65);
 }
 
-/* navigation styles start here*/
+
 
 .header{
   background: var(--background);
@@ -13,7 +13,7 @@
   position:sticky;
   top:0;
   width:inherit;
-  z-index:999;
+  z-index:5;
   display:flex;
   align-items:center;
   padding: 0 1em;

@@ -1,0 +1,32 @@
+
+.ModalOpen{
+    animation: openModal 0.4s ease-out forwards;
+}
+.ModalClosed{
+     animation: closeModal 0.4s ease-out forwards; 
+}
+.fade-slide-enter-active{
+    animation: openModal 0.4s ease-out forwards;  
+}
+.fade-slide-exit-active{
+   animation: closeModal 0.4s ease-out forwards; 
+}
+
+@keyframes openModal {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+@keyframes closeModal  {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity:0;
+    }
+    
+}
