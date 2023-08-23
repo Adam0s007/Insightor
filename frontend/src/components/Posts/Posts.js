@@ -60,18 +60,20 @@ const Posts = () => {
     const filters = useSelector((state) => state.filters);
     const [filteredPosts, setFilteredPosts] = useState(DUMMY_DATA);
     const filterItems = () => DUMMY_DATA.filter(post => 
-      (post.title.includes(filters.title) || post.description.includes(filters.description))
-      && post.date.includes(filters.date)
-      && post.personName.includes(filters.personName)
-      && post.img.includes(filters.img)
-    );
+        (post.title.toLowerCase().includes(filters.title.toLowerCase()) || 
+         post.description.toLowerCase().includes(filters.description.toLowerCase()))
+        && post.date.includes(filters.date) // jeżeli data jest zawsze w tym samym formacie, to nie trzeba zmieniać
+        && post.personName.toLowerCase().includes(filters.personName.toLowerCase())
+        && post.img.includes(filters.img)  // jeżeli url jest zawsze w tym samym formacie, to nie trzeba zmieniać
+      );
+      
     useEffect(() => {
        setTimeout(() => {
         setFilteredPosts(filterItems());
        }, 500);
 
     }, [filters]);
-    console.log("Ja sie wykonuję");
+   
     return (
       <>
         <Search />

@@ -28,7 +28,9 @@ const FilterModal = (props) => {
 
   const resetFiltersHandler = () => {
     dispatch(filtersActions.resetFilters());  
-
+    setDate("");
+    setPersonName("");
+    setImg("");
   }
 
   const nodeRef = useRef(null);
