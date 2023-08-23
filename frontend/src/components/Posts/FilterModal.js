@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState,useRef } from "react";
 import ReactDOM from "react-dom";
 import classes from "./FilterModal.module.css";
 import './ModalAnimation.css';
 import CSSTransition from "react-transition-group/CSSTransition";
+import { filtersActions } from "../../store/filters-slice";
 
 const animationTiming = {
   enter: 400,
@@ -10,15 +12,29 @@ const animationTiming = {
 };
 
 const FilterModal = (props) => {
-    const newFilterHandler = (newFilter) => {
-        props.onNewFilters(newFilter);
-    }
-    
+  const dispatch = useDispatch();
+  const currentFilters = useSelector((state) => state.filters);
+  
+  // Lokalny stan dla inputów
+  const [date, setDate] = useState(currentFilters.date);
+  const [personName, setPersonName] = useState(currentFilters.personName);
+  const [img, setImg] = useState(currentFilters.img);
+
+  const applyFilters = () => {
+    const newFilters = { date, personName, img };
+    props.onNewFilters(newFilters);
+    props.onClose();
+  }
+
+  const resetFiltersHandler = () => {
+    dispatch(filtersActions.resetFilters());  
+
+  }
 
   const nodeRef = useRef(null);
   return ReactDOM.createPortal(
     <CSSTransition
-      nodeRef={nodeRef}  // Add the ref here
+      nodeRef={nodeRef}
       mountOnEnter
       unmountOnExit
       in={props.isOpen}
@@ -31,7 +47,7 @@ const FilterModal = (props) => {
       }}
     >
       <div 
-        ref={nodeRef}  // Apply the ref to your root modal element
+        ref={nodeRef}
         className={classes.modalOverlay} 
         onClick={props.onClose}
       >
@@ -39,10 +55,28 @@ const FilterModal = (props) => {
           className={classes.modalContent}
           onClick={(e) => e.stopPropagation()}
         >
-            <div className={classes.filterContent} 
-            //this is a wrapper for filter elements
-            >
+            <div className={classes.filterContent}>
                 <h4>Filter Posts</h4>
+                <input 
+                  type="text" 
+                  placeholder="Date" 
+                  value={date}
+                  onChange={e => setDate(e.target.value)}
+                />
+                <input 
+                  type="text" 
+                  placeholder="Name" 
+                  value={personName}
+                  onChange={e => setPersonName(e.target.value)}
+                />
+                <input 
+                  type="text" 
+                  placeholder="Image URL" 
+                  value={img}
+                  onChange={e => setImg(e.target.value)}
+                />
+                <button onClick={applyFilters}>Apply Filters</button>
+                <button onClick={resetFiltersHandler}>Reset Filters</button>
             </div>
 
           <button onClick={props.onClose}>Close</button>

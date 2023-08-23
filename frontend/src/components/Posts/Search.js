@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import classes from './Search.module.css';
-import { AiOutlineSearch } from 'react-icons/ai';
+
 import { GiSettingsKnobs } from 'react-icons/gi';
 import FilterModal from './FilterModal';
+import { useDispatch } from 'react-redux';
+import {filtersActions} from '../../store/filters-slice'; // import slice
 
 const Search = (props) => {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const newFiltersHanlder = (newFilters) => {
-    console.log("it works");
+  const newFiltersHandler = (newFilters) => {
+    dispatch(filtersActions.setFilters(newFilters));
   }
 
   const onSearchChange = (event) => {
-    props.onSearchChange(event.target.value);
+    dispatch(filtersActions.setFilters({
+      title: event.target.value,
+      description: event.target.value
+    }));
   }
 
   return (
@@ -20,14 +26,13 @@ const Search = (props) => {
       <input 
         type="text" 
         placeholder="Search" 
-        className={classes.searchInput
-        
-        }
+        className={classes.searchInput}
+        onChange={onSearchChange}
       />
-      <AiOutlineSearch className={classes.icon} />
+      
       <GiSettingsKnobs className={classes.icon} onClick={() => setIsModalOpen(true)} />
       
-      <FilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onNewFilters={newFiltersHanlder} />
+      <FilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onNewFilters={newFiltersHandler} />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+import {useState,useEffect} from 'react'
 import Post from './Post'
 import Search from './Search'
 import classes from './Posts.module.css'
@@ -54,26 +56,37 @@ const DUMMY_DATA = [
 ]
 
 
+const Posts = () => {
+    const filters = useSelector((state) => state.filters);
+    const [filteredPosts, setFilteredPosts] = useState(DUMMY_DATA);
+    const filterItems = () => DUMMY_DATA.filter(post => 
+      (post.title.includes(filters.title) || post.description.includes(filters.description))
+      && post.date.includes(filters.date)
+      && post.personName.includes(filters.personName)
+      && post.img.includes(filters.img)
+    );
+    useEffect(() => {
+       setTimeout(() => {
+        setFilteredPosts(filterItems());
+       }, 500);
 
-
-const Posts = () =>{
-    return(
-            <>
-            <Search/>
-            <section className={classes.posts}>
-                {DUMMY_DATA.map((post) => (
-                    <Post key={post.id}
-                        title={post.title}
-                        description={post.description}
-                        date={post.date}
-                        personName={post.personName}
-                        img={post.img}
-                    />
-                ))}
-            </section>
-            </>
-        )
-        
-}
-
+    }, [filters]);
+    console.log("Ja sie wykonuję");
+    return (
+      <>
+        <Search />
+        <section className={classes.posts}>
+          {filteredPosts.map((post) => (
+              <Post key={post.id}
+                  title={post.title}
+                  description={post.description}
+                  date={post.date}
+                  personName={post.personName}
+                  img={post.img}
+              />
+          ))}
+        </section>
+      </>
+    );
+  }
 export default Posts;
