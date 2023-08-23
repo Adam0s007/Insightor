@@ -3,26 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialFiltersState = {
   title: "",
   description: "",
-  date: "",
+  startDate: "",   // New property
+  endDate: "",     // New property
   personName: "",
-  img: "",
 };
 
 export const filtersSlice = createSlice({
   name: "filters",
-  initialState: {
-    title: "",
-    description: "",
-    date: "",
-    personName: "",
-    img: "",
-  },
+  initialState: initialFiltersState,  // Just use the initialFiltersState directly here
   reducers: {
     setFilters: (state, action) => {
-    Object.assign(state, action.payload);
+      Object.assign(state, action.payload);
     },
     resetFilters: (state) => {
-    Object.assign(state, initialFiltersState);
+      Object.assign(state, initialFiltersState);
     },
   },
 });

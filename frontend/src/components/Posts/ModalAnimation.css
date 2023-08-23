@@ -1,15 +1,15 @@
 
 .ModalOpen{
-    animation: openModal 0.4s ease-out forwards;
+    animation: openModal 0.16s ease-out forwards;
 }
 .ModalClosed{
-     animation: closeModal 0.4s ease-out forwards; 
+     animation: closeModal 0.16s ease-out forwards; 
 }
 .fade-slide-enter-active{
-    animation: openModal 0.4s ease-out forwards;  
+    animation: openModal 0.16s ease-out forwards;  
 }
 .fade-slide-exit-active{
-   animation: closeModal 0.4s ease-out forwards; 
+   animation: closeModal 0.16s ease-out forwards; 
 }
 
 @keyframes openModal {

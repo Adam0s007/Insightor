@@ -8,7 +8,7 @@ import {filtersActions} from '../../store/filters-slice'; // import slice
 
 const Search = (props) => {
   
-  console.log("Ja się wykonuję")
+  
   
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
