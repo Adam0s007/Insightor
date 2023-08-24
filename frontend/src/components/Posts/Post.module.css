@@ -1,5 +1,5 @@
 .post {
-  width:24em;
+  width:min(24em,90%);
   max-height:40em;
   position: relative;
   margin-bottom: 50px;
@@ -78,4 +78,43 @@
 }
 .read-more:hover{
   scale:1.05;
+}
+
+
+
+@media (max-width: 640px) {
+  .post {
+    max-height: fit-content;
+    margin-bottom: 20px;
+    flex-direction: column;
+  }
+  
+.post-description{
+  line-height:1.2em;
+  font-size: 12px;
+}
+.read-more:hover{
+  scale:1.02;
+}
+.post-title{
+  position:absolute;
+  width:100%;
+  border-radius: 0px;
+  font-size:15px;
+  text-align:center;
+  padding: 15px 0;
+}
+.post-details{
+  padding:10px;
+}
+
+.person-info{
+  margin-top:1em;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size:10px;
+  font-weight:bold;
+  color: var(--person-info-color);
+}
 }
