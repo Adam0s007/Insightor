@@ -1,4 +1,4 @@
-import Home from '../components/Home';
+import Home from '../components/Home/Home';
 const HomePage = (props)=>{
     return (
         <Home/>
