@@ -1,10 +1,14 @@
 import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import RootLayout from "./pages/Root";
 import HomePage from "./pages/HomePage";
 import PostLayout from "./pages/PostsPage";
 import ContactLayout from "./pages/Contact";
+
 function App() {
+  
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -13,7 +17,7 @@ function App() {
       children: [
         { index: true, element: <HomePage />, id: "home" },
         { path: "posts", element: <PostLayout />, id: "post" },
-        {path: 'contact', element: <ContactLayout/>, id: 'contact'}
+        { path: "contact", element: <ContactLayout />, id: "contact" },
       ],
     },
   ]);

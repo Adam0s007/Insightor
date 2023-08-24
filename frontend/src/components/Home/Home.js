@@ -4,6 +4,7 @@ import styles from "./BaseStyles.module.css";
 
 import { Header } from "./Header";
 import { Contact } from "./Contact";
+import LatestPosts from "./LatestPosts";
 
 
 
@@ -15,6 +16,8 @@ function Home() {
   return (
     <div className={styles["home-page"]}>
       <Header ref={headerRef} isVisible={headerIsVisible} />
+      
+      <LatestPosts />
       <Contact 
         paragraphRef={paragraphRef} 
         howItWorksRef={howItWorksRef} 

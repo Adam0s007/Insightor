@@ -1,75 +1,70 @@
 .introduction {
-    color: white;
-    font-size: 1.4rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1px;
-    background-image: url("../../assets/images/introduction.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    
-    width:100%;
-    position:relative;
-    height:90vh;
-    list-style:none;
-    margin:15px 0;
-    padding:0;
-  }
+  color: white;
+  font-size: 1.4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1px;
+  background-image: url("../../assets/images/introduction.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
 
+  width: 100%;
+  position: relative;
+  height: 90vh;
+  list-style: none;
 
-
-  
-  .introduction >* {
-    opacity: 0;
-  }
-  .introduction > h1{
-    font-size:4rem;
-  }
-
-.how-it-works{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  justify-content:center;
-  position:relative;
+  padding: 0;
 }
-.how-it-works > *{
-  padding:1em;
-  background-color:rgba(28, 28, 28, 0.533);
-  border-radius:8px;
-  width:fit-content;
-  max-width:40rem;
- }
 
- .buttonContainer{
+.introduction > * {
+  opacity: 0;
+}
+.introduction > h1 {
+  font-size: 4rem;
+}
+
+.how-it-works {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+.how-it-works > * {
+  padding: 1em;
+  background-color: rgba(28, 28, 28, 0.533);
+  border-radius: 8px;
+  width: fit-content;
+  max-width: 40rem;
+}
+
+.buttonContainer {
   text-decoration: none;
- }
- 
-.button{
-  display:block;
+}
+
+.button {
+  display: block;
   margin: 2rem 0 0 0;
   padding: 1rem 2rem;
   background-color: rgb(223, 39, 75);
   border-radius: 8px;
-  border:none;
-  cursor:pointer;
-  color:white;
-  font-weight:bold;
-  font-size:0.7em;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  font-size: 0.7em;
 }
-.button:hover{
-  background-color:rgb(227, 54, 89);
+.button:hover {
+  background-color: rgb(227, 54, 89);
 }
 
-
-  @media screen and (max-width:641px){
-    .introduction{
-      font-size:16px;
-    }
-    
+@media screen and (max-width: 641px) {
+  .introduction {
+    font-size: 16px;
   }
+}

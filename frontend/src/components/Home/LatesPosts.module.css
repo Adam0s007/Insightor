@@ -1,0 +1,39 @@
+
+.latest-posts{
+    background:rgb(255, 255, 255);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.latest-posts h1{
+    font-size:2em;
+    font-weight:400;
+    margin-bottom:1em;
+    color:black;
+}
+
+.button-wrapper{
+    text-decoration: none;
+}
+
+.button{
+    background:var(--main-color);
+    color:white;
+    padding:0.5em 1em;
+    border-radius:0.5em;
+    font-size:1.7em;
+    font-weight:400;
+    margin-bottom:1.3em;
+    cursor:pointer;
+    transition:0.3s;
+    
+}
+
+.button:hover{
+    background:rgb(0, 0, 0);
+}
+
+

@@ -1,8 +1,9 @@
-import { useSelector } from "react-redux";
-import { useState, useEffect,useMemo } from "react";
-import Post from "./Post";
-import Search from "./Search";
-import classes from "./Posts.module.css";
+
+import Post from "../Posts/Post";
+import { Link } from "react-router-dom";
+import { useMemo } from "react";
+import classes from "./LatesPosts.module.css";
+import postsClasses from '../Posts/Posts.module.css'
 const DUMMY_DATA = [
   {
     id: "e1",
@@ -68,59 +69,26 @@ const parseDateString = (dateString) => {
   return new Date(year, month - 1, day, hour, minute);
 };
 
-const Posts = () => {
-  const filters = useSelector((state) => state.filters);
-  const [debouncedFilters, setDebouncedFilters] = useState(filters);
-  
-  useEffect(() => {
-      const debounceTimeout = setTimeout(() => {
-        setDebouncedFilters(filters);
-      }, 500);
-
-      return () => {
-        clearTimeout(debounceTimeout);
-      };
-  }, [filters]);
-
-  const filterItems = useMemo(() => DUMMY_DATA.filter((post) => {
-      const postDate = parseDateString(post.date);
-      console.log("Ja się wykonuję!");
-
+const LatestPosts = () => {
+  const displayItems = useMemo(() => {
+    // Sortowanie artykułów według daty (od najnowszego do najstarszego)
+    const sortedPosts = DUMMY_DATA.sort((a, b) => {
+      const dateA = parseDateString(a.date);
+      const dateB = parseDateString(b.date);
       
-      let start, end;
+      return dateB - dateA;
+    });
 
-      if (debouncedFilters.startDate !== "") {
-        start = new Date(debouncedFilters.startDate);
-        start.setHours(0, 0, 0, 0);
-      } else {
-        start = -Infinity;
-      }
-
-      if (debouncedFilters.endDate !== "") {
-        end = new Date(debouncedFilters.endDate);
-        end.setHours(23, 59, 59, 999);
-      } else {
-        end = Infinity;
-      }
-
-      return (
-        (post.title.toLowerCase().includes(debouncedFilters.title.toLowerCase()) ||
-          post.description
-            .toLowerCase()
-            .includes(debouncedFilters.description.toLowerCase())) &&
-        postDate >= start &&
-        postDate <= end &&
-        post.personName
-          .toLowerCase()
-          .includes(debouncedFilters.personName.toLowerCase()) 
-      );
-    }), [debouncedFilters]);
+    // Wybieranie 4 ostatnich artykułów
+    return sortedPosts.slice(0, 4);
+  }, []);
 
   return (
-    <>
-      
-      <section className={classes.posts}>
-        {filterItems.map((post) => (
+    <section className={classes["latest-posts"]}>
+      <h1>Latests articles</h1>
+
+      <section className={postsClasses.posts}>
+        {displayItems.map((post) => (
           <Post
             key={post.id}
             title={post.title}
@@ -131,8 +99,12 @@ const Posts = () => {
           />
         ))}
       </section>
-    </>
+
+      <Link to="/posts">
+        <button className={classes.button}>all articles</button>
+      </Link>
+    </section>
   );
 };
 
-export default Posts;
+export default LatestPosts;
