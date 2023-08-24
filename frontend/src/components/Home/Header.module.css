@@ -1,7 +1,6 @@
 .header {
     padding: 2rem;
     margin-top:-0.9rem;
-
     color: var(--light-font-color);
     text-align: center;
     opacity: 0;
@@ -13,3 +12,18 @@
     text-shadow: 4px 4px 6px rgba(66, 68, 90, 1);
   }
 
+  .header h1::before{
+    content:'Welcome to ';
+  }
+.header h1{
+  font-size:5rem;
+}
+
+@media screen and (max-width:641px){
+  .header h1{
+    font-size:3rem;
+  }
+  .header h1::before{
+    content:'';
+  }
+}

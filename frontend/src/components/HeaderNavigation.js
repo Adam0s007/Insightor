@@ -56,7 +56,7 @@ const HeaderNavigation = (props) => {
           </li>
           <li>
             <NavLink
-              to="/"
+              to="contact"
               className={({ isActive }) =>
                 (isActive = isActive
                   ? `${classes.link}  ${classes.active}`

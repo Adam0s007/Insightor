@@ -1,6 +1,6 @@
 import styles from "./Footer.module.css";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
-export function Footer() {
+ function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.address}>
@@ -23,3 +23,5 @@ export function Footer() {
         </footer>
     );
 }
+
+export default Footer;
