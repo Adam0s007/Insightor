@@ -1,0 +1,32 @@
+@keyframes animateVisible {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+  }
+  
+  .animateVisible {
+    animation: animateVisible 0.5s forwards;
+    animation-delay: 200ms;
+  }
+  
+  @keyframes animateVisibleRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+  }
+  
+  .animateVisibleRight {
+    animation: animateVisibleRight 0.5s forwards;
+    animation-delay: 200ms;
+  }
+  

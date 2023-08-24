@@ -1,0 +1,17 @@
+.footer {
+    padding: 2rem;
+    background-color: var(--background);
+    color: var(--light-font-color);
+    text-align: center;
+  }
+  
+  .footer a {
+    margin-right: 1rem;
+    color: var(--color-white);
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  

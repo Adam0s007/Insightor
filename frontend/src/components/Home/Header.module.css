@@ -1,0 +1,9 @@
+.header {
+    padding: 2rem;
+    background-color: var(--background);
+    color: var(--light-font-color);
+    text-align: center;
+    opacity: 0;
+    margin-top: 10rem;
+  }
+  

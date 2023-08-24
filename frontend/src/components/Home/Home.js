@@ -1,6 +1,6 @@
 import React from "react";
 import { useInView } from "react-intersection-observer";
-import styles from "./Home.module.css";
+import styles from "./BaseStyles.module.css";
 
 import { Header } from "./Header";
 import { Introduction } from "./Introduction";

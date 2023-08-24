@@ -1,0 +1,27 @@
+.introduction, .how-it-works {
+    color: var(--light-font-color);
+    font-size: 1.4rem;
+  }
+  
+  .introduction {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1px;
+    margin: 20px;
+    margin-top: 14rem;
+  }
+  
+  .introduction >* {
+    opacity: 0;
+  }
+  
+  .motivational-quote {
+    font-style: italic;
+    text-align: center;
+    color: var(--color-white);
+    font-size: 20px;
+    border-radius: 8px;
+  }
+  

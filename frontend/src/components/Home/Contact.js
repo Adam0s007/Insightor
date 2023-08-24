@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './Home.module.css';
-
+import styles from './Contact.module.css';
+import animations from './Animations.module.css';
 export const Contact = React.forwardRef(({ isVisible }, ref) => (
-    <section ref={ref} className={`${styles.contact} ${isVisible ? styles.animateVisibleRight : ""}`}>
+    <section ref={ref} className={`${styles.contact} ${isVisible ? animations.animateVisibleRight : ""}`}>
         <h2>Contact Us:</h2>
         <form>
             <label>

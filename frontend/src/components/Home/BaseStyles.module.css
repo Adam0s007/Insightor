@@ -1,0 +1,21 @@
+/* Variables */
+:root {
+  --light-font-color: #ececec;
+  --light-liquid-font-color: #ecececb3;
+}
+
+/* Base Styles */
+.home-page {
+  font-family: var(--font-family);
+  background-color: transparent;
+  max-width: var(--max-width);
+  color: var(--light-font-color);
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul > li {
+  font-size: 16px;
+}
