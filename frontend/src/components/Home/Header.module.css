@@ -1,9 +1,15 @@
 .header {
     padding: 2rem;
-    background-color: var(--background);
+    margin-top:-0.9rem;
+
     color: var(--light-font-color);
     text-align: center;
     opacity: 0;
-    margin-top: 10rem;
+    height:80vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-shadow: 4px 4px 6px rgba(66, 68, 90, 1);
   }
-  
+

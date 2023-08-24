@@ -3,8 +3,8 @@ import { Fragment } from "react";
 
 import Logo from "../ui/Logo";
 
-import classes from "./Header.module.css";
-const Header = (props) => {
+import classes from "./HeaderNavigation.module.css";
+const HeaderNavigation = (props) => {
 
   return (
     <Fragment>
@@ -76,4 +76,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default HeaderNavigation;
