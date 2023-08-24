@@ -1,0 +1,58 @@
+:root {
+    /* Twoje zmienne CSS ... */
+}
+
+.home-page {
+    font-family: var(--font-family);
+    background-color: var(--body-background);
+    max-width: var(--max-width);
+    color: var(--main-color);
+}
+
+.header, .footer {
+    padding: 2rem;
+    background-color: var(--main-color);
+    color: var(--color-white);
+    text-align: center;
+}
+
+.introduction, .how-it-works, .call-to-action, .contact {
+    padding: 1rem;
+    color: var(--description-color);
+}
+
+.motivational-quote {
+    font-style: italic;
+    padding: 2rem;
+    text-align: center;
+    color: var(--description-color);
+    background-color: var(--box-shadow-color);
+}
+
+.call-to-action button {
+    padding: 0.5rem 1rem;
+    color: var(--color-white);
+    background-color: var(--read-more-button);
+    border: none;
+    cursor: pointer;
+    transition: var(--scale-transition-duration);
+}
+
+.call-to-action button:hover {
+    transform: scale(1.05);
+}
+
+.contact form label {
+    display: block;
+    margin: 1rem 0;
+}
+
+.footer a {
+    margin-right: 1rem;
+    color: var(--color-white);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}

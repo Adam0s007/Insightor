@@ -51,7 +51,7 @@ const Header = (props) => {
                   : `${classes.link}`)
               }
             >
-              Blog
+              Posts
             </NavLink>
           </li>
           <li>

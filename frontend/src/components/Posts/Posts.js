@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useMemo } from "react";
 import Post from "./Post";
 import Search from "./Search";
 import classes from "./Posts.module.css";
-//dummy data with 6 elements containing title, description, date, personName, img
 const DUMMY_DATA = [
   {
     id: "e1",
@@ -71,52 +70,55 @@ const parseDateString = (dateString) => {
 
 const Posts = () => {
   const filters = useSelector((state) => state.filters);
-  const [filteredPosts, setFilteredPosts] = useState(DUMMY_DATA);
+  const [debouncedFilters, setDebouncedFilters] = useState(filters);
 
-  const filterItems = () =>
-    DUMMY_DATA.filter((post) => {
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      setDebouncedFilters(filters);
+    }, 500);
+
+    return () => {
+      clearTimeout(debounceTimeout);
+    };
+  }, [filters]);
+
+  const filterItems = useMemo(() => DUMMY_DATA.filter((post) => {
       const postDate = parseDateString(post.date);
-
+      console.log("Ja się wykonuję!");
       let start, end;
 
-      if (filters.startDate !== "") {
-        start = new Date(filters.startDate);
+      if (debouncedFilters.startDate !== "") {
+        start = new Date(debouncedFilters.startDate);
         start.setHours(0, 0, 0, 0);
       } else {
         start = -Infinity;
       }
 
-      if (filters.endDate !== "") {
-        end = new Date(filters.endDate);
+      if (debouncedFilters.endDate !== "") {
+        end = new Date(debouncedFilters.endDate);
         end.setHours(23, 59, 59, 999);
       } else {
         end = Infinity;
       }
 
       return (
-        (post.title.toLowerCase().includes(filters.title.toLowerCase()) ||
+        (post.title.toLowerCase().includes(debouncedFilters.title.toLowerCase()) ||
           post.description
             .toLowerCase()
-            .includes(filters.description.toLowerCase())) &&
+            .includes(debouncedFilters.description.toLowerCase())) &&
         postDate >= start &&
         postDate <= end &&
         post.personName
           .toLowerCase()
-          .includes(filters.personName.toLowerCase()) 
+          .includes(debouncedFilters.personName.toLowerCase()) 
       );
-    });
-
-  useEffect(() => {
-    setTimeout(() => {
-      setFilteredPosts(filterItems());
-    }, 500);
-  }, [filters]);
+    }), [debouncedFilters]);
 
   return (
     <>
       <Search />
       <section className={classes.posts}>
-        {filteredPosts.map((post) => (
+        {filterItems.map((post) => (
           <Post
             key={post.id}
             title={post.title}
@@ -130,4 +132,5 @@ const Posts = () => {
     </>
   );
 };
+
 export default Posts;

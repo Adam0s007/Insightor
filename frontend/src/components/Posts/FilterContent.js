@@ -5,7 +5,7 @@ import classes from './FilterContent.module.css'
 
 
 const checkFilterValues = (filters)=>{
-    console.log("We are in checkFilterValues")
+   
     return filters.startDate !== "" || filters.endDate !== "" || filters.personName !== "";
 }
 
@@ -19,7 +19,8 @@ const FilterContent = ({ onApplyFilters }) => {
     const [personName, setPersonName] = useState(currentFilters.personName);
     
 
-    const applyFilters = () => {
+    const applyFilters = (e) => {
+        e.preventDefault();
         const newFilters = { startDate, endDate, personName };
         onApplyFilters(newFilters);
     }
@@ -34,7 +35,7 @@ const FilterContent = ({ onApplyFilters }) => {
     const disabledResetButton = !checkFilterValues(currentFilters);
 
     return (
-        <div className={classes["filter-content"]}>
+        <form onSubmit={applyFilters} className={classes["filter-content"]}>
             <h4>Filter Posts</h4>
             <div className={classes["date-row"]}>
                 <input 
@@ -59,9 +60,9 @@ const FilterContent = ({ onApplyFilters }) => {
                 className={classes.author}
             />
             
-            <button onClick={applyFilters} className={classes['button__apply-filters']}>Apply Filters</button>
-            <button disabled={disabledResetButton} onClick={resetFiltersHandler} className={classes['button__reset-filters']}>Reset Filters</button>
-        </div>
+            <button type="submit" onClick={applyFilters} className={classes['button__apply-filters']}>Apply Filters</button>
+            <button type="button" disabled={disabledResetButton} onClick={resetFiltersHandler} className={classes['button__reset-filters']}>Reset Filters</button>
+        </form>
     );
 }
 
