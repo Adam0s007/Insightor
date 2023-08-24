@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './ContactForm.module.css';
 
 export const ContactForm = () => (
-    <section  className={styles.contact}>
+    <section className={styles['contact-wrapper']}>
+    <div  className={styles.contact}>
         <h2>Contact Us:</h2>
         <form>
             <label>
@@ -22,6 +23,7 @@ export const ContactForm = () => (
         <p>
             By submitting the form, you agree to the processing of your data...
         </p>
+    </div>
     </section>
 );
 
