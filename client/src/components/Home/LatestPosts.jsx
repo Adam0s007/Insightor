@@ -80,7 +80,7 @@ const LatestPosts = () => {
     });
 
     // Wybieranie 4 ostatnich artykułów
-    return sortedPosts.slice(0, 4);
+    return sortedPosts.slice(0, 3);
   }, []);
 
   return (

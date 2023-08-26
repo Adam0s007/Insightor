@@ -3,4 +3,5 @@
     flex-wrap:wrap;
     place-content:center;
     gap:1.3em;
+    min-height:70vh;
 }
