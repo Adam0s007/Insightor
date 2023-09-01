@@ -5,7 +5,7 @@ import RootLayout from "./pages/Root";
 import HomePage from "./pages/HomePage";
 import PostLayout from "./pages/PostsPage";
 import ContactLayout from "./pages/Contact";
-
+import NewArticle from "./components/NewArticle/NewArticle";
 function App() {
   
 
@@ -18,6 +18,7 @@ function App() {
         { index: true, element: <HomePage />, id: "home" },
         { path: "posts", element: <PostLayout />, id: "post" },
         { path: "contact", element: <ContactLayout />, id: "contact" },
+        { path: "new-article", element: <NewArticle/>, id: "new-article" }
       ],
     },
   ]);

@@ -1,0 +1,113 @@
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display:flex;
+    flex-direction:column;
+    background-color:rgba(255, 255, 255, 0.326);
+    align-items:center;
+    gap:1.5em;
+    min-height:90vh;
+    font-weight:bold;
+  }
+  .container>*{
+    font-weight:bold;
+  }
+  
+  .heading {
+    text-align: center;
+    color: #333;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .input {
+    width: 90%;
+    padding: 1em;
+    margin: 10px 0;
+    border: 2px solid #656565;
+    border-radius: 8px;
+    
+  }
+  .inputWrapper{
+    position:relative;
+    width:min(100%,600px);
+   
+  }
+  
+  
+  .textarea {
+    width: 90%;
+    height: 100px;
+    
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    border-radius:6px;
+    padding-bottom:30px;
+    border:1px solid black;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width:20em;
+    
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  .buttonDelete,.buttonDeleteImg{
+    color: rgb(80, 0, 0);
+    font-weight:bold;
+    border:2px solid rgb(144, 0, 0);
+    background-color:rgb(255, 151, 151);
+    border-radius: 12px;
+    cursor: pointer;
+    width:5em;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:absolute;
+    bottom:-5%;
+    left:90%;
+    transform:translateX(-100%);
+  }
+    .buttonDeleteImg{
+        bottom:0;
+    }   
+
+  .counter{
+    position:absolute;
+    top:-13px;
+    left:10%;
+    font-size:12px;
+    background:rgba(255, 255, 255, 0.74);
+    padding:2px 4px;
+    border-radius:6px;
+    border:1px solid rgba(0, 0, 0, 0.581);
+    
+  }
+  
+  .label{
+    background:white;
+    padding:2px 4px;
+    border-radius:6px;
+    font-size:12px;
+    border:1px solid black;
+    position:absolute;
+    
+    left:20px;
+  }
