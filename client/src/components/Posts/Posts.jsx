@@ -6,7 +6,7 @@ import classes from "./Posts.module.css";
 const DUMMY_DATA = [
   {
     id: "e1",
-    title: "Golden Glory: The Art of Chasing Sunsets",
+    title: "Golden Glory: The Art of Chasing SunsetsGolden Glory: The Art of Chasing Sunsets",
     description:
       "Experience the magic of sunsets through Alice Green's mesmerizing photos. The warm hues, reflected light, and calm waves come together in perfect harmony to create these stunning images.",
     date: "01/08/2023 14:30",

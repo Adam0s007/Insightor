@@ -47,15 +47,17 @@ const NewArticle = () => {
         <input
           className={styles.input}
           type="text"
+          maxLength={80}
           value={article.title}
           onChange={(e) => setArticle({ ...article, title: e.target.value })}
         />
       </div>
       <div className={styles.inputWrapper}>
-        <label className={styles.label}>Description: </label>
-        <input
-          className={styles.input}
+        <label className={styles.label}>short description </label>
+        <textarea
+          className={styles.textarea}
           type="text"
+          maxLength={300}
           value={article.description}
           onChange={(e) =>
             setArticle({ ...article, description: e.target.value })
@@ -85,14 +87,13 @@ const NewArticle = () => {
                 placeholder="Image URL"
                 onChange={(e) => updateItem(idx, e.target.value)}
               />
-              
             </>
           )}
           <button
             className={
-              item.type === "paragraph"
-                ? styles.buttonDelete
-                : styles.buttonDeleteImg
+              
+                styles.buttonDelete
+                
             }
             onClick={() => deleteItem(idx)}
           >

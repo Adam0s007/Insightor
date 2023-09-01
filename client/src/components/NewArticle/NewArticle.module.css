@@ -27,12 +27,13 @@
   }
   
   .input {
+    box-sizing:border-box;
     width: 90%;
-    padding: 1em;
+    padding: 15px;
     margin: 10px 0;
     border: 2px solid #656565;
     border-radius: 8px;
-    
+    font-weight:bold;
   }
   .inputWrapper{
     position:relative;
@@ -42,9 +43,10 @@
   
   
   .textarea {
+    box-sizing:border-box;
     width: 90%;
     height: 100px;
-    
+    padding: 1em;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -52,6 +54,7 @@
     border-radius:6px;
     padding-bottom:30px;
     border:1px solid black;
+    font-weight:bold;
   }
   
   .button {
@@ -69,7 +72,7 @@
     background-color: #0056b3;
   }
   
-  .buttonDelete,.buttonDeleteImg{
+  .buttonDelete{
     color: rgb(80, 0, 0);
     font-weight:bold;
     border:2px solid rgb(144, 0, 0);
@@ -85,9 +88,7 @@
     left:90%;
     transform:translateX(-100%);
   }
-    .buttonDeleteImg{
-        bottom:0;
-    }   
+     
 
   .counter{
     position:absolute;
@@ -111,3 +112,7 @@
     
     left:20px;
   }
+
+ .inputWrapper:nth-child(3)  .label{
+    top:-11px;
+ }
