@@ -7,32 +7,26 @@ const NewArticle = () => {
     description: "",
     date: null,
     personName: null,
-    paragraphs: [],
-    images: [],
+    content: [],
   });
 
-  const addParagraph = () => {
-    if (article.paragraphs.length < 5) {
-      setArticle({ ...article, paragraphs: [...article.paragraphs, ""] });
-    }
+  const addItem = (type) => {
+    setArticle({
+      ...article,
+      content: [...article.content, { type, value: "" }],
+    });
   };
 
-  const addImage = () => {
-    if (article.images.length < 5) {
-      setArticle({ ...article, images: [...article.images, ""] });
-    }
+  const deleteItem = (index) => {
+    const newContent = [...article.content];
+    newContent.splice(index, 1);
+    setArticle({ ...article, content: newContent });
   };
 
-  const deleteParagraph = (index) => {
-    const newParagraphs = [...article.paragraphs];
-    newParagraphs.splice(index, 1);
-    setArticle({ ...article, paragraphs: newParagraphs });
-  };
-
-  const deleteImage = (index) => {
-    const newImages = [...article.images];
-    newImages.splice(index, 1);
-    setArticle({ ...article, images: newImages });
+  const updateItem = (index, value) => {
+    const newContent = [...article.content];
+    newContent[index].value = value;
+    setArticle({ ...article, content: newContent });
   };
 
   const submitHandler = () => {
@@ -69,59 +63,50 @@ const NewArticle = () => {
         />
       </div>
 
-      <h2 className={styles.heading}>Paragraphs</h2>
-      {article.paragraphs.map((para, idx) => (
+      {article.content.map((item, idx) => (
         <div key={idx} className={styles.inputWrapper}>
-          <textarea
-            className={styles.textarea}
-            value={para}
-            maxLength={1000}
-            onChange={(e) => {
-              const newParagraphs = [...article.paragraphs];
-              newParagraphs[idx] = e.target.value;
-              setArticle({ ...article, paragraphs: newParagraphs });
-            }}
-          />
-          <label className={styles.counter}>
-            {1000 - para.length} characters left
-          </label>
+          {item.type === "paragraph" ? (
+            <>
+              <textarea
+                className={styles.textarea}
+                maxLength={1000}
+                onChange={(e) => updateItem(idx, e.target.value)}
+              />
+              <label className={styles.counter}>
+                {1000 - item.value.length} characters left
+              </label>
+            </>
+          ) : (
+            <>
+              <input
+                className={styles.input}
+                type="text"
+                maxLength={200}
+                placeholder="Image URL"
+                onChange={(e) => updateItem(idx, e.target.value)}
+              />
+              
+            </>
+          )}
           <button
-            className={styles.buttonDelete}
-            onClick={() => deleteParagraph(idx)}
+            className={
+              item.type === "paragraph"
+                ? styles.buttonDelete
+                : styles.buttonDeleteImg
+            }
+            onClick={() => deleteItem(idx)}
           >
             Delete
           </button>
         </div>
       ))}
-      <button className={styles.button} onClick={addParagraph}>
+      <button className={styles.button} onClick={() => addItem("paragraph")}>
         Add Paragraph
       </button>
-
-      <h2 className={styles.heading}>Images</h2>
-      {article.images.map((img, idx) => (
-        <div className={styles.inputWrapper} key={idx}>
-          <input
-            className={styles.input}
-            type="text"
-            placeholder="Image URL"
-            value={img}
-            onChange={(e) => {
-              const newImages = [...article.images];
-              newImages[idx] = e.target.value;
-              setArticle({ ...article, images: newImages });
-            }}
-          />
-          <button
-            className={styles.buttonDelete}
-            onClick={() => deleteImage(idx)}
-          >
-            Delete
-          </button>
-        </div>
-      ))}
-      <button className={styles.button} onClick={addImage}>
+      <button className={styles.button} onClick={() => addItem("image")}>
         Add Image
       </button>
+
       <button className={styles.button} onClick={submitHandler}>
         Submit
       </button>
