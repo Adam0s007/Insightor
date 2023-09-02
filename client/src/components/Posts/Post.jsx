@@ -1,4 +1,6 @@
 import classes from "./Post.module.css";
+
+import ReactStars from "react-rating-stars-component";
 const Post = (props) => {
   return (
     <div className={classes.post}>
