@@ -45,7 +45,7 @@
   .textarea {
     box-sizing:border-box;
     width: 90%;
-    height: 100px;
+    
     padding: 1em;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -55,6 +55,9 @@
     padding-bottom:30px;
     border:1px solid black;
     font-weight:bold;
+    overflow-y:hidden;
+    height:auto;
+    min-height:100px
   }
   
   .button {

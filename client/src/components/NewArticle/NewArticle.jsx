@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import AutoExpandTextArea from "../../ui/AutoExpandTextArea.jsx";
 import styles from "./NewArticle.module.css";
 
 const NewArticle = () => {
@@ -54,7 +55,7 @@ const NewArticle = () => {
       </div>
       <div className={styles.inputWrapper}>
         <label className={styles.label}>short description </label>
-        <textarea
+        <AutoExpandTextArea
           className={styles.textarea}
           type="text"
           maxLength={300}
@@ -90,11 +91,7 @@ const NewArticle = () => {
             </>
           )}
           <button
-            className={
-              
-                styles.buttonDelete
-                
-            }
+            className={styles.buttonDelete}
             onClick={() => deleteItem(idx)}
           >
             Delete
