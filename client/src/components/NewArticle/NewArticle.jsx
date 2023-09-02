@@ -6,11 +6,13 @@ const NewArticle = () => {
   const [article, setArticle] = useState({
     title: "",
     description: "",
+    img:"",
     date: null,
     personName: null,
     content: [],
   });
 
+ 
   const addItem = (type) => {
     setArticle({
       ...article,
@@ -60,10 +62,18 @@ const NewArticle = () => {
           type="text"
           maxLength={300}
           value={article.description}
-          onChange={(e) =>
-            setArticle({ ...article, description: e.target.value })
-          }
+          onChange={(e) => setArticle({ ...article, img: e.target.value })}
         />
+      </div>
+      <div className={styles.inputWrapper}>
+        <label className={styles.label}>thumbnail for the article </label>
+        <input
+                className={styles.input}
+                type="text"
+                maxLength={200}
+                placeholder="Image URL"
+                onChange={(e) => updateItem(idx, e.target.value)}
+              />
       </div>
 
       {article.content.map((item, idx) => (
