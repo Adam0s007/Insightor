@@ -5,7 +5,7 @@ import styles from "./PostDetails.module.css";
 import ReactStars from "react-rating-stars-component";
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
 import moment from "moment";
-import { countWords, calculateReadingTime, formatReadingTime } from '../../utils/reading-time';
+import { countWords, calculateReadingTime, formatReadingTime } from '../../../utils/reading-time';
 const PostDetails = () => {
   const post = {
     id: "e1",
@@ -100,7 +100,7 @@ const PostDetails = () => {
       </div>
 
       <h1>{title}</h1>
-      <img src={img} alt={title} />
+      <img src={img} alt={title} loading="lazy" />
       <p className={styles.description}>{description}</p>
 
       <div className={styles.article}>
@@ -135,7 +135,8 @@ const PostDetails = () => {
                 className={styles.image}
                 key={index}
                 src={item.value}
-                alt={`content-${index}`}
+                loading="lazy" 
+                alt={`content-${index}-${title}`}
               />
             );
             return null;

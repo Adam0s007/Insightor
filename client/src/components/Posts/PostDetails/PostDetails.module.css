@@ -38,13 +38,13 @@
   }
   
   .container  img {
-    width: 80vw;
+    width: min(75vw,25em);
     max-height:60vh;
     object-fit:cover;
     object-position: center;
     border-radius: 5px;
     margin-bottom: 20px;
-    box-shadow: 0px 0px 18px rgba(29, 29, 29, 0.796);
+    box-shadow: 0px 0px 18px rgba(255, 255, 255, 0.853);
     z-index:1;
 }
 .container .image{
@@ -115,13 +115,14 @@
     flex-direction: row;
     align-items:center;
     justify-content:center;
-    gap:1em;
+    gap:0.8em;
     
   }
 .imageGroup .image{
     
     height:400px;
-    flex: min(80vw,400px) 1 1;
+    max-width:min(75vw,25em);
+    flex: min(90vw,0em) 1 1;
     object-fit:cover;
     object-position: center;
   }
@@ -151,6 +152,28 @@
         align-items:flex-start;
     }
     .container h1{
-        font-size:1.5em;
+        font-size:1.1em;
     }
+
   }
+
+@media screen and (max-width:450px){
+  .container{
+    box-sizing:border-box;
+    margin:0;
+    width:100%;
+    
+  
+
+  }
+  .container .paragraph,.container .description{
+    font-size:13px;
+    line-height:1.5em;
+    text-indent: 0px;
+
+}
+.paragraph::first-letter{
+  font-size:inherit;
+  
+}
+}

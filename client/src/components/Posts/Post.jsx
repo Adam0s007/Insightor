@@ -1,6 +1,6 @@
 import classes from "./Post.module.css";
 import ReactStars from "react-rating-stars-component";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 const Post = (props) => {
   const ratingChanged = (newRating) => {
     console.log(newRating);
@@ -22,7 +22,7 @@ const Post = (props) => {
   return (
     <div className={classes.post}>
       <picture className={classes["img-wrapper"]}>
-        <img className={classes.img} src={props.img}></img>
+        <img className={classes.img} src={props.img} loading="lazy"></img>
       </picture>
       <div className={classes["post-details"]}>
         <h2 className={classes["post-title"]}>{cuttedTitle}</h2>
@@ -36,11 +36,15 @@ const Post = (props) => {
         </p>
         <p className={classes["post-description"]}>{cuttedDescription}</p>
         <div className={classes["row-container"]}>
-        <Link key={`posts-${props.id}` } to={`/posts/${props.id}`} className={classes["read-more"]} relative="route">
-          Read more
+          <Link
+            key={`posts-${props.id}`}
+            to={`/posts/${props.id}`}
+            className={classes["read-more"]}
+            relative="route"
+          >
+            Read more
           </Link>
-          
-          
+
           <div className={classes["react-stars"]}>
             <ReactStars
               count={5}

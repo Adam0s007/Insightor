@@ -6,7 +6,7 @@ import HomePage from "./pages/HomePage";
 import PostLayout from "./pages/PostsPage";
 import ContactLayout from "./pages/Contact";
 import NewArticle from "./components/NewArticle/NewArticle";
-import PostDetails from "./components/Posts/PostDetails";
+import PostDetails from "./components/Posts/PostDetails/PostDetails";
 function App() {
   const router = createBrowserRouter([
     {
