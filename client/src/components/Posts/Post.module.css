@@ -80,6 +80,7 @@
   border-radius: 8px;
   cursor:pointer; 
   transition: scale var(--scale-transition-duration) ease-in-out;
+  text-decoration: none;
 }
 .read-more:hover{
   scale:1.05;

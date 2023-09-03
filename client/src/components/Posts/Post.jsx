@@ -1,6 +1,6 @@
 import classes from "./Post.module.css";
 import ReactStars from "react-rating-stars-component";
-
+import {Link} from 'react-router-dom'
 const Post = (props) => {
   const ratingChanged = (newRating) => {
     console.log(newRating);
@@ -36,7 +36,11 @@ const Post = (props) => {
         </p>
         <p className={classes["post-description"]}>{cuttedDescription}</p>
         <div className={classes["row-container"]}>
-          <button className={classes["read-more"]}>Read more</button>
+        <Link key={props.id} to={props.id} className={classes["read-more"]} relative="route">
+          Read more
+          </Link>
+          
+          
           <div className={classes["react-stars"]}>
             <ReactStars
               count={5}

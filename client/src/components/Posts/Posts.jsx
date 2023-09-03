@@ -148,6 +148,7 @@ const Posts = () => {
         {filterItems.map((post) => (
           <Post
             key={post.id}
+            id={post.id}
             title={post.title}
             description={post.description}
             date={post.date}
