@@ -36,7 +36,7 @@ const Post = (props) => {
         </p>
         <p className={classes["post-description"]}>{cuttedDescription}</p>
         <div className={classes["row-container"]}>
-        <Link key={props.id} to={props.id} className={classes["read-more"]} relative="route">
+        <Link key={`posts-${props.id}` } to={`/posts/${props.id}`} className={classes["read-more"]} relative="route">
           Read more
           </Link>
           
