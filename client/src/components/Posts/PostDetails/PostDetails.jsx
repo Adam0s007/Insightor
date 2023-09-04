@@ -3,6 +3,7 @@ import React,{useMemo} from "react";
 import { useParams } from "react-router-dom";
 import styles from "./PostDetails.module.css";
 import ReactStars from "react-rating-stars-component";
+import Reviews from "./Reviews";
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
 import moment from "moment";
 import { countWords, calculateReadingTime, formatReadingTime } from '../../../utils/reading-time';
@@ -147,6 +148,7 @@ const PostDetails = () => {
           <div className={styles.imageGroup}>{imageGroup}</div>
         )}
       </div>
+      <Reviews/>
     </section>
   );
 };

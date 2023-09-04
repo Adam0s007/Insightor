@@ -1,0 +1,78 @@
+/* Review.module.css */
+
+.reviewContainer {
+    border: 2px solid #e0e0e0;
+    padding: 16px;
+    margin: 16px 0;
+    border-radius: 4px;
+    
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+    
+}
+
+.authorInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    gap:0.3em;
+}
+
+.imageContainer{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 16px;
+}
+.authorImage {
+    
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    margin-right: 16px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.authorName {
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.reviewDate {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.content {
+    flex: 1;
+    margin-bottom: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.reviewFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.ratingLabel{
+    padding: 0.3em 0.5em;
+    border-radius: 8px;
+}
+.thumbs {
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ratingContainer{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
