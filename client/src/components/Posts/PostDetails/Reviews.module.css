@@ -2,7 +2,7 @@
 .container {
     padding: 16px;
     background-color: #f4f4f4; 
-    border-radius: 8px;
+    
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     max-width: 800px;
     margin: 0 auto;
