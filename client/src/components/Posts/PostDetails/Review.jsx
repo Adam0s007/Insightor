@@ -35,7 +35,7 @@ const Review = (props) => {
           value={props.rating ? props.rating : 0}
           edit={false}
           isHalf={true}
-          size={24}
+          size={20}
           activeColor="#ffd700"
         />
         <span className={classes.ratingLabel} style={{ color:`${ratingLabel.color}`,backgroundColor: color, 'outline':`2px solid ${ratingLabel.color}` }}>{ratingLabel.label}</span>

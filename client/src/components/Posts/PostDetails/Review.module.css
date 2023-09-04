@@ -69,10 +69,33 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-right:1em;
 }
 
 .ratingContainer{
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap:wrap;
+}
+
+/* Media Query dla zmniejszonego widoku */
+@media screen and (max-width: 508px) {
+    .authorName {
+        font-size:14px;
+    }
+    
+    .reviewDate {
+        
+        font-size: 9px;
+    }
+    
+    .content {
+        font-size: 14px;
+    }
+    .reviewFooter{
+        flex-direction:column;
+        align-items: flex-start;
+    }
+    
 }

@@ -1,12 +1,24 @@
-import React,{useMemo} from "react";
-
+import React, { useMemo, useState } from "react";
+import { CSSTransition } from "react-transition-group";
 import { useParams } from "react-router-dom";
 import styles from "./PostDetails.module.css";
+import "./Animations.css";
 import ReactStars from "react-rating-stars-component";
 import Reviews from "./Reviews";
-import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
+import { IoMdReturnLeft } from "react-icons/io";
+import { FaUser, FaCalendarAlt, FaClock  } from "react-icons/fa";
 import moment from "moment";
-import { countWords, calculateReadingTime, formatReadingTime } from '../../../utils/reading-time';
+import {
+  countWords,
+  calculateReadingTime,
+  formatReadingTime,
+} from "../../../utils/reading-time";
+
+const animationTiming = {
+  enter: 800,
+  exit: 1000,
+};
+
 const PostDetails = () => {
   const post = {
     id: "e1",
@@ -66,7 +78,6 @@ const PostDetails = () => {
   const params = useParams();
   // Konwersja daty na czytelny format
   const formattedDate = moment(new Date(date)).format("DD MMMM YYYY, HH:mm");
-  
 
   const readingTime = useMemo(() => {
     const allParagraphs = content
@@ -77,17 +88,57 @@ const PostDetails = () => {
     return formatReadingTime(calculateReadingTime(totalWords));
   }, []);
 
-
-
-  // Obliczenie czasu czytania (załóżmy, że 5 minut na każdy akapit)
-  
-
   const ratingChanged = (newRating) => {
     console.log(newRating);
   };
   let imageGroup = [];
+
+  const [isReviewsVisible, setIsReviewsVisible] = useState(false);
+  const [newContent, setNewContent] = useState(null);
+  
+  const menuClickHandler = (menu) => {
+    switch (menu) {
+      case "reviews":
+        setNewContent(<Reviews />);
+        setIsReviewsVisible(true);
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
-    <section key={"details-"+params.postId} className={styles.container}>
+    <section key={"details-" + params.postId} className={styles.container}>
+      <div
+        className={`${styles.backdrop} ${
+          isReviewsVisible ? styles.backdropActive : ""
+        }`}
+      />
+      <CSSTransition
+        in={isReviewsVisible}
+        mountOnEnter
+        unmountOnExit
+        timeout={animationTiming}
+        classNames={{
+          enter: "",
+          enterActive: "ModalOpen",
+          exit: "",
+          exitActive: "ModalClosed",
+        }}
+      >
+        <div className={styles.newContent} >
+          <button type="button" className={styles.closeButton} onClick={()=>setIsReviewsVisible(false)}><IoMdReturnLeft /></button>
+          {newContent}
+        </div>
+      </CSSTransition>
+      <div className={`${styles.menu} ${isReviewsVisible ? styles.menuActive : ""}`}>
+        <button
+          className={styles.reviewArticleButton}
+          onClick={() =>menuClickHandler('reviews') }
+        >
+          Reviews
+        </button>
+      </div>
       <div className={styles.postInfo}>
         <span>
           <FaUser className={styles.icon} /> {personName}
@@ -96,7 +147,7 @@ const PostDetails = () => {
           <FaCalendarAlt className={styles.icon} /> {formattedDate}
         </span>
         <span>
-          <FaClock className={styles.icon} /> {readingTime} of reading 
+          <FaClock className={styles.icon} /> {readingTime} of reading
         </span>
       </div>
 
@@ -118,11 +169,9 @@ const PostDetails = () => {
               return (
                 <div key={`wrapper-${index}`}>
                   {images}
-                  <p className={styles.paragraph}>
-                    {item.value}
-                  </p>
+                  <p className={styles.paragraph}>{item.value}</p>
                 </div>
-              )
+              );
             }
             return (
               <p className={styles.paragraph} key={index}>
@@ -136,7 +185,7 @@ const PostDetails = () => {
                 className={styles.image}
                 key={index}
                 src={item.value}
-                loading="lazy" 
+                loading="lazy"
                 alt={`content-${index}-${title}`}
               />
             );
@@ -148,7 +197,6 @@ const PostDetails = () => {
           <div className={styles.imageGroup}>{imageGroup}</div>
         )}
       </div>
-      <Reviews/>
     </section>
   );
 };

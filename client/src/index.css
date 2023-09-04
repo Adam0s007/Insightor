@@ -1,0 +1,37 @@
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--logo-color); /* błękitny kolor */
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #0088cc;
+}
+
+/* Jeżeli chcesz również poziomy pasek przewijania */
+*::-webkit-scrollbar-horizontal {
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track-horizontal {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb-horizontal {
+  background: var(--logo-color); /* błękitny kolor */
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb-horizontal:hover {
+  background: #0088cc;
+}
