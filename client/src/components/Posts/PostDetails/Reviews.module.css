@@ -1,13 +1,4 @@
 
-.container {
-    padding: 16px;
-    background-color: #f4f4f4; 
-    
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .container > * {
     margin-bottom: 16px;
     padding: 12px;

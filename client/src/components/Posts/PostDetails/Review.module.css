@@ -5,7 +5,7 @@
     padding: 16px;
     margin: 16px 0;
     border-radius: 4px 0 ;
-    
+    font-family: var(--font-family);
     display: flex;
     flex-direction: column;
     transition: background-color 0.3s ease;
@@ -17,6 +17,7 @@
     align-items: center;
     margin-bottom: 16px;
     gap:0.3em;
+    font-size:12px;
 }
 
 .imageContainer{
@@ -43,7 +44,7 @@
 
 .reviewDate {
     color: #888;
-    font-size: 0.9rem;
+    
 }
 
 .content {
@@ -51,6 +52,8 @@
     margin-bottom: 16px;
     color: #333;
     line-height: 1.5;
+    font-size: 13px;
+    font-style: italic;
 }
 
 .reviewFooter {
@@ -63,6 +66,7 @@
 .ratingLabel{
     padding: 0.3em 0.5em;
     border-radius: 8px;
+    font-size:12px;
 }
 .thumbs {
     color: #555;
@@ -70,6 +74,7 @@
     align-items: center;
     gap: 8px;
     margin-right:1em;
+    font-size:12px;
 }
 
 .ratingContainer{
@@ -82,7 +87,7 @@
 /* Media Query dla zmniejszonego widoku */
 @media screen and (max-width: 508px) {
     .authorName {
-        font-size:14px;
+        font-size:11px;
     }
     
     .reviewDate {
@@ -91,7 +96,7 @@
     }
     
     .content {
-        font-size: 14px;
+        font-size: 11px;
     }
     .reviewFooter{
         flex-direction:column;

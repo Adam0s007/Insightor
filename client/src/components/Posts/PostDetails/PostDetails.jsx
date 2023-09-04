@@ -5,8 +5,9 @@ import styles from "./PostDetails.module.css";
 import "./Animations.css";
 import ReactStars from "react-rating-stars-component";
 import Reviews from "./Reviews";
+import ModalWithMenu from "./ModalWithMenu";
 import { IoMdReturnLeft } from "react-icons/io";
-import { FaUser, FaCalendarAlt, FaClock  } from "react-icons/fa";
+import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
 import moment from "moment";
 import {
   countWords,
@@ -93,52 +94,28 @@ const PostDetails = () => {
   };
   let imageGroup = [];
 
-  const [isReviewsVisible, setIsReviewsVisible] = useState(false);
+  const [isModalVisible, setisModalVisible] = useState(false);
   const [newContent, setNewContent] = useState(null);
-  
+
   const menuClickHandler = (menu) => {
     switch (menu) {
       case "reviews":
         setNewContent(<Reviews />);
-        setIsReviewsVisible(true);
+        setisModalVisible(true);
         break;
       default:
         break;
     }
-  }
+  };
 
   return (
     <section key={"details-" + params.postId} className={styles.container}>
-      <div
-        className={`${styles.backdrop} ${
-          isReviewsVisible ? styles.backdropActive : ""
-        }`}
+      <ModalWithMenu
+        isModalVisible={isModalVisible}
+        closeModal={() => setisModalVisible(false)}
+        content={newContent}
+        menuClickHandler={menuClickHandler}
       />
-      <CSSTransition
-        in={isReviewsVisible}
-        mountOnEnter
-        unmountOnExit
-        timeout={animationTiming}
-        classNames={{
-          enter: "",
-          enterActive: "ModalOpen",
-          exit: "",
-          exitActive: "ModalClosed",
-        }}
-      >
-        <div className={styles.newContent} >
-          <button type="button" className={styles.closeButton} onClick={()=>setIsReviewsVisible(false)}><IoMdReturnLeft /></button>
-          {newContent}
-        </div>
-      </CSSTransition>
-      <div className={`${styles.menu} ${isReviewsVisible ? styles.menuActive : ""}`}>
-        <button
-          className={styles.reviewArticleButton}
-          onClick={() =>menuClickHandler('reviews') }
-        >
-          Reviews
-        </button>
-      </div>
       <div className={styles.postInfo}>
         <span>
           <FaUser className={styles.icon} /> {personName}
