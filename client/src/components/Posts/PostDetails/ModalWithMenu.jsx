@@ -16,6 +16,7 @@ const ModalWithMenu = ({ isModalVisible, closeModal, content, menuClickHandler }
         className={`${styles.backdrop} ${
           isModalVisible ? styles.backdropActive : ""
         }`}
+        onClick={closeModal}
       />
       <CSSTransition
         in={isModalVisible}

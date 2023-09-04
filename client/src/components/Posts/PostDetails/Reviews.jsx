@@ -2,6 +2,7 @@
 
 import React from "react";
 import Review from "./Review";
+import NewReview from "./NewReview";
 import classes from "./Reviews.module.css";
 const Reviews = () => {
   const dummyReviews = [
@@ -93,6 +94,10 @@ const Reviews = () => {
 
   return (
     <div className={classes.container}>
+      <NewReview  />
+      <div className={classes.content}>
+
+      
       {dummyReviews.map((review, index) => (
         <Review
           key={index}
@@ -106,6 +111,7 @@ const Reviews = () => {
           imgUrl={review.imgUrl}
         />
       ))}
+      </div>
     </div>
   );
 };
