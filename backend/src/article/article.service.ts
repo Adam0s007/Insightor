@@ -88,6 +88,9 @@ export class ArticleService {
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
+    while(article.content.length > 0){
+        await this.contentRepository.remove(article.content.pop());
+    }
     await this.articleRepository.delete({ id });
     return article;
   }
