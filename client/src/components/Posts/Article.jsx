@@ -1,7 +1,7 @@
 import classes from "./Post.module.css";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
-const Post = (props) => {
+const Article = (props) => {
   const ratingChanged = (newRating) => {
     console.log(newRating);
   };
@@ -65,4 +65,4 @@ const Post = (props) => {
   );
 };
 
-export default Post;
+export default Article;

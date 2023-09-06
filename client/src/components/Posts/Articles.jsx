@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect, useMemo } from "react";
-import Post from "./Post";
+import Article from "./Article";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticles } from "../../utils/http.js";
 import {formatDate} from '../../utils/date-conventer'
@@ -99,14 +99,15 @@ const parseDateString = (dateString) => {
   return new Date(year, month - 1, day, hour, minute);
 };
 
-const Posts = () => {
-  const { data, isPending, isError, Error } = useQuery({
+const Articles = () => {
+  
+  const { data, isPending, isError, error } = useQuery({
     queryKey: ["events"],
     queryFn: fetchArticles,
     staleTime: 4000,
   });
 
-  console.log(data);
+  //console.log(data);
   const filters = useSelector((state) => state.filters);
   const [debouncedFilters, setDebouncedFilters] = useState(filters);
 
@@ -163,15 +164,15 @@ const Posts = () => {
     content = <LoadingIndicator/>;
   }
   if (isError) {
-    console.log("a tu probuje zlapac ten error:"+Error);
-    content = <ErrorContainer title="An error occurred" message={Error?.message || 'failed to fetch events'}/>;
+    console.log("a tu probuje zlapac ten error:"+error);
+    content = <ErrorContainer title="An error occurred" message={error.message}/>;
   }
   if (data) {
     
     content = (
         <>
             {data.map((post) => (
-                <Post
+                <Article
                     key={post.id}
                     id={post.id}
                     title={post.title}
@@ -191,4 +192,4 @@ const Posts = () => {
   </section>;
 };
 
-export default Posts;
+export default Articles;

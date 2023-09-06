@@ -1,4 +1,4 @@
-import Post from "../Posts/Post";
+import Article from "../Posts/Article";
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import classes from "./LatesPosts.module.css";
@@ -112,7 +112,7 @@ const LatestPosts = () => {
 
       <section className={postsClasses.posts}>
         {displayItems.map((post) => (
-          <Post
+          <Article
             key={post.id}
             id={post.id}
             title={post.title}

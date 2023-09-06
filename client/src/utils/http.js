@@ -10,10 +10,10 @@ export const fetchArticles = async({ signal, max }) =>{
     }
     const response = await fetch(url);
     if (!response.ok) {
-        
-        const err= await response.json();
-        console.log("error object:",err)
-        throw err;
+        const err = await response.json();
+        console.log(err)
+        const message = `status: ${err.statusCode} - ${err.message}`;
+        throw new Error(message);
       }
     
       const articles  = await response.json();
