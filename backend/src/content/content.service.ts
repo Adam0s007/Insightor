@@ -50,4 +50,12 @@ export class ContentService {
     await this.contentRepository.delete({id});
     return content;
   }
+
+  async removeAll(): Promise<ContentEntity[]> {
+    const content = await this.contentRepository.find();
+    await this.contentRepository.delete({});
+    return content;
+  }
+
+
 }

@@ -30,4 +30,9 @@ export class ContentController {
   async remove(@Param('id') id: string) {
     return await this.contentService.remove(id);
   }
+
+  @Delete()
+  async removeAll(){
+    return await this.contentService.removeAll();
+  }
 }
