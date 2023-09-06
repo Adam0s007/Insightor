@@ -2,18 +2,25 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ContentEntity } from './content.entity';
-import { ContentDTO } from './content.dto';
+import { ContentDTO, ContentExtended } from './content.dto';
+import { ArticleEntity } from 'src/article/article.entity';
 
 @Injectable()
 export class ContentService {
   constructor(
     @InjectRepository(ContentEntity)
     private readonly contentRepository: Repository<ContentEntity>,
+    @InjectRepository(ArticleEntity)
+    private readonly articleRepository: Repository<ArticleEntity>,
   ) {}
 
-  async create(contentData: ContentDTO): Promise<ContentEntity> {
-    const content = new ContentEntity();
-    Object.assign(content, contentData);
+  async create(contentData: ContentExtended): Promise<ContentEntity> {
+    const article = await this.articleRepository.findOne({ where: { id: contentData.articleId } }
+        );
+    if (!article) {
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+    }
+    const content = await this.contentRepository.create({...contentData, article});
     return await this.contentRepository.save(content);
   }
 

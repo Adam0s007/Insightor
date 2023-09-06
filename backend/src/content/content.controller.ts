@@ -1,13 +1,13 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ContentService } from './content.service';
-import { ContentDTO } from './content.dto';
+import { ContentDTO, ContentExtended } from './content.dto';
 
 @Controller('content')
 export class ContentController {
   constructor(private readonly contentService: ContentService) {}
 
   @Post()
-  async create(@Body() contentData: ContentDTO) {
+  async create(@Body() contentData: ContentExtended) {
     return await this.contentService.create(contentData);
   }
 
