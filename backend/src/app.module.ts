@@ -8,6 +8,7 @@ import { join } from 'path';
 
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
+import { ArticleModule } from './article/article.module';
 
 
 @Module({
@@ -21,7 +22,7 @@ import { LoggingInterceptor } from './shared/logging.interceptor';
     database: 'blog',
     synchronize: true,
     logging: true,
-  })],
+  }), ArticleModule],
   controllers: [AppController],
   providers: [AppService,{
     provide:APP_FILTER,
