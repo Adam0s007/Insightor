@@ -1,3 +1,4 @@
+import { ContentEntity } from 'src/content/content.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -37,17 +38,3 @@ export class ArticleEntity {
   rating: number;
 }
 
-@Entity('content')
-export class ContentEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column()
-  type: string;
-
-  @Column()
-  value: string;
-
-  @ManyToOne((type) => ArticleEntity, (article) => article.content)
-  article: ArticleEntity;
-}

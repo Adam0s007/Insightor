@@ -1,4 +1,5 @@
 import { IsString} from "class-validator";
+import { ContentDTO } from "src/content/content.dto";
 
 export class ArticleDTO {
     
@@ -18,13 +19,4 @@ export class ArticleDTO {
     content: ContentDTO[]; // dla tworzenia wielu treści razem z artykułem
   }
   
-  export class ContentDTO {
-
-    @IsString()
-    type: string;
-
-    @IsString()
-    value: string;
-
-  }
 

@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ArticleController } from './article.controller';
 import { ArticleService } from './article.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ArticleEntity, ContentEntity } from './article.entity';
+import { ArticleEntity } from './article.entity';
+import { ContentEntity } from '../content/content.entity';
 
 @Module({
   imports:[

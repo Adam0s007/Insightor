@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ArticleEntity, ContentEntity } from './article.entity';
+import { ArticleEntity } from './article.entity';
+import { ContentEntity } from '../content/content.entity';
 import { ArticleDTO } from './article.dto';
 
 @Injectable()

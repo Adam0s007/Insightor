@@ -9,6 +9,7 @@ import { join } from 'path';
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
 import { ArticleModule } from './article/article.module';
+import { ContentModule } from './content/content.module';
 
 
 @Module({
@@ -22,7 +23,7 @@ import { ArticleModule } from './article/article.module';
     database: 'blog',
     synchronize: true,
     logging: true,
-  }), ArticleModule],
+  }), ArticleModule, ContentModule],
   controllers: [AppController],
   providers: [AppService,{
     provide:APP_FILTER,
