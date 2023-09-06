@@ -1,6 +1,6 @@
 import { IsString} from "class-validator";
 
-export class CreateArticleDTO {
+export class ArticleDTO {
     
     @IsString()
     title: string;
@@ -15,13 +15,16 @@ export class CreateArticleDTO {
     img: string;
 
     rating: number;
-    content: CreateContentDTO[]; // dla tworzenia wielu treści razem z artykułem
+    content: ContentDTO[]; // dla tworzenia wielu treści razem z artykułem
   }
   
-  export class CreateContentDTO {
+  export class ContentDTO {
+
     @IsString()
     type: string;
 
     @IsString()
     value: string;
+
   }
+

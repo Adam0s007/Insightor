@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, CreateDateColumn, JoinTable } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+  CreateDateColumn,
+  JoinTable,
+} from 'typeorm';
 
 @Entity('article')
 export class ArticleEntity {
@@ -20,7 +28,9 @@ export class ArticleEntity {
   @Column()
   img: string;
 
-  @OneToMany(type => ContentEntity, content => content.article)
+  @OneToMany((type) => ContentEntity, (content) => content.article, {
+    eager: true,
+  })
   content: ContentEntity[];
 
   @Column()
@@ -38,6 +48,6 @@ export class ContentEntity {
   @Column()
   value: string;
 
-  @ManyToOne(type => ArticleEntity, article => article.content)
+  @ManyToOne((type) => ArticleEntity, (article) => article.content)
   article: ArticleEntity;
 }

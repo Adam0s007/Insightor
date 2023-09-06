@@ -16,7 +16,7 @@ import {
       const ctx = host.switchToHttp();
       const response = ctx.getResponse();
       const request = ctx.getRequest();
-      const status = exception.getStatus() ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+      const status = HttpStatus.INTERNAL_SERVER_ERROR;
   
       const errorResponse = {
           statusCode: status,
