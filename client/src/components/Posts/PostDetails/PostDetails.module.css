@@ -1,7 +1,7 @@
 /* PostDetails.module.css */
 
 :root {
-  --bg: rgba(255, 255, 255, 0.514);
+  --bg: rgba(255, 255, 255, 0.804);
 }
 
 .container {
@@ -28,6 +28,7 @@
   font-size: 15px;
   color: gray;
   gap: 1.8em;
+  margin:1em;
   flex-wrap: wrap;
 }
 
