@@ -30,18 +30,7 @@ const HeaderNavigation = (props) => {
               Home
             </NavLink>{" "}
           </li>
-          <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                (isActive = isActive
-                  ? `${classes.link}  ${classes.active}`
-                  : `${classes.link}`)
-              }
-            >
-              About
-            </NavLink>
-          </li>
+          
           <li>
             <NavLink
               to="posts"
@@ -64,6 +53,18 @@ const HeaderNavigation = (props) => {
               }
             >
               Contact
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                (isActive = isActive
+                  ? `${classes.link}  ${classes.active}`
+                  : `${classes.link}`)
+              }
+            >
+              Login
             </NavLink>
           </li>
         </ul>

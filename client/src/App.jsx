@@ -7,6 +7,7 @@ import PostLayout from "./pages/PostsPage";
 import ContactLayout from "./pages/Contact";
 import NewArticle from "./components/NewArticle/NewArticle";
 import PostDetails from "./components/Posts/PostDetails/PostDetails";
+import Auth from "./pages/Auth";
 function App() {
   const router = createBrowserRouter([
     {
@@ -19,10 +20,10 @@ function App() {
           path: "posts",
           element: <PostLayout />,
           id: "posts",
-        
         },
-        { path: "posts/:postId", element: <PostDetails />, id: "post-details"},
+        { path: "posts/:postId", element: <PostDetails />, id: "post-details" },
         { path: "contact", element: <ContactLayout />, id: "contact" },
+        { path: "login", element: <Auth />, id: "login" },
         { path: "new-article", element: <NewArticle />, id: "new-article" },
       ],
     },
