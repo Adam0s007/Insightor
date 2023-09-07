@@ -8,15 +8,18 @@ import {
     Param,
     HttpCode,
     HttpStatus,
+    UsePipes,
+    
   } from '@nestjs/common';
   import { ArticleService } from './article.service';
   import { ArticleDTO } from './article.dto';
-  
+  import { ValidationPipe } from '../shared/validation.pipe';
   @Controller('articles')
   export class ArticleController {
     constructor(private readonly articleService: ArticleService) {}
   
     @Post()
+    @UsePipes(new ValidationPipe())
     async create(@Body() articleDto: ArticleDTO) {
       return await this.articleService.create(articleDto);
     }
@@ -32,6 +35,7 @@ import {
     }
   
     @Put(':id')
+    @UsePipes(new ValidationPipe())
     async update(@Param('id') id: string, @Body() newArticleData: Partial<ArticleDTO>) {
       return await this.articleService.update(id, newArticleData);
     }
