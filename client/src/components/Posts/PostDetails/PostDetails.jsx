@@ -8,13 +8,19 @@ import Reviews from "./Reviews";
 import ModalWithMenu from "./ModalWithMenu";
 import { IoMdReturnLeft } from "react-icons/io";
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
+
+import { useQuery } from "@tanstack/react-query";
+import { fetchArticle } from "../../../utils/http";
+
 import moment from "moment";
 import {
   countWords,
   calculateReadingTime,
   formatReadingTime,
 } from "../../../utils/reading-time";
-
+import {formatShortMonthDate} from '../../../utils/date-conventer'
+import LoadingIndicator from "../../../ui/LoadingIndicator/LoadingIndicator";
+import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer";
 const animationTiming = {
   enter: 800,
   exit: 1000,
@@ -75,19 +81,15 @@ const PostDetails = () => {
     rating: 4,
   };
 
-  const { title, description, img, personName, date, rating, content } = post;
   const params = useParams();
-  // Konwersja daty na czytelny format
-  const formattedDate = moment(new Date(date)).format("DD MMMM YYYY, HH:mm");
 
-  const readingTime = useMemo(() => {
-    const allParagraphs = content
-      .filter((item) => item.type === "paragraph")
-      .map((item) => item.value)
-      .join(" ");
-    const totalWords = countWords(allParagraphs) + countWords(description);
-    return formatReadingTime(calculateReadingTime(totalWords));
-  }, []);
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: ["articles", params.postId],
+    queryFn: ({ signal }) => fetchArticle({ signal, id: params.postId }),
+  });
+
+  console.log(data);
+  // Konwersja daty na czytelny format
 
   const ratingChanged = (newRating) => {
     console.log(newRating);
@@ -107,10 +109,26 @@ const PostDetails = () => {
         break;
     }
   };
+  let mainContent = null;
 
-  return (
-    <section key={"details-" + params.postId} className={styles.container}>
-      <ModalWithMenu
+  if (isPending) {
+    mainContent = <LoadingIndicator />;
+  }
+  if (isError) {
+    mainContent = <ErrorContainer title="Error" message={error?.message} />;
+  }
+  if (data) {
+    console.log(data)
+    const personName = data?.personName ?? 'Unknown Person';
+    const title = data?.title ?? 'Unknown Title';
+    const img = data?.img ?? '';
+    const description = data?.description ?? '';
+    const content = data?.content ?? [];
+    const readingTime = formatReadingTime(calculateReadingTime(content));
+    const formattedDate = formatShortMonthDate(data?.date ?? '');
+    mainContent = (
+      <>
+        <ModalWithMenu
         isModalVisible={isModalVisible}
         closeModal={() => setisModalVisible(false)}
         content={newContent}
@@ -174,6 +192,13 @@ const PostDetails = () => {
           <div className={styles.imageGroup}>{imageGroup}</div>
         )}
       </div>
+      </>
+    );
+  }
+
+  return (
+    <section key={"details-" + params.postId} className={styles.container}>
+      {mainContent}
     </section>
   );
 };
