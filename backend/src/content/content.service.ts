@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ContentEntity } from './content.entity';
-import { ContentDTO, ContentExtended } from './content.dto';
+import { ContentDTO } from './content.dto';
 import { ArticleEntity } from 'src/article/article.entity';
 
 @Injectable()
@@ -14,14 +14,18 @@ export class ContentService {
     private readonly articleRepository: Repository<ArticleEntity>,
   ) {}
 
-  async create(contentData: ContentExtended): Promise<ContentEntity> {
-    const article = await this.articleRepository.findOne({ where: { id: contentData.articleId } }
+  async createContentByArticle(ideaId:string,contentData:ContentDTO): Promise<ContentEntity> {
+    const article = await this.articleRepository.findOne({ where: { id: ideaId } }
         );
     if (!article) {
       throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
     }
-    const content = await this.contentRepository.create({...contentData, article});
-    return await this.contentRepository.save(content);
+    
+    const content = await this.contentRepository.create(contentData);
+    await this.contentRepository.save(content);
+    article.content.push(content);
+    await this.articleRepository.save(article);
+    return content;
   }
 
   async findAll(): Promise<ContentEntity[]> {
@@ -34,6 +38,14 @@ export class ContentService {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     return content;
+  }
+
+  async findAllByArticle(articleId: string): Promise<ContentEntity[]> {
+    const article = await this.articleRepository.findOne({ where: { id: articleId } });
+    if (!article) {
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+    }
+    return article.content;
   }
 
   async update(

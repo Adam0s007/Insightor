@@ -9,12 +9,4 @@ export class ContentDTO {
     value: string;
   }
 
-  export class ContentExtended {
-    @IsString()
-    type: string;
-
-    @IsString()
-    value: string;
-    @IsString()
-    articleId: string; // ID artykułu, z którym treść powinna być powiązana
-  }
+ 

@@ -1,14 +1,19 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ContentService } from './content.service';
-import { ContentDTO, ContentExtended } from './content.dto';
+import { ContentDTO } from './content.dto';
 
 @Controller('content')
 export class ContentController {
   constructor(private readonly contentService: ContentService) {}
 
-  @Post()
-  async create(@Body() contentData: ContentExtended) {
-    return await this.contentService.create(contentData);
+  @Post('article/:id')
+  async createContentByArticle(@Param('id') articleId,@Body() contentData: ContentDTO) {
+    return await this.contentService.createContentByArticle(articleId,contentData);
+  }
+
+  @Get('article/:id')
+  async findAllByArticle(@Param('id') articleId) {
+    return await this.contentService.findAllByArticle(articleId);
   }
 
   @Get()
