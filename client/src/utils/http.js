@@ -8,7 +8,7 @@ export const fetchArticles = async({ signal, max }) =>{
     if(max){
         url = `${url}?max=${max}`;
     }
-    const response = await fetch(url);
+    const response = await fetch(url,{signal});
     if (!response.ok) {
         const err = await response.json();
         console.log(err)

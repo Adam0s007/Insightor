@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { ContentEntity } from '../content/content.entity';
 import { ArticleDTO } from './article.dto';
+import { ContentService } from 'src/content/content.service';
 
 @Injectable()
 export class ArticleService {
@@ -12,6 +13,7 @@ export class ArticleService {
     private readonly articleRepository: Repository<ArticleEntity>,
     @InjectRepository(ContentEntity)
     private readonly contentRepository: Repository<ContentEntity>,
+    private readonly contentService: ContentService,
   ) {}
 
   toResponseObject(article: ArticleEntity) {
@@ -30,19 +32,32 @@ export class ArticleService {
     const savedArticle = await this.articleRepository.save(article);
 
     for (let contentData of articleDto.content) {
-      let content = new ContentEntity();
-      Object.assign(content, { ...contentData, article: savedArticle });
-      await this.contentRepository.save(content);
+      await this.contentService.createContentByArticle(savedArticle.id, contentData);
     }
+    
 
-    const allContent = await this.contentRepository.find();
     return savedArticle;
   }
 
-  async findAll(): Promise<ArticleEntity[]> {
-    return await this.articleRepository.find({
-      relations: ['content'],
-    });
+  async findAll(max=undefined): Promise<ArticleEntity[]> {
+    if(max === undefined){
+      return await this.articleRepository.find({
+        relations: ['content'],
+      });
+    }
+    if(max < 1 || isNaN(max)){
+      throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+    }
+    else{
+      return await this.articleRepository.find({
+        relations: ['content'],
+        take: max,  
+        order: {
+          date: 'DESC',  // Order by date in descending order
+        },
+      });
+    }
+    
   }
 
   async findOne(id: string): Promise<ArticleEntity> {

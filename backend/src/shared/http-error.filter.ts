@@ -23,7 +23,7 @@ import {
           timestamp: new Date().toLocaleDateString(),
           path: request.url,
           method: request.method,
-          message: (status !== HttpStatus.INTERNAL_SERVER_ERROR) ? ( exception.message || null) : 'Internal server error',
+          message: (status !== HttpStatus.INTERNAL_SERVER_ERROR) ? ( exception.message ||  null) : 'Internal server error',
           me:"An error has been catched by the HttpErrorFilter filter"
         }
   

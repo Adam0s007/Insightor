@@ -14,17 +14,23 @@ export class ContentService {
     private readonly articleRepository: Repository<ArticleEntity>,
   ) {}
 
+  validateType(contentData:Partial<ContentDTO>){
+    const allowedTypes = ["paragraph", "image"];
+    if(contentData.type && !allowedTypes.includes(contentData.type)){
+      throw new HttpException('Content type not allowed', HttpStatus.BAD_REQUEST);
+    }
+  }
   async createContentByArticle(
-    ideaId: string,
+    articleId: string,
     contentData: ContentDTO,
   ): Promise<ContentEntity> {
     const article = await this.articleRepository.findOne({
-      where: { id: ideaId },
+      where: { id: articleId },
     });
     if (!article) {
       throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
     }
-
+    this.validateType(contentData);
     const content = await this.contentRepository.create(contentData);
     await this.contentRepository.save(content);
     article.content.push(content);
@@ -61,6 +67,7 @@ export class ContentService {
     const content = await this.contentRepository.findOne({
       where: { id }
     });
+    this.validateType(newContentData);
     Object.assign(content, newContentData);
     return await this.contentRepository.save(content);
   }
