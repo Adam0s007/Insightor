@@ -102,7 +102,7 @@ const parseDateString = (dateString) => {
 const Articles = () => {
   
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["events"],
+    queryKey: ["articles"],
     queryFn: fetchArticles,
     staleTime: 4000,
   });
