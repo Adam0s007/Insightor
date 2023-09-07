@@ -9,6 +9,7 @@ import {
     HttpCode,
     HttpStatus,
     UsePipes,
+    Query,
     
   } from '@nestjs/common';
   import { ArticleService } from './article.service';
@@ -25,9 +26,9 @@ import {
     }
   
     @Get()
-    async findAll() {
-      return await this.articleService.findAll();
-    }
+  async findAll(@Query('max') max?: number) {
+    return await this.articleService.findAll(max);
+  }
   
     @Get(':id')
     async findOne(@Param('id') id: string) {
