@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
+
 export const queryClient = new QueryClient();
 
 const defaultUrl = 'http://localhost:4002'
@@ -59,3 +60,42 @@ export async function createNewArticle({articleData}) {
   
     return article;
   }
+
+
+
+  
+export async function auth({authData}) {
+  
+  const {mode} = authData;
+  let sendingData = {};
+  if(mode === 'login'){
+    sendingData = { email: authData.email, password: authData.password };
+  }else{
+    sendingData = { email: authData.email, password: authData.password, name: authData.name, surname: authData.surname };
+  }
+
+  const response = await fetch('http://localhost:4002/' + mode, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(sendingData),
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err)
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+}
+
+  const resData = await response.json();
+  const token = resData.token;
+
+  // localStorage.setItem('token', token);
+  // const expiration = new Date(jwtDecode(token).exp * 1000);
+  // console.log(expiration) 
+  // localStorage.setItem('expiration', expiration.toISOString());
+  return redirect('/');
+}
+

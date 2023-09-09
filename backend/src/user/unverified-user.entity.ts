@@ -15,11 +15,10 @@ export class UnverifiedUserEntity {
   @CreateDateColumn()
   created: Date;
 
-  @Column({
-    type: 'text',
-    unique: true,
-  })
-  personName: string;
+  @Column('text')
+  name: string;
+  @Column('text')
+  surname: string;
 
   @Column('text')
   password: string;
@@ -38,10 +37,9 @@ export class UnverifiedUserEntity {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
-
   toResponseObject(showToken: boolean = false): UserRO {
-    const { id, created, personName, email } = this;
-    const responseObject: UserRO = { id, created, personName, email };
+    const { id, created, name, surname, email } = this;
+    const responseObject: UserRO = { id, created, name, surname, email };
     return responseObject;
   }
 }

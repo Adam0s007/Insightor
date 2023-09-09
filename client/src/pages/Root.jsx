@@ -1,31 +1,50 @@
 import "../App.css";
 import HeaderNavigation from "../components/HeaderNavigation";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation,useLoaderData,useSubmit } from "react-router-dom";
 import { useEffect } from "react";
 import Footer from "../components/Footer";
 import backgroundImage from "../assets/images/blog-background.jpg";
+import { getTokenDuration } from "../utils/auth";
 const RootLayout = (props) => {
   const { pathname } = useLocation();
-  const location = useLocation();
+ 
+  const token = useLoaderData();
+  const submit = useSubmit();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
   const element = <div className="add_space"></div>
   const HeaderNavigationHandler = () => {
     if (
-      location.pathname.startsWith("/articles") &&
-      location.pathname !== "/articles"
+      pathname.startsWith("/articles") &&
+      pathname !== "/articles"
     ) {
       return element;
     }
     if (
-      location.pathname === "/login" ||
-      location.pathname === "/register" 
+      pathname === "/login" ||
+      pathname === "/register" 
     ) {
       return element;
     }
     return <HeaderNavigation />;
   };
+
+  useEffect(()=>{
+    if(!token){
+      return;
+    }
+    if(token === 'EXPIRED'){
+      submit(null,{action:'/logout' , method: 'post'})
+      return;
+    }
+    const tokenDuration = getTokenDuration();
+    console.log(tokenDuration);
+    setTimeout(()=>{
+      submit(null,{action:'/logout' , method: 'post'})
+    },tokenDuration)
+  },[token,submit])
 
   return (
     <>

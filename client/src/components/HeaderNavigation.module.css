@@ -103,6 +103,19 @@ transition:all 200ms ease-in-out;
 
 }
 
+.link{
+  color:rgba(255, 255, 255, 0.9);
+  text-decoration:none;
+  font-size:1.2rem;
+  text-transform:uppercase;
+  opacity:0;
+  transition:opacity 150ms ease-in-out;
+  background:transparent;
+  border:none;
+  outline:none;
+  cursor:pointer;
+}
+
 .nav li{
   margin-bottom:1em;
   margin-left:1em;
@@ -193,6 +206,7 @@ transition:all 200ms ease-in-out;
   .nav .link:hover::before, .nav .active::before{
       transform:scale(1,1);
   }
+  
 
   
 

@@ -1,39 +1,29 @@
 
 import styles from './Auth.module.css'
-const InputField = ({ 
-    type, 
-    id, 
-    value, 
-    onChange, 
-    onBlur, 
-    placeholder, 
-    hasError, 
-    errorMessage, 
-    showPassword, 
-    setShowPassword 
-  }) => (
-    <>
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Import icons
+const InputField = (props) => (
+    <div className={styles.groupColumn}>
       <div className={styles.passwordWrapper}>
         <input
-          type={showPassword ? "text" : type}
-          id={id}
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
+          type={props.showPassword ? "text" : props.type}
+          id={props.id}
+          placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
+          onBlur={props.onBlur}
           className={styles.input}
         />
-        {type === "password" && (
+        {props.type === "password" && (
           <span
             className={styles.eyeIcon}
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => props.setShowPassword(!props.showPassword)}
           >
-            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            {props.showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
           </span>
         )}
       </div>
-      {hasError && <p className={styles.errorMessage}>{errorMessage}</p>}
-    </>
+      {props.hasError && <p className={styles.errorMessage}>{props.errorMessage}</p>}
+    </div>
   );
 
 export default InputField;

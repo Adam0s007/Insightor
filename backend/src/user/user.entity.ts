@@ -21,11 +21,10 @@ export class UserEntity {
   @CreateDateColumn()
   created: Date;
 
-  @Column({
-    type: 'text',
-    unique: true,
-  })
-  personName: string;
+  @Column('text')
+  name: string;
+  @Column('text')
+  surname: string;
 
   @Column('text')
   password: string;
@@ -35,10 +34,10 @@ export class UserEntity {
     unique: true,
   })
   email: string;
-  
+
   toResponseObject(showToken: boolean = false): UserRO {
-    const { id, created, personName, email,token } = this;
-    const responseObject: UserRO = { id, created,email, personName };
+    const { id, created, name, surname, email, token } = this;
+    const responseObject: UserRO = { id, created, email, name, surname };
     if (showToken) {
       responseObject.token = token;
     }
@@ -51,15 +50,19 @@ export class UserEntity {
   }
 
   private get token() {
-    const { id, personName, created } = this;
+    const { id, name, surname, created, email } = this;
     return jwt.sign(
       {
         id,
-        personName,
+        name,
+        surname,
+        email,
         created,
       },
       process.env.SECRET,
       { expiresIn: '7d' },
     );
   }
+
+  
 }

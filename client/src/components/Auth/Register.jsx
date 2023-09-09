@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import useInput from "../../hooks/use-input";
-import styles from "./Auth.module.css"; 
-import { Link } from 'react-router-dom';
-import { validateEmail,validatePassword } from '../../utils/input-validators'
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Import icons
+import styles from "./Auth.module.css";
+import { Link } from "react-router-dom";
+import {
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from "../../utils/input-validators";
+
 import InputField from "./InputField";
 const Register = () => {
   const {
@@ -33,16 +37,40 @@ const Register = () => {
     reset: resetConfirmPassword,
   } = useInput((value) => value === passwordValue); // Just a simple equality check
 
+  const {
+    value: nameValue,
+    hasError: nameHasError,
+    isValid: nameIsValid,
+    valueChangeHandler: nameChangeHandler,
+    inputBlurHandler: nameBlurHandler,
+    reset: resetName,
+  } = useInput(validateUsername);
+
+  const {
+    value: surnameValue,
+    hasError: surnameHasError,
+    isValid: surnameIsValid,
+    valueChangeHandler: surnameChangeHandler,
+    inputBlurHandler: surnameBlurHandler,
+    reset: resetSurname,
+  } = useInput(validateUsername);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const formIsValid = emailIsValid && passwordIsValid && confirmPasswordIsValid;
+  const formIsValid =
+    emailIsValid &&
+    passwordIsValid &&
+    confirmPasswordIsValid &&
+    nameIsValid &&
+    surnameIsValid;
 
   const submitHandler = (event) => {
     event.preventDefault();
     if (!formIsValid) {
       return;
     }
+
     console.log("Logged in:", emailValue, passwordValue);
     resetEmail();
     resetPassword();
@@ -53,63 +81,62 @@ const Register = () => {
     <section className={styles.section}>
       <form onSubmit={submitHandler} className={styles.container}>
         <h2>Sign up!</h2>
-        <div>
-          <input
-            placeholder="email"
-            type="email"
-            id="email"
-            value={emailValue}
-            onChange={emailChangeHandler}
-            onBlur={emailBlurHandler}
-            className={styles.input}
+        <div className={styles.group}>
+          <InputField
+            type="text"
+            id="name"
+            value={nameValue}
+            onChange={nameChangeHandler}
+            onBlur={nameBlurHandler}
+            placeholder="Name"
+            hasError={nameHasError}
+            errorMessage="Your name must be at least 3 characters long and at most 30 characters long."
           />
-          {emailHasError && (
-            <p className={styles.errorMessage}>Please enter a valid email.</p>
-          )}
-        </div>
-        <div className={styles.passwordWrapper}>
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            placeholder="password"
-            value={passwordValue}
-            onChange={passwordChangeHandler}
-            onBlur={passwordBlurHandler}
-            className={styles.input}
+          <InputField
+            type="text"
+            id="surname"
+            value={surnameValue}
+            onChange={surnameChangeHandler}
+            onBlur={surnameBlurHandler}
+            placeholder="Surname"
+            hasError={surnameHasError}
+            errorMessage="Your surname must be at least 3 characters long and at most 30 characters long."
           />
-          <span
-            className={styles.eyeIcon}
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-          </span>
         </div>
-        {passwordHasError && (
-          <p className={styles.errorMessage}>
-            The password must contain at least one uppercase and one lowercase
-            letter, as well as a special character.
-          </p>
-        )}
-        <div className={styles.passwordWrapper}>
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            id="confirmPassword"
-            value={confirmPasswordValue}
-            onChange={confirmPasswordChangeHandler}
-            onBlur={confirmPasswordBlurHandler}
-            className={styles.input}
-            placeholder="confirm password"
-          />
-          <span
-            className={styles.eyeIcon}
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          >
-            {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-          </span>
-        </div>
-        {confirmPasswordHasError && (
-          <p className={styles.errorMessage}>Passwords do not match.</p>
-        )}
+        <InputField
+          type="email"
+          id="email"
+          value={emailValue}
+          onChange={emailChangeHandler}
+          onBlur={emailBlurHandler}
+          placeholder="email"
+          hasError={emailHasError}
+          errorMessage="Please enter a valid email."
+        />
+        <InputField
+          type="password"
+          id="password"
+          value={passwordValue}
+          onChange={passwordChangeHandler}
+          onBlur={passwordBlurHandler}
+          placeholder="password"
+          hasError={passwordHasError}
+          errorMessage="The password must contain at least one uppercase and one lowercase letter, as well as a special character."
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+        />
+        <InputField
+          type="password"
+          id="confirm-password"
+          value={confirmPasswordValue}
+          onChange={confirmPasswordChangeHandler}
+          onBlur={confirmPasswordBlurHandler}
+          placeholder="confirm password"
+          hasError={confirmPasswordHasError}
+          errorMessage="The password must contain at least one uppercase and one lowercase letter, as well as a special character."
+          showPassword={showConfirmPassword}
+          setShowPassword={setShowConfirmPassword}
+        />
         <div>
           <button
             type="submit"
@@ -120,9 +147,9 @@ const Register = () => {
           </button>
         </div>
         <div className={styles.linkWrapper}>
-            <Link to="/login" className={styles.link}>
-                Already have an account? Login
-            </Link>
+          <Link to="login" className={styles.link}>
+            Already have an account? Login
+          </Link>
         </div>
       </form>
     </section>
