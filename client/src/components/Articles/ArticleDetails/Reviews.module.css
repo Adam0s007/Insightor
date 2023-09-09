@@ -5,10 +5,10 @@
     padding: 12px;
     background-color: #fff;
     border-radius: 4px;
-    
+    overflow-y:scroll;
 }
 
 .content{
-    max-height:calc(60vh);
+    max-height:60vh;
     overflow-y:scroll;
 }

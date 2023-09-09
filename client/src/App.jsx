@@ -3,10 +3,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import RootLayout from "./pages/Root";
 import HomePage from "./pages/HomePage";
-import PostLayout from "./pages/PostsPage";
+import ArticleLayout from "./pages/ArticlesPage";
 import ContactLayout from "./pages/Contact";
 import NewArticle from "./components/NewArticle/NewArticle";
-import PostDetails from "./components/Posts/PostDetails/PostDetails";
+import ArticleDetails from "./components/Articles/ArticleDetails/ArticleDetails";
 import Auth from "./pages/Auth";
 
 import {queryClient} from './utils/http.js';
@@ -20,11 +20,11 @@ function App() {
       children: [
         { index: true, element: <HomePage />, id: "home" },
         {
-          path: "posts",
-          element: <PostLayout />,
-          id: "posts",
+          path: "articles",
+          element: <ArticleLayout />,
+          id: "articles",
         },
-        { path: "posts/:postId", element: <PostDetails />, id: "post-details" },
+        { path: "articles/:articleId", element: <ArticleDetails />, id: "article-details" },
         { path: "contact", element: <ContactLayout />, id: "contact" },
         { path: "login", element: <Auth />, id: "login" },
         { path: "new-article", element: <NewArticle />, id: "new-article" },

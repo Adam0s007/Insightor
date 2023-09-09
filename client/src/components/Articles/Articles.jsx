@@ -4,7 +4,7 @@ import Article from "./Article";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticles } from "../../utils/http.js";
 import {formatDate} from '../../utils/date-conventer'
-import classes from "./Posts.module.css";
+import classes from "./Articles.module.css";
 import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer";
 const DUMMY_DATA = [

@@ -1,4 +1,4 @@
-import classes from "./Post.module.css";
+import classes from "./Article.module.css";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 const Article = (props) => {
@@ -37,8 +37,8 @@ const Article = (props) => {
         <p className={classes["post-description"]}>{cuttedDescription}</p>
         <div className={classes["row-container"]}>
           <Link
-            key={`posts-${props.id}`}
-            to={`/posts/${props.id}`}
+            key={`articles-${props.id}`}
+            to={`/articles/${props.id}`}
             className={classes["read-more"]}
             relative="route"
           >

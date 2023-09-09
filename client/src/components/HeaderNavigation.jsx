@@ -33,14 +33,14 @@ const HeaderNavigation = (props) => {
           
           <li>
             <NavLink
-              to="posts"
+              to="articles"
               className={({ isActive }) =>
                 (isActive = isActive
                   ? `${classes.link}  ${classes.active}`
                   : `${classes.link}`)
               }
             >
-              Posts
+              Articles
             </NavLink>
           </li>
           <li>

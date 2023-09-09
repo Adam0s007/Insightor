@@ -1,10 +1,10 @@
-import Article from "../Posts/Article";
+import Article from "../Articles/Article";
 import { Link } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticles } from "../../utils/http";
 import classes from "./LatesPosts.module.css";
-import postsClasses from "../Posts/Posts.module.css";
+import postsClasses from "../Articles/Articles.module.css";
 
 import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer";

@@ -11,6 +11,10 @@
   box-shadow: 0 0 12px 6px rgba(220, 220, 220, 0.874);
   max-width: 800px;
   margin: 0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-around;
 }
 
 .closeButton {
