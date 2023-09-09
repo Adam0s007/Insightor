@@ -1,0 +1,118 @@
+.section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #3a3a3a72;
+    width:100%;
+}
+
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 2em 3em;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background-color:rgb(196, 210, 255);
+    border:2px solid var(--color);
+    text-align:center;
+    
+
+}
+.container h1{
+    padding:1em;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+    color: var(--color);
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    border:2px solid var(--color);
+
+}
+
+.passwordWrapper{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:column;
+}
+.eyeIcon{
+    position:absolute;
+    top:50%;
+    left:90%;
+    transform: translateY(-50%);
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.errorMessage {
+    padding:10px;
+    font-family:'Arial';
+
+    background-color:rgb(253, 168, 168);
+    color: rgb(56, 0, 0);
+    border-radius:7px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color);
+    border:2px solid var(--color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.button:disabled {
+    background-color: #aab5fa;
+    cursor: not-allowed;
+}
+
+
+
+.span {
+    cursor: pointer;
+    position: relative;
+    top: -30px; 
+    right: 10px;
+    font-size: 24px;
+}
+
+
+.linkWrapper{
+    display:flex;
+    justify-content:center;
+    gap:1.2em;
+    align-items:center;
+    margin-top:2em;
+}
+.link{
+    color:rgb(0, 11, 63);
+    text-decoration:none;
+    font-weight:bold;
+    font-family:'Segoe UI';
+    font-size:0.9em;
+    font-weight:500;
+    transition:color 0.3s;
+}
