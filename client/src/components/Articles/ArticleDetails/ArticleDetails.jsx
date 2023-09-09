@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import styles from "./ArticleDetails.module.css";
 import "./Animations.css";
 import Reviews from "./Reviews";
 import ModalWithMenu from "./ModalWithMenu";
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticle } from "../../../utils/http";
 
@@ -74,6 +75,12 @@ const ArticleDetails = () => {
           content={newContent}
           menuClickHandler={menuClickHandler}
         />
+        <div className={styles.returnPage}>
+          <Link to='..' relativeTo="path" className={styles.returnNav}>  
+             <AiOutlineArrowLeft  />
+          </Link>
+         
+        </div>
         <div className={styles.postInfo}>
           <span>
             <FaUser className={styles.icon} /> {personName}
@@ -87,7 +94,12 @@ const ArticleDetails = () => {
         </div>
 
         <h1>{title}</h1>
-        <img src={img} alt={title} loading="lazy" className={styles.mainImage} />
+        <img
+          src={img}
+          alt={title}
+          loading="lazy"
+          className={styles.mainImage}
+        />
         <p className={styles.description}>{description}</p>
 
         <div className={styles.article}>

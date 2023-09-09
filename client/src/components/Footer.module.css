@@ -4,10 +4,9 @@
     color: var(--light-font-color);
     text-align: center;
     width:100vw;
-    bottom:0;
     box-sizing:border-box;
-    margin-top: content;
     flex-grow:1;
+    margin-bottom:-20px;
   }
   
   .footer a {

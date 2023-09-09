@@ -92,6 +92,13 @@
     transform:translateX(-100%);
   }
      
+  .error{
+    color:rgb(119, 3, 3);
+    background:rgb(227, 165, 165);
+    padding:0.5em 1em;
+    border-radius:8px;
+    border:2px solid rgb(119, 3, 3);
+  }
 
   .counter{
     position:absolute;

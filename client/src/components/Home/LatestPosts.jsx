@@ -44,7 +44,7 @@ const LatestPosts = () => {
           ))}
         </section>
 
-        <Link to="/posts">
+        <Link to="/articles">
           <button className={classes.button}>all articles</button>
         </Link>
       </>

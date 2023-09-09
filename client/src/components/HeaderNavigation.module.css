@@ -17,7 +17,6 @@
   display:flex;
   align-items:center;
   padding: 0 1em;
-  margin-bottom:1em;
   color:rgba(255, 255, 255, 0.9);
   transition: margin-bottom 200ms ease-in-out;
 }
@@ -181,7 +180,7 @@ transition:all 200ms ease-in-out;
       content:'';
       display:block;
       height:5px;
-      background:rgb(1, 1, 1);
+      background:rgba(243, 243, 243);
       position:absolute;
       bottom:-0.4em;
       left:0;

@@ -1,6 +1,6 @@
 
 .latest-posts{
-    background:rgb(255, 255, 255);
+    background:rgba(255, 255, 255, 0.897);
     display:flex;
     flex-direction:column;
     align-items:center;

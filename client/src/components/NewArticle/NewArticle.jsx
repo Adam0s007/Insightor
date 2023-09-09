@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { createNewArticle, queryClient } from "../../utils/http";
@@ -138,6 +138,7 @@ const NewArticle = () => {
           Add Image
         </button>
   
+        {isError && <div className={styles.error}>{error.message}</div>}
         <button className={styles.button} type="submit">
           Submit
         </button>
@@ -147,14 +148,7 @@ const NewArticle = () => {
     if(isPending) {
       actualContent = <LoadingIndicator/>
     }
-    if(isError){
-      actualContent = (
-      <>
-      <ErrorContainer title="An error has occurred" message={error.message} showButton={false}/>
-      {actualContent}
-      </>
-      )
-    }
+    
   return (
     <div className={styles.container}>
     {actualContent}

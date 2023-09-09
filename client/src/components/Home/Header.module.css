@@ -4,7 +4,7 @@
     color: var(--light-font-color);
     text-align: center;
     opacity: 0;
-    height:80vh;
+    height:100vh;
     display:flex;
     flex-direction:column;
     justify-content:center;

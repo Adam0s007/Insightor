@@ -26,13 +26,7 @@ body {
   padding:0;
   min-height:100vh;
   overflow-x:hidden;
- 
-}
-
-main {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  min-height:100vh;
+  width:100%;
 }
 
 .bg-image{
@@ -42,5 +36,4 @@ main {
   z-index:-1;
   object-fit: cover;
 }
-
 

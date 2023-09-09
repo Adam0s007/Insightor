@@ -5,8 +5,8 @@ import { IoMdReturnLeft } from 'react-icons/io';
 import styles from './ModalWithMenu.module.css';
 
 const animationTiming = {
-  enter: 800,
-  exit: 1000,
+  enter: 1000,
+  exit: 2000,
 };
 
 const ModalWithMenu = ({ isModalVisible, closeModal, content, menuClickHandler }) => {
