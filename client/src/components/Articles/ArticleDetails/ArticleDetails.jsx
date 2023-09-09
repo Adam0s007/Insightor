@@ -87,7 +87,7 @@ const ArticleDetails = () => {
         </div>
 
         <h1>{title}</h1>
-        <img src={img} alt={title} loading="lazy" />
+        <img src={img} alt={title} loading="lazy" className={styles.mainImage} />
         <p className={styles.description}>{description}</p>
 
         <div className={styles.article}>

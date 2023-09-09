@@ -38,6 +38,9 @@
   letter-spacing: 2px;
   line-height: 1.2em;
 }
+.container .mainImage{
+  min-height:100px;
+}
 
 .container img {
   width: min(75vw, 25em);
