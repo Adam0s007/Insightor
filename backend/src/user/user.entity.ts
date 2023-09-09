@@ -35,15 +35,7 @@ export class UserEntity {
     unique: true,
   })
   email: string;
-
-  @Column({ nullable: true })
-  verificationCode: string;
   
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
-
   toResponseObject(showToken: boolean = false): UserRO {
     const { id, created, personName, email,token } = this;
     const responseObject: UserRO = { id, created,email, personName };

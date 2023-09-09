@@ -10,7 +10,8 @@ import { ArticleModule } from './article/article.module';
 import { ContentModule } from './content/content.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
-
+import { EmailModule } from './email/email.module';
+import {MailerModule} from '@nestjs-modules/mailer';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -28,6 +29,7 @@ import { ConfigModule } from '@nestjs/config';
     ArticleModule,
     ContentModule,
     UserModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [

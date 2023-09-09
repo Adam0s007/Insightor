@@ -3,17 +3,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { UserDTO, UserRO } from './user.dto';
+import { UnverifiedUserEntity } from './unverified-user.entity';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+    @InjectRepository(UnverifiedUserEntity)
+    private unverifiedUserRepository: Repository<UnverifiedUserEntity>,
+    private emailService: EmailService,
   ) {}
 
   async generateVerificationCode(): Promise<string> {
     // For simplicity, let's generate a random 6-digit code. You can replace this with a more secure implementation.
-    return Math.floor(100000 + Math.random() * 900000).toString();
+    return Math.floor(100007 + Math.random() * 900000).toString();
   }
   async showAll(): Promise<UserRO[]> {
     const users = await this.userRepository.find({
@@ -47,7 +52,9 @@ export class UserService {
     const { personName, email } = data;
 
     // Check if user with the same name exists
-    const userByName = await this.userRepository.findOne({ where: { personName } });
+    const userByName = await this.userRepository.findOne({
+      where: { personName },
+    });
     if (userByName) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
@@ -57,14 +64,37 @@ export class UserService {
     if (userByEmail) {
       throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
     }
+    const unverifiedUserByEmail = await this.unverifiedUserRepository.findOne({
+      where: { email },
+    });
+    if (unverifiedUserByEmail) {
+      throw new HttpException('unverified user with that email exists!', HttpStatus.BAD_REQUEST);
+    }
 
-    // If both checks pass, create the user
-    const user = this.userRepository.create(data);
+    const user = this.unverifiedUserRepository.create(data);
+    user.verificationCode = await this.generateVerificationCode();
+    await this.unverifiedUserRepository.save(user);
+
+    // await this.emailService.sendVerificationCode(
+    //   user.email,
+    //   user.verificationCode,
+    // );
+
+
+    return this.verifyUser(user.verificationCode);
+  }
+
+  async verifyUser(code: string): Promise<UserRO> {
+    const unverifiedUser = await this.unverifiedUserRepository.findOne({
+      where: { verificationCode: code },
+    });
+    if (!unverifiedUser) {
+      throw new HttpException('Invalid code', HttpStatus.BAD_REQUEST);
+    }
+
+    const user = this.userRepository.create(unverifiedUser);
     await this.userRepository.save(user);
-
-    // Generate verification code
-    const verificationCode = await this.generateVerificationCode();
-
+    await this.unverifiedUserRepository.delete(unverifiedUser.id);
 
     return user.toResponseObject(true);
   }
@@ -80,4 +110,17 @@ export class UserService {
     await this.userRepository.delete(userId);
     return user.toResponseObject(true);
   }
+  showAllUnverifiedUsers() {
+    return this.unverifiedUserRepository.find();
+  }
+//delete all unferified users
+  async deleteUnverifiedUsers(){
+    const unverifiedUsers = await this.unverifiedUserRepository.find();
+    await this.unverifiedUserRepository.remove(unverifiedUsers);
+    return unverifiedUsers.map((unverifiedUser) => unverifiedUser.toResponseObject(true));
+  }
+  
+
+    
+
 }
