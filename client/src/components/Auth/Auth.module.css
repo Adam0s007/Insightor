@@ -7,23 +7,10 @@
     width:100%;
 }
 
-
-.container {
+.container{
     max-width: min(90%,600px);
     margin: 50px auto;
     padding: 2em 3em;
-    box-shadow: 0px 0px 10px rgba(216, 216, 216, 0.69);
-    border-radius: 5px;
-    background-color:rgb(196, 210, 255);
-    border:2px solid var(--color);
-    text-align:center;
-    background: rgb(231,231,255);
-background: -moz-linear-gradient(180deg, rgba(231,231,255,1) 10%, rgba(200,200,255,1) 81%);
-background: -webkit-linear-gradient(180deg, rgba(231,231,255,1) 10%, rgba(200,200,255,1) 81%);
-background: linear-gradient(180deg, rgba(231,231,255,1) 10%, rgba(200,200,255,1) 81%);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e7e7ff",endColorstr="#c8c8ff",GradientType=1);
-
-
 }
 .container h1{
     padding:1em;
@@ -42,7 +29,6 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e7e7ff",endCo
     border-radius: 5px;
     font-size: 16px;
     border:2px solid var(--color);
-
 }
 
 .passwordWrapper{
@@ -67,12 +53,12 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e7e7ff",endCo
 .errorMessage {
     padding:10px;
     font-family:'Arial';
-
+    max-width: 200px;
     background-color:rgb(253, 168, 168);
     color: rgb(56, 0, 0);
     border-radius:7px;
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: 13px;
+    margin-top:0;
 }
 
 .button {
@@ -125,7 +111,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e7e7ff",endCo
 .group{
     display:flex;
     justify-content:center;
-    align-items:center;
+    align-items:flex-start;
     gap:1em;
     margin-top:1em;
     flex-wrap:wrap;

@@ -4,9 +4,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  ManyToOne,
   CreateDateColumn,
-  JoinTable,
 } from 'typeorm';
 
 @Entity('article')
@@ -29,8 +27,8 @@ export class ArticleEntity {
   @Column()
   img: string;
 
-  @OneToMany((type) => ContentEntity, (content) => content.article, {
-    eager: true,
+  @OneToMany((type) => ContentEntity, (content) => content.article,{
+      cascade: true
   })
   content: ContentEntity[];
 

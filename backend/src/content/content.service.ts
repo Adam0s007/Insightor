@@ -26,15 +26,14 @@ export class ContentService {
   ): Promise<ContentEntity> {
     const article = await this.articleRepository.findOne({
       where: { id: articleId },
+      relations: ['content'],
     });
     if (!article) {
       throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
     }
     this.validateType(contentData);
-    const content = await this.contentRepository.create(contentData);
+    const content = await this.contentRepository.create({...contentData,article});
     await this.contentRepository.save(content);
-    article.content.push(content);
-    await this.articleRepository.save(article);
     return content;
   }
 
@@ -53,6 +52,7 @@ export class ContentService {
   async findAllByArticle(articleId: string): Promise<ContentEntity[]> {
     const article = await this.articleRepository.findOne({
       where: { id: articleId },
+      relations: ['content'],
     });
     if (!article) {
       throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
@@ -71,6 +71,44 @@ export class ContentService {
     Object.assign(content, newContentData);
     return await this.contentRepository.save(content);
   }
+
+  async updateAllByArticle(
+    articleId: string,
+    newContentData: ContentDTO[],
+  ): Promise<ContentEntity[]> {
+    const article = await this.articleRepository.findOne({
+      where: { id: articleId },
+      relations: ['content'],
+    });
+    if (!article) {
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+    }
+   
+    if(
+      newContentData.length === article.content.length &&
+      newContentData.every((content, index) => {
+        return content.type === article.content[index].type &&
+        content.value === article.content[index].value
+      })){
+        return article.content;
+      }
+    
+      while (article.content.length > 0) {
+        await this.contentRepository.remove(article.content.pop());
+      }
+    
+    
+    for (const contentData of newContentData) {
+      const content = await this.contentRepository.create(contentData);
+      await this.contentRepository.save(content);
+      article.content.push(content);
+      await this.articleRepository.save(article);
+    }
+
+    return article.content;
+  }
+
+  
 
   async remove(id: string): Promise<ContentEntity> {
     const content = await this.contentRepository.findOne({ where: { id } });

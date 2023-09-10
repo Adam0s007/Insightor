@@ -7,7 +7,8 @@ import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer.jsx";
 import AutoExpandTextArea from "../../ui/AutoExpandTextArea.jsx";
 import styles from "./NewArticle.module.css";
 
-const NewArticle = () => {
+
+const NewArticle = ({data}) => {
   const [article, setArticle] = useState({
     title: "",
     description: "",
@@ -15,6 +16,7 @@ const NewArticle = () => {
     personName: "Current User", // set default value here
     content: [],
     rating: 0,
+    ...data
   });
 
   const navigate = useNavigate();
@@ -53,7 +55,8 @@ const NewArticle = () => {
   };
 
   let actualContent =  (
-      <form className={styles.container} onSubmit={handleSubmit}>
+      
+      <form onSubmit={handleSubmit} className={styles.container}>
         <h1 className={styles.heading}>New Article</h1>
   
         <div className={styles.inputWrapper}>
@@ -143,6 +146,7 @@ const NewArticle = () => {
           Submit
         </button>
       </form>
+ 
     );
   
     if(isPending) {

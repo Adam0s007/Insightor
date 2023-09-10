@@ -17,6 +17,12 @@ export class ContentController {
     return await this.contentService.findAllByArticle(articleId);
   }
 
+  @Put('article/:id')
+  @UsePipes(new ValidationPipe())
+  //function updating all contents related to an article
+  async updateAllByArticle(@Param('id') articleId, @Body() newContentData: ContentDTO[]) {
+    return await this.contentService.updateAllByArticle(articleId, newContentData);
+  }
   @Get()
   async findAll() {
     return await this.contentService.findAll();

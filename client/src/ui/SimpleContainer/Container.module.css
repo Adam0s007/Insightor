@@ -1,0 +1,16 @@
+.container {
+    box-shadow: 0px 0px 10px rgba(216, 216, 216, 0.69);
+    border-radius: 5px;
+    background-color:rgb(196, 210, 255);
+    border:2px solid var(--color);
+    text-align:center;
+    background: rgb(231,231,255);
+background: -moz-linear-gradient(180deg, rgba(231,231,255,1) 10%, rgba(200,200,255,1) 81%);
+background: -webkit-linear-gradient(180deg, rgba(231,231,255,1) 10%, rgba(200,200,255,1) 81%);
+background: linear-gradient(180deg, rgba(231,231,255,1) 10%, rgba(200,200,255,1) 81%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e7e7ff",endColorstr="#c8c8ff",GradientType=1);
+
+ 
+
+}
+

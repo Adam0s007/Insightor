@@ -76,7 +76,7 @@ const ArticleDetails = () => {
           menuClickHandler={menuClickHandler}
         />
         <div className={styles.returnPage}>
-          <Link to='..' relativeTo="path" className={styles.returnNav}>  
+          <Link to='..'  className={styles.returnNav}>  
              <AiOutlineArrowLeft  />
           </Link>
          

@@ -30,10 +30,10 @@ export function tokenLoader() {
 }
 
 export function checkAuthLoader() {
-    console.log("WYKONUJĘ SIĘ!");
+    
     const token = getAuthToken();
-    if (!token) {
-        return redirect('/login');
+    if (!token || token === 'EXPIRED') {
+        return redirect('/auth/login');
     }
     return null;
 }

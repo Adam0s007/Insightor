@@ -3,9 +3,8 @@ import useInput from "../../hooks/use-input";
 import styles from "./Auth.module.css";
 import { Link,useNavigate,useNavigation,Form } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../utils/input-validators";
-
 import InputField from "./InputField";
-
+import Container from '../../ui/SimpleContainer/container.jsx'
 const Login = (props) => {
 
   const navigate = useNavigate();
@@ -34,7 +33,8 @@ const Login = (props) => {
 
   return (
     <section className={styles.section}>
-      <Form method="post" action="/auth" className={styles.container}>
+      <Container classes={styles.container}>
+      <Form method="post" action="/auth">
         <h2>Login</h2>
         <InputField
           type="email"
@@ -68,6 +68,7 @@ const Login = (props) => {
           </Link>
         </div>
       </Form>
+      </Container>
     </section>
   );
 };

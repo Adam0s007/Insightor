@@ -9,6 +9,9 @@ import {
 } from "../../utils/input-validators";
 
 import InputField from "./InputField";
+import Container from '../../ui/SimpleContainer/container';
+
+
 const Register = (props) => {
   const data = useActionData();
   console.log(data);
@@ -74,7 +77,8 @@ const Register = (props) => {
 
   return (
     <section className={styles.section}>
-      <Form method="post" action="/auth" className={styles.container} >
+      <Container classes={styles.container}>
+      <Form method="post" action="/auth">
         <h2>Sign up!</h2>
         
         <div className={styles.group}>
@@ -149,6 +153,7 @@ const Register = (props) => {
           </Link>
         </div>
       </Form>
+      </Container>
     </section>
   );
 };
