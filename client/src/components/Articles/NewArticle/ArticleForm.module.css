@@ -11,6 +11,7 @@
     gap:1.5em;
     min-height:90vh;
     font-weight:bold;
+    position:relative;
   }
   .container>*{
     font-weight:bold;
@@ -67,8 +68,20 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width:20em;
-    
+    width:min(70vw,20em);
+  }
+  .submitButton{
+    padding: 0.7em 1.2em;
+    background-color: var(--color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width:min(70vw,20em);
+  }
+  .submitButton:disabled{
+    opacity:0.4;
+    cursor: not-allowed;
   }
   
   .button:hover {

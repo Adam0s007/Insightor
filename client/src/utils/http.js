@@ -37,8 +37,8 @@ export async function fetchArticle({ signal, id }) {
 }
 
 export async function createNewArticle({ articleData }) {
-  //console.log(JSON.stringify(articleData))
-  const response = await fetch(`${defaultUrl}/articles`, {
+  console.log(JSON.stringify(articleData))
+  const response = await fetch(`${defaultUrl}/articlejs`, {
     method: "POST",
     body: JSON.stringify(articleData),
     headers: {

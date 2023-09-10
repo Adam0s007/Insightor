@@ -10,7 +10,7 @@ import {
 
 import InputField from "./InputField";
 import Container from '../../ui/SimpleContainer/container';
-import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
+import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 
 const Register = (props) => {
   const data = useActionData();
@@ -79,9 +79,7 @@ const Register = (props) => {
     <section className={styles.section}>
       <Container classes={styles.container}>
       <Form method="post" action="/auth">
-      {isSubmitting && <div className={styles.overlay}>
-        <LoadingIndicator/>
-      </div>}
+      {isSubmitting && <LoadingOverlay/>}
         <h2>Sign up!</h2>
         
         <div className={styles.group}>

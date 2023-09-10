@@ -6,7 +6,7 @@ import { validateEmail, validatePassword } from "../../utils/input-validators";
 import InputField from "./InputField";
 import Container from '../../ui/SimpleContainer/container.jsx'
 
-import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
+import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 const Login = (props) => {
   const navigate = useNavigate();
   const navigation = useNavigation();
@@ -36,9 +36,7 @@ const Login = (props) => {
     <section className={styles.section}>
       <Container classes={styles.container}>
       <Form method="post" action="/auth">
-      {isSubmitting && <div className={styles.overlay}>
-        <LoadingIndicator/>
-      </div>}
+      {isSubmitting && <LoadingOverlay/>}
         <h2>Login</h2>
         <InputField
           type="email"

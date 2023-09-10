@@ -27,7 +27,11 @@ export class ArticleService {
   }
 
   async create(articleDto: ArticleDTO) {
+    if(articleDto.content.length === 0) {
+      throw new HttpException('Content should not be empty!', HttpStatus.BAD_REQUEST);
+    }
     let article = new ArticleEntity();
+    
     Object.assign(article, articleDto); // or you can use some library like class-transformer to convert DTO to entity
     const savedArticle = await this.articleRepository.save(article);
 
