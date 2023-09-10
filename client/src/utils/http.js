@@ -59,7 +59,7 @@ export async function createNewArticle({ articleData }) {
 }
 
 export async function authAction({ request, params }) {
-  console.log(request);
+  //console.log(request);
   const authData = await request.formData();
 
   let sendingData = null;
@@ -77,7 +77,7 @@ export async function authAction({ request, params }) {
       surname: authData.get("surname"),
     };
   }
-  console.log(sendingData)
+ 
   const response = await fetch(
     "http://localhost:4002/" + authData.get("authType"),
     {
@@ -91,6 +91,7 @@ export async function authAction({ request, params }) {
 
   if (!response.ok) {
     const err = await response.json();
+    console.log(err);
     throw json({ message: err.message }, { status: err.statusCode });
   }
 

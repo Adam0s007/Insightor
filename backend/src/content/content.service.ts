@@ -38,11 +38,11 @@ export class ContentService {
   }
 
   async findAll(): Promise<ContentEntity[]> {
-    return await this.contentRepository.find();
+    return await this.contentRepository.find({relations: ['article']});
   }
 
   async findOne(id: string): Promise<ContentEntity> {
-    const content = await this.contentRepository.findOne({ where: { id } });
+    const content = await this.contentRepository.findOne({ where: { id } ,relations: ['article']});
     if (!content) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }

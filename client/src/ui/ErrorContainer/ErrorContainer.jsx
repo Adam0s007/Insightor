@@ -1,13 +1,11 @@
-import { Link, useLocation } from 'react-router-dom';
+
 import styles from './ErrorContainer.module.css';
 
 const ErrorContainer = (props) => {
-    const location = useLocation();
     let content = null;
-    if(location.pathname !== '/' && props.showButton){
-        content =(<Link to="/">
-        <button className={styles.button} onClick={props.onTryAgain}>Go back to the main page</button>
-        </Link>)
+    let navMess = props.navigateMessage || 'go to home page';
+    if(props.onTryAgain){
+      content = <button className={styles.button} onClick={props.onTryAgain}>{navMess}</button> 
     }
     return (
         <div className={styles['error-container']}>
