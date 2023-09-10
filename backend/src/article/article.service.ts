@@ -77,15 +77,17 @@ export class ArticleService {
 
   async update(id: string, newArticleData: Partial<ArticleDTO>): Promise<ArticleEntity> {
     const article = await this.articleRepository.findOne({
-      where: { id }
+      where: { id },
+      relations: ['content'],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    if(newArticleData.content){
-      throw new HttpException('content in wrong place', HttpStatus.BAD_REQUEST);
+    if(newArticleData.content && newArticleData.content.length > 0) {
+      while(article.content.length > 0) {
+        await this.contentRepository.remove(article.content.pop());
+      }
     }
-
     // Aktualizacja głównych danych artykułu
     Object.assign(article, newArticleData);
     await this.articleRepository.save(article);

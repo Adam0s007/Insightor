@@ -22,6 +22,7 @@ import {MailerModule} from '@nestjs-modules/mailer';
       password: '1910008', // Consider not hardcoding this
       username: 'postgres',
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+      //dropSchema:true,
       database: 'blog',
       synchronize: true,
       logging: true,

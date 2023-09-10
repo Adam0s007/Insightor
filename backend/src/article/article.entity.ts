@@ -32,7 +32,7 @@ export class ArticleEntity {
   })
   content: ContentEntity[];
 
-  @Column()
+  @Column('real')
   rating: number;
 }
 
