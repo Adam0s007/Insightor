@@ -58,12 +58,18 @@ export async function createNewArticle({ articleData }) {
   return article;
 }
 
-export async function updateArticle({ articleData, id }) {
-  
+export async function updateArticle({ article, id }) {
+  //remove id from article and also remove id from article.content array (if exists and has length > 0)
+  delete article.id;
+  if (article.content && article.content.length > 0) {
+    article.content.forEach((content) => {
+      delete content.id;
+    });
+  }
 
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
     method: "PUT",
-    body: JSON.stringify(articleData),
+    body: JSON.stringify(article),
     headers: {
       "Content-Type": "application/json",
     },
@@ -76,9 +82,9 @@ export async function updateArticle({ articleData, id }) {
     throw new Error(message);
   }
 
-  const article = await response.json();
+  const articleRO = await response.json();
 
-  return article;
+  return articleRO;
 }
 
 export async function authAction({ request, params }) {

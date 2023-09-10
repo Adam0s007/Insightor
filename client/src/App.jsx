@@ -1,5 +1,9 @@
 import "./App.css";
-import { RouterProvider, createBrowserRouter,Navigate } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  Navigate,
+} from "react-router-dom";
 
 import RootLayout from "./pages/Root";
 import HomePage from "./pages/HomePage";
@@ -13,7 +17,7 @@ import Register from "./components/Auth/Register";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import AuthErrorPage from "./pages/AuthErrorPage";
 import ErrorPage from "./pages/ErrorPage";
-import EditArticlePage from './pages/EditArticlePage';
+import EditArticlePage from "./pages/EditArticlePage";
 import { queryClient, authAction } from "./utils/http.js";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { action as logoutAction } from "./pages/Logout";
@@ -26,7 +30,7 @@ function App() {
       element: <RootLayout />,
       id: "root",
       loader: tokenLoader,
-      errorElement: <ErrorPage/>,
+      errorElement: <ErrorPage />,
       children: [
         { index: true, element: <HomePage />, id: "home" },
         {
@@ -43,8 +47,19 @@ function App() {
             },
             {
               path: ":articleId",
-              element: <ArticleDetails />,
-              id: "article-details",
+              children: [
+                {
+                  index:true,
+                  element: <ArticleDetails />,
+                  id: "article-details",
+                }
+                ,{
+                  path: "edit",
+                  element: <EditArticlePage />,
+                  id: "edit-article",
+                  //loader: checkAuthLoader,
+                },
+              ],
             },
           ],
         },
@@ -57,10 +72,10 @@ function App() {
           id: "auth",
           children: [
             {
-              index:true,
+              index: true,
               element: <Navigate to="/auth/login" />,
             },
-            
+
             {
               path: "login",
               element: <Login />,

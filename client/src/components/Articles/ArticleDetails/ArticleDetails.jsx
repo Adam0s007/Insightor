@@ -25,7 +25,7 @@ const ArticleDetails = () => {
   const params = useParams();
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["articles", params.articleId],
+    queryKey: ["article", params.articleId],
     queryFn: ({ signal }) => fetchArticle({ signal, id: params.articleId }),
   });
 
