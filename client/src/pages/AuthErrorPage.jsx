@@ -17,7 +17,7 @@ function AuthErrorPage() {
         <ErrorContainer
           title={title}
           navigateMessage={"try again"}
-          message={'invalid password or email :('}
+          message={error.data?.message || 'invalid password or email :('}
           onTryAgain={tryAgainHandler}
         />
         </Container>

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import useInput from "../../hooks/use-input";
 import styles from "./Auth.module.css";
-import { Link,useNavigate,useNavigation,Form,useActionData } from "react-router-dom";
+import { Link,useNavigate,useNavigation,Form } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../utils/input-validators";
 import InputField from "./InputField";
 import Container from '../../ui/SimpleContainer/container.jsx'
+
+import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
 const Login = (props) => {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
-  const data = useActionData();
-  console.log(data);
+
   function cancelHandler() {
     navigate('/');
   }
@@ -29,12 +30,15 @@ const Login = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const formIsValid = emailValue.trim() !== "" && passwordValue.trim() !== "";
 
- 
-
   return (
+    <>
+   
     <section className={styles.section}>
       <Container classes={styles.container}>
       <Form method="post" action="/auth">
+      {isSubmitting && <div className={styles.overlay}>
+        <LoadingIndicator/>
+      </div>}
         <h2>Login</h2>
         <InputField
           type="email"
@@ -70,6 +74,7 @@ const Login = (props) => {
       </Form>
       </Container>
     </section>
+    </>
   );
 };
 
