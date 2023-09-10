@@ -4,11 +4,13 @@ import { createNewArticle, queryClient } from "../utils/http";
 import { useNavigate } from "react-router-dom";
 
 import styles from "../components/Articles/NewArticle/ArticleForm.module.css";
-import LoadingIndicator from "../ui/LoadingIndicator/LoadingIndicator";
+import LoadingOverlay from "../ui/LoadingOverlay/LoadingOverlay";
 import ErrorContainer from "../ui/ErrorContainer/ErrorContainer";
+import { useState } from "react";
 
 const NewArticlePage = () => {
   const navigate = useNavigate();
+  const [openErrorModal,setOpenErrorModal] = useState(false);
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: createNewArticle,
     onSuccess: () => {
@@ -20,17 +22,18 @@ const NewArticlePage = () => {
   });
 
   function handleSubmit(article) {
-    //console.log(article);
+    setOpenErrorModal(true);
     mutate({ articleData: article });
   }
+  
   const tryAgainHandler = () => {
-    window.location.reload();
+    setOpenErrorModal(false)
   };
   console.log(isError);
   return (
     <div className={styles.container}>
-      {isPending && <LoadingIndicator />}
-      {isError && (
+      {isPending && <LoadingOverlay />}
+      {(isError && openErrorModal)  && (
         <ErrorContainer
           title="An error occured!"
           message={error.message}
