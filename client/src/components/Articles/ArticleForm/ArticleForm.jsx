@@ -74,7 +74,7 @@ const ArticleForm = (props) => {
         />
       </div>
       <div className={styles.inputWrapper}>
-        <label className={styles.label}>thumbnail for the article </label>
+        <label className={styles.label}>thumbnail </label>
         <input
           className={styles.input}
           type="text"

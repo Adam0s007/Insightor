@@ -1,9 +1,9 @@
-import ArticleForm from "../components/Articles/NewArticle/ArticleForm";
+import ArticleForm from "../components/Articles/ArticleForm/ArticleForm";
 import { useMutation } from "@tanstack/react-query";
 import { createNewArticle, queryClient } from "../utils/http";
 import { useNavigate } from "react-router-dom";
 
-import styles from "../components/Articles/NewArticle/ArticleForm.module.css";
+import styles from "../components/Articles/ArticleForm/ArticleForm.module.css";
 import LoadingOverlay from "../ui/LoadingOverlay/LoadingOverlay";
 import ErrorContainer from "../ui/ErrorContainer/ErrorContainer";
 import { useState } from "react";

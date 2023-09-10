@@ -1,80 +1,72 @@
-import ArticleForm from "../components/Articles/NewArticle/ArticleForm";
+import React, { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {  queryClient, fetchArticle,updateArticle} from "../utils/http";
-import {  useParams,useNavigate } from "react-router-dom";
-
-import styles from "../components/Articles/NewArticle/ArticleForm.module.css";
+import { queryClient, fetchArticle, updateArticle } from "../utils/http";
+import { useParams, useNavigate } from "react-router-dom";
+import ArticleForm from "../components/Articles/ArticleForm/ArticleForm";
 import LoadingOverlay from "../ui/LoadingOverlay/LoadingOverlay";
-import ErrorContainer from "../ui/ErrorContainer/ErrorContainer";
-import { useState } from "react";
+import MessageModal from "../ui/MessageModal/MessageModal";
+import styles from "../components/Articles/ArticleForm/ArticleForm.module.css";
 
 const EditArticlePage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState(null); // "success" or "error"
+  const [message, setMessage] = useState('');
+
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["article", params.articleId],
     queryFn: ({ signal }) => fetchArticle({ signal, id: params.articleId }),
   });
 
-  
   const { mutate } = useMutation({
     mutationFn: updateArticle,
     onMutate: async (data) => {
       const newArticle = data.article;
-    
-      await queryClient.cancelQueries({ queryKey: ["articles", params.articleId] }); 
-      
+      await queryClient.cancelQueries({ queryKey: ["articles", params.articleId] });
       const previousArticle = queryClient.getQueryData(["articles", params.articleId]);
       queryClient.setQueryData(["articles", params.articleId], newArticle);
       return { previousArticle };
     },
     onError: (error, data, context) => {
       queryClient.setQueryData(["articles", params.articleId], context.previousArticle);
+      setMessage("An error occurred! Try again later.");
+      setModalType("error");
+      setShowModal(true);
     },
     onSettled: () => {
-     
       queryClient.invalidateQueries(["articles", params.articleId]);
     },
+    onSuccess: () => {
+      setMessage('Article updated successfully!');
+      setModalType("success");
+      setShowModal(true);
+    }
   });
 
-
-  
   function handleSubmit(article) {
-    setOpenErrorModal(true);
-    mutate({ id: params.articleId, article }); //this object is going to onMutate too
-    navigate('../');
+    mutate({ id: params.articleId, article });
   }
 
-  const tryAgainHandler = () => {
-    setOpenErrorModal(false);
+  const closeModal = () => {
+    setShowModal(false);
+    if (modalType === "success") {
+      navigate(`/articles/${params.articleId}`);
+    }
   };
   
   let content = null;
   if (data) {
     content = <ArticleForm data={data} onSubmit={handleSubmit} type="edit" />;
-  }
-
-  if (isPending) {
+  } else if (isPending) {
     content = <LoadingOverlay />;
+  } else if (isError) {
+    content = `Error: ${error.message}`;
   }
-
-  if (isError && openErrorModal) {
-    content = (
-      <ErrorContainer
-          title="An error occured!"
-          message={error.message}
-          onTryAgain={tryAgainHandler}
-          navigateMessage="try again"
-        />
-    )
-  }
-
-
-
 
   return (
     <div className={styles.container}>
+      {showModal && <MessageModal type={modalType} message={message} onClose={closeModal} />}
       {content}
     </div>
   );
