@@ -29,7 +29,7 @@ const NewArticlePage = () => {
   const tryAgainHandler = () => {
     setOpenErrorModal(false)
   };
-  console.log(isError);
+  
   return (
     <div className={styles.container}>
       {isPending && <LoadingOverlay />}

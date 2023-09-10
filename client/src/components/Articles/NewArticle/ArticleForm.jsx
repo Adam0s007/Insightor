@@ -48,7 +48,7 @@ const ArticleForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.container}>
-      <h1 className={styles.heading}>New Article</h1>
+      <h1 className={styles.heading}>{props.type === 'new' ? 'Create an article!' : "Edit an article!"}</h1>
 
       <div className={styles.inputWrapper}>
         <label className={styles.label}>Title </label>

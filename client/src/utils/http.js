@@ -38,8 +38,31 @@ export async function fetchArticle({ signal, id }) {
 
 export async function createNewArticle({ articleData }) {
   console.log(JSON.stringify(articleData))
-  const response = await fetch(`${defaultUrl}/articlejs`, {
+  const response = await fetch(`${defaultUrl}/articles`, {
     method: "POST",
+    body: JSON.stringify(articleData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
+
+  const article = await response.json();
+
+  return article;
+}
+
+export async function updateArticle({ articleData, id }) {
+  
+
+  const response = await fetch(`${defaultUrl}/articles/${id}`, {
+    method: "PUT",
     body: JSON.stringify(articleData),
     headers: {
       "Content-Type": "application/json",

@@ -13,6 +13,7 @@ import Register from "./components/Auth/Register";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import AuthErrorPage from "./pages/AuthErrorPage";
 import ErrorPage from "./pages/ErrorPage";
+import EditArticlePage from './pages/EditArticlePage';
 import { queryClient, authAction } from "./utils/http.js";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { action as logoutAction } from "./pages/Logout";
