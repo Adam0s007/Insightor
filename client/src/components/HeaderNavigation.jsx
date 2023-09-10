@@ -6,7 +6,7 @@ import Logo from "../ui/Logo";
 import classes from "./HeaderNavigation.module.css";
 const HeaderNavigation = (props) => {
   const token = useRouteLoaderData("root");
-  console.log(token);
+ 
   return (
     <Fragment>
       <input
@@ -61,7 +61,7 @@ const HeaderNavigation = (props) => {
             {!token && (
               <li>
                 <NavLink
-                  to="/login"
+                  to="/auth/login"
                   className={({ isActive }) =>
                     (isActive = isActive
                       ? `${classes.link}  ${classes.active}`

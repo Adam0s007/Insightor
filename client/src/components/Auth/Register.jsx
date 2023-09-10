@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useInput from "../../hooks/use-input";
 import styles from "./Auth.module.css";
-import { Link } from "react-router-dom";
+import { Link,useNavigate,useNavigation,Form,useActionData } from "react-router-dom";
 import {
   validateEmail,
   validatePassword,
@@ -9,14 +9,23 @@ import {
 } from "../../utils/input-validators";
 
 import InputField from "./InputField";
-const Register = () => {
+const Register = (props) => {
+  const data = useActionData();
+  console.log(data);
+  const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
+
+  function cancelHandler() {
+    navigate('/');
+  }
+  
   const {
     value: emailValue,
     hasError: emailHasError,
     isValid: emailIsValid,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-    reset: resetEmail,
   } = useInput(validateEmail);
 
   const {
@@ -25,7 +34,6 @@ const Register = () => {
     isValid: passwordIsValid,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-    reset: resetPassword,
   } = useInput(validatePassword);
 
   const {
@@ -34,7 +42,6 @@ const Register = () => {
     isValid: confirmPasswordIsValid,
     valueChangeHandler: confirmPasswordChangeHandler,
     inputBlurHandler: confirmPasswordBlurHandler,
-    reset: resetConfirmPassword,
   } = useInput((value) => value === passwordValue); // Just a simple equality check
 
   const {
@@ -43,7 +50,6 @@ const Register = () => {
     isValid: nameIsValid,
     valueChangeHandler: nameChangeHandler,
     inputBlurHandler: nameBlurHandler,
-    reset: resetName,
   } = useInput(validateUsername);
 
   const {
@@ -52,7 +58,6 @@ const Register = () => {
     isValid: surnameIsValid,
     valueChangeHandler: surnameChangeHandler,
     inputBlurHandler: surnameBlurHandler,
-    reset: resetSurname,
   } = useInput(validateUsername);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -65,22 +70,13 @@ const Register = () => {
     nameIsValid &&
     surnameIsValid;
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-    if (!formIsValid) {
-      return;
-    }
-
-    console.log("Logged in:", emailValue, passwordValue);
-    resetEmail();
-    resetPassword();
-    resetConfirmPassword();
-  };
+   
 
   return (
     <section className={styles.section}>
-      <form onSubmit={submitHandler} className={styles.container}>
+      <Form method="post" action="/auth" className={styles.container} >
         <h2>Sign up!</h2>
+        
         <div className={styles.group}>
           <InputField
             type="text"
@@ -138,20 +134,21 @@ const Register = () => {
           setShowPassword={setShowConfirmPassword}
         />
         <div>
-          <button
+        <input type="hidden" name="authType" value="register" />
+          <button 
             type="submit"
-            disabled={!formIsValid}
+            disabled={!formIsValid || isSubmitting}
             className={styles.button}
           >
-            Sign up!
+          {isSubmitting ? 'Submitting...' : 'Sign up'}
           </button>
         </div>
         <div className={styles.linkWrapper}>
-          <Link to="login" className={styles.link}>
+          <Link to="/auth/login" className={styles.link} >
             Already have an account? Login
           </Link>
         </div>
-      </form>
+      </Form>
     </section>
   );
 };

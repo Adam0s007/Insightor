@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
-import { UserDTO, UserRO } from './user.dto';
+import { LoginUserDTO, UserDTO, UserRO } from './user.dto';
 import { UnverifiedUserEntity } from './unverified-user.entity';
 import { EmailService } from 'src/email/email.service';
 
@@ -37,7 +37,7 @@ export class UserService {
     return user.toResponseObject(true);
   }
 
-  async login(data: UserDTO): Promise<UserRO> {
+  async login(data: LoginUserDTO): Promise<UserRO> {
     const { email, password } = data;
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user || !(await user.comparePassword(password))) {

@@ -12,6 +12,7 @@ const InputField = (props) => (
           onChange={props.onChange}
           onBlur={props.onBlur}
           className={styles.input}
+          name={props.id}
         />
         {props.type === "password" && (
           <span

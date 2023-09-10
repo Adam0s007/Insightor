@@ -50,14 +50,13 @@ export class UserEntity {
   }
 
   private get token() {
-    const { id, name, surname, created, email } = this;
+    const { id, name, surname, email } = this;
     return jwt.sign(
       {
         id,
         name,
         surname,
-        email,
-        created,
+        email
       },
       process.env.SECRET,
       { expiresIn: '7d' },

@@ -23,8 +23,8 @@ const RootLayout = (props) => {
       return element;
     }
     if (
-      pathname === "/login" ||
-      pathname === "/register" 
+      pathname === "/auth/login" ||
+      pathname === "/auth/register" 
     ) {
       return element;
     }

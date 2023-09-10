@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import useInput from "../../hooks/use-input";
 import styles from "./Auth.module.css";
-import { Link } from "react-router-dom";
+import { Link,useNavigate,useNavigation,Form } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../utils/input-validators";
 
 import InputField from "./InputField";
 
-const Login = () => {
+const Login = (props) => {
+
+  const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
+
+  function cancelHandler() {
+    navigate('/');
+  }
   const {
     value: emailValue,
     valueChangeHandler: emailChangeHandler,
@@ -20,22 +28,13 @@ const Login = () => {
   } = useInput(validatePassword);
 
   const [showPassword, setShowPassword] = useState(false);
-  const formIsValid = emailValue.trim() !== '' && passwordValue.trim() !== '';
+  const formIsValid = emailValue.trim() !== "" && passwordValue.trim() !== "";
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-    if (!formIsValid) {
-      return;
-    }
-    console.log("Logged in:", emailValue, passwordValue);
-    resetEmail();
-    resetPassword();
-    resetConfirmPassword();
-  };
+ 
 
   return (
     <section className={styles.section}>
-      <form onSubmit={submitHandler} className={styles.container}>
+      <Form method="post" action="/auth" className={styles.container}>
         <h2>Login</h2>
         <InputField
           type="email"
@@ -54,20 +53,21 @@ const Login = () => {
           setShowPassword={setShowPassword}
         />
         <div>
+          <input type="hidden" name="authType" value="login" />
           <button
             type="submit"
-            disabled={!formIsValid}
+            disabled={!formIsValid || isSubmitting}
             className={styles.button}
           >
-            Login
+            {isSubmitting ? 'Submitting...' : 'Login'}
           </button>
         </div>
         <div className={styles.linkWrapper}>
-          <Link to="/register" className={styles.link}>
-            Register
+          <Link to="/auth/register" className={styles.link}>
+            Don't have an account? Sign up!
           </Link>
         </div>
-      </form>
+      </Form>
     </section>
   );
 };

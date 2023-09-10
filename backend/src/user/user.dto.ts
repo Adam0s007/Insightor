@@ -26,6 +26,19 @@ export class UserDTO {
   email: string;
 }
 
+export class LoginUserDTO {
+  @IsNotEmpty()
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/, {
+    message:
+      'The password must contain at least one uppercase letter, one lowercase letter, and one special character.',
+  })
+  password: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+}
+
 export class UserRO {
   id: string;
   name: string;

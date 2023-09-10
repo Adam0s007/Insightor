@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ValidationPipe } from '../shared/validation.pipe';
 import { UserService } from './user.service';
-import { UserDTO } from './user.dto';
+import { LoginUserDTO, UserDTO } from './user.dto';
 import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from './user.decorator';
 
@@ -29,7 +29,7 @@ export class UserController {
 
   @Post('login')
   @UsePipes(new ValidationPipe())
-  login(@Body() data: UserDTO) {
+  login(@Body() data: LoginUserDTO) {
     return this.userService.login(data);
   }
   @Post('register')
