@@ -1,29 +1,20 @@
 .successModal,
 .errorModal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    width:100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
     font-weight:bold;
     font-size:17px;
+    z-index: 15;
 }
-
-.successModal,.errorModal {
-    background-color: rgba(0, 0, 0, 0.085);
-}
-
 
 
 .modalContent {
     padding: 20px;
-    border-radius: 8px;
-    width: 80%;
     
+    width: 100vw;
     position: relative;
     text-align: center;
     
@@ -32,14 +23,14 @@
 
 .successModal .modalContent {
     color:#007d04;
-    border: 2px solid #005703;
+    box-shadow: 1px 1px 15px 1px #007d04;
     background-color: rgba(146, 246, 146, 0.921);
 }
 
 .errorModal .modalContent {
     color: #650000;
-    border: 2px solid #650000;
-    background-color: rgba(255, 119, 119, 0.932);
+    box-shadow: 1px 1px 15px 1px #650000;
+    background-color: rgba(255, 119, 119, 0.934);
 }
 
 

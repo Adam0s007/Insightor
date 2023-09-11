@@ -38,9 +38,12 @@ const EditArticlePage = () => {
       queryClient.invalidateQueries(["articles", params.articleId]);
     },
     onSuccess: () => {
-      setMessage('Article updated successfully!');
-      setModalType("success");
-      setShowModal(true);
+      // setMessage('Article updated successfully!');
+      // setModalType("success");
+      // setShowModal(true);
+      navigate('..',{
+        state: { message: 'Article updated successfully!', type: 'success' }
+      });
     }
   });
 
@@ -50,9 +53,6 @@ const EditArticlePage = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    if (modalType === "success") {
-      navigate(`/articles/${params.articleId}`);
-    }
   };
   
   let content = null;
@@ -66,7 +66,7 @@ const EditArticlePage = () => {
 
   return (
     <div className={styles.container}>
-      {showModal && <MessageModal type={modalType} message={message} onClose={closeModal} />}
+       {showModal && <MessageModal type={modalType} message={message} onClose={closeModal} />}
       {content}
     </div>
   );

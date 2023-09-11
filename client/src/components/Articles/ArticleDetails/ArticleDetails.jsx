@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState ,useEffect} from "react";
+import { useParams,useLocation } from "react-router-dom";
 import styles from "./ArticleDetails.module.css";
 import "./Animations.css";
 import Reviews from "./Reviews";
@@ -8,6 +8,7 @@ import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticle } from "../../../utils/http";
 
+
 import {
   calculateReadingTime,
   formatReadingTime,
@@ -15,6 +16,7 @@ import {
 import { formatShortMonthDate } from "../../../utils/date-conventer";
 import LoadingIndicator from "../../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer";
+import MessageModal from "../../../ui/MessageModal/MessageModal";
 import Exit from "../../../ui/Exit/Exit";
 const animationTiming = {
   enter: 800,
@@ -23,6 +25,20 @@ const animationTiming = {
 
 const ArticleDetails = () => {
   const params = useParams();
+  const location = useLocation();
+  const [showModal, setShowModal] = useState(false);
+  // Pobierz dane przekazane przez navigate
+  const modalMessage = location.state?.message;
+  const type = location.state?.type;
+  useEffect(() => {
+    if(modalMessage && type) {
+      setShowModal(true);
+    }
+  }, [modalMessage, type]);
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["article", params.articleId],
@@ -147,6 +163,7 @@ const ArticleDetails = () => {
 
   return (
     <section key={"details-" + params.postId} className={styles.container}>
+      {showModal && <MessageModal type={type} message={modalMessage} onClose={closeModal} />}
       {mainContent}
     </section>
   );
