@@ -4,5 +4,5 @@ export function action(){
     console.log("hello")
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
-    return redirect('/');
+    return redirect(`/?status=loggedout`)
 }

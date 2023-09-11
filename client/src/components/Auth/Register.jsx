@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import useInput from "../../hooks/use-input";
 import styles from "./Auth.module.css";
-import { Link,useNavigate,useNavigation,Form,useActionData } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useNavigation,
+  Form,
+  useActionData,
+} from "react-router-dom";
 import {
   validateEmail,
   validatePassword,
@@ -9,20 +15,21 @@ import {
 } from "../../utils/input-validators";
 
 import InputField from "./InputField";
-import Container from '../../ui/SimpleContainer/container';
+import Container from "../../ui/SimpleContainer/container";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
+import Logo from '../../ui/Logo'
 
 const Register = (props) => {
   const data = useActionData();
   console.log(data);
   const navigate = useNavigate();
   const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
+  const isSubmitting = navigation.state === "submitting";
 
   function cancelHandler() {
-    navigate('/');
+    navigate("/");
   }
-  
+
   const {
     value: emailValue,
     hasError: emailHasError,
@@ -73,87 +80,86 @@ const Register = (props) => {
     nameIsValid &&
     surnameIsValid;
 
-   
-
   return (
     <section className={styles.section}>
       <Container classes={styles.container}>
-      <Form method="post" action="/auth">
-      {isSubmitting && <LoadingOverlay/>}
-        <h2>Sign up!</h2>
-        
-        <div className={styles.group}>
+        <Form method="post" action="/auth">
+          {isSubmitting && <LoadingOverlay />}
+          <Logo />
+          <h2>Sign up!</h2>
+
+          <div className={styles.group}>
+            <InputField
+              type="text"
+              id="name"
+              value={nameValue}
+              onChange={nameChangeHandler}
+              onBlur={nameBlurHandler}
+              placeholder="Name"
+              hasError={nameHasError}
+              errorMessage="Your name must be at least 3 characters long and at most 30 characters long."
+            />
+            <InputField
+              type="text"
+              id="surname"
+              value={surnameValue}
+              onChange={surnameChangeHandler}
+              onBlur={surnameBlurHandler}
+              placeholder="Surname"
+              hasError={surnameHasError}
+              errorMessage="Your surname must be at least 3 characters long and at most 30 characters long."
+            />
+          </div>
           <InputField
-            type="text"
-            id="name"
-            value={nameValue}
-            onChange={nameChangeHandler}
-            onBlur={nameBlurHandler}
-            placeholder="Name"
-            hasError={nameHasError}
-            errorMessage="Your name must be at least 3 characters long and at most 30 characters long."
+            type="email"
+            id="email"
+            value={emailValue}
+            onChange={emailChangeHandler}
+            onBlur={emailBlurHandler}
+            placeholder="email"
+            hasError={emailHasError}
+            errorMessage="Please enter a valid email."
           />
           <InputField
-            type="text"
-            id="surname"
-            value={surnameValue}
-            onChange={surnameChangeHandler}
-            onBlur={surnameBlurHandler}
-            placeholder="Surname"
-            hasError={surnameHasError}
-            errorMessage="Your surname must be at least 3 characters long and at most 30 characters long."
+            type="password"
+            id="password"
+            value={passwordValue}
+            onChange={passwordChangeHandler}
+            onBlur={passwordBlurHandler}
+            placeholder="password"
+            hasError={passwordHasError}
+            errorMessage="The password must contain at least one uppercase and one lowercase letter, as well as a special character."
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
           />
-        </div>
-        <InputField
-          type="email"
-          id="email"
-          value={emailValue}
-          onChange={emailChangeHandler}
-          onBlur={emailBlurHandler}
-          placeholder="email"
-          hasError={emailHasError}
-          errorMessage="Please enter a valid email."
-        />
-        <InputField
-          type="password"
-          id="password"
-          value={passwordValue}
-          onChange={passwordChangeHandler}
-          onBlur={passwordBlurHandler}
-          placeholder="password"
-          hasError={passwordHasError}
-          errorMessage="The password must contain at least one uppercase and one lowercase letter, as well as a special character."
-          showPassword={showPassword}
-          setShowPassword={setShowPassword}
-        />
-        <InputField
-          type="password"
-          id="confirm-password"
-          value={confirmPasswordValue}
-          onChange={confirmPasswordChangeHandler}
-          onBlur={confirmPasswordBlurHandler}
-          placeholder="confirm password"
-          hasError={confirmPasswordHasError}
-          errorMessage="The password must contain at least one uppercase and one lowercase letter, as well as a special character."
-          showPassword={showConfirmPassword}
-          setShowPassword={setShowConfirmPassword}
-        />
-        <div>
-        <input type="hidden" name="authType" value="register" />
-          <button 
-            type="submit"
-            disabled={!formIsValid || isSubmitting}
-            className={styles.button}
-          >
-          {isSubmitting ? 'Submitting...' : 'Sign up'}
-          </button>
-        </div>
-        <div className={styles.linkWrapper}>
-          <Link to="/auth/login" className={styles.link} >
-            Already have an account? Login
-          </Link>
-        </div>
-      </Form>
+          <InputField
+            type="password"
+            id="confirm-password"
+            value={confirmPasswordValue}
+            onChange={confirmPasswordChangeHandler}
+            onBlur={confirmPasswordBlurHandler}
+            placeholder="confirm password"
+            hasError={confirmPasswordHasError}
+            errorMessage="The password must contain at least one uppercase and one lowercase letter, as well as a special character."
+            showPassword={showConfirmPassword}
+            setShowPassword={setShowConfirmPassword}
+          />
+          <div>
+            <input type="hidden" name="authType" value="register" />
+            <button
+              type="submit"
+              disabled={!formIsValid || isSubmitting}
+              className={styles.button}
+            >
+              {isSubmitting ? "Submitting..." : "Sign up"}
+            </button>
+          </div>
+          <div className={styles.linkWrapper}>
+            <Link to="/auth/login" className={styles.link}>
+              Already have an account? Login
+            </Link>
+          </div>
+        </Form>
       </Container>
     </section>
   );

@@ -5,7 +5,7 @@ import { Link,useNavigate,useNavigation,Form } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../utils/input-validators";
 import InputField from "./InputField";
 import Container from '../../ui/SimpleContainer/container.jsx'
-
+import Logo from '../../ui/Logo'
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 const Login = (props) => {
   const navigate = useNavigate();
@@ -37,6 +37,7 @@ const Login = (props) => {
       <Container classes={styles.container}>
       <Form method="post" action="/auth">
       {isSubmitting && <LoadingOverlay/>}
+      <Logo/>
         <h2>Login</h2>
         <InputField
           type="email"
