@@ -12,26 +12,12 @@ import backgroundImage from "../assets/images/blog-background.jpg";
 import { getTokenDuration } from "../utils/auth";
 import MessageModal from "../ui/MessageModal/MessageModal";
 
+import {useStatusModal} from '../hooks/use-status-modal'
+
 const RootLayout = (props) => {
-  const location = useLocation();
-  const [showModal, setShowModal] = useState(false);
-
-  const params = new URLSearchParams(location.search);
-  const searchParams = {};
-  params.forEach((value, key) => {
-    searchParams[key] = value;
-  });
-
-  const status = searchParams.status;
-
-  let modalMessage, type;
-
-  if (status) {
-    modalMessage = `You have successfully ${
-      status === "logged-in" ? "logged in" : "signed up"
-    }`;
-    type = "success";
-  }
+  const { modalMessage, type,location } = useStatusModal();
+  const [showModal, setShowModal] = useState(Boolean(modalMessage));
+ 
 
   useEffect(() => {
     if (modalMessage && type) {
