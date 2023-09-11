@@ -6,6 +6,7 @@ import { LoginUserDTO, UserDTO, UserRO } from './user.dto';
 import { UnverifiedUserEntity } from './unverified-user.entity';
 import { EmailService } from 'src/email/email.service';
 
+
 @Injectable()
 export class UserService {
   constructor(
@@ -13,7 +14,7 @@ export class UserService {
     private userRepository: Repository<UserEntity>,
     @InjectRepository(UnverifiedUserEntity)
     private unverifiedUserRepository: Repository<UnverifiedUserEntity>,
-    private emailService: EmailService,
+    private emailService: EmailService
   ) {}
 
   async generateVerificationCode(): Promise<string> {
@@ -94,13 +95,19 @@ export class UserService {
   async deleteUser(userId: string): Promise<UserRO> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
+      relations: ['articles','articles.reviews','articles.content'],
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
+    //before deleting user we need to delete all his articles , each article has reviews and content so we need to delete them too  
+    
     await this.userRepository.delete(userId);
     return user.toResponseObject(true);
   }
+
+
+
   showAllUnverifiedUsers() {
     return this.unverifiedUserRepository.find();
   }

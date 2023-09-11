@@ -18,17 +18,6 @@ export class ReviewService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  toResponseObject(review: ReviewEntity) {
-    const responseObject: any = review;
-    if (review.user) {
-      responseObject.user = review.user.toResponseObject();
-    }
-    if (review.article) {
-      responseObject.article = review.article.toResponseObject();
-    }
-    return responseObject;
-  }
-
   private ensureOwnership(review: ReviewEntity, userId: string) {
     if (review.user.id !== userId) {
       throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
@@ -61,7 +50,7 @@ export class ReviewService {
       where: { id },
       relations: ['user', 'article'],
     });
-    return this.toResponseObject(review);
+    return review.toResponseObject();
   }
 
   async showByArticle(id: string) {
@@ -69,7 +58,7 @@ export class ReviewService {
       where: { id },
       relations: ['reviews', 'reviews.user', 'reviews.article'],
     });
-    return article.reviews.map((review) => this.toResponseObject(review));
+    return article.reviews.map((review) => review.toResponseObject());
   }
 
   async showByUser(id: string) {
@@ -77,14 +66,14 @@ export class ReviewService {
       where: { user: { id } },
       relations: ['user'],
     });
-    return reviews.map((review) => this.toResponseObject(review));
+    return reviews.map((review) => review.toResponseObject());
   }
 
   async showAll() {
     const reviews = await this.reviewRepository.find({
       relations: ['user', 'article'],
     });
-    return reviews.map((review) => this.toResponseObject(review));
+    return reviews.map((review) => review.toResponseObject(true));
   }
 
   async create(articleId: string, userId: string, data: ReviewDTO) {
@@ -92,37 +81,47 @@ export class ReviewService {
       where: { id: articleId },
       relations: ['user'],
     });
+
     this.ensureNotOwner(article, userId);
     await this.ensureUniqueReview(articleId, userId);
     const user = await this.userRepository.findOne({
       where: { id: userId },
     });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
     const review = await this.reviewRepository.create({
       ...data,
       article,
       user,
     });
     await this.reviewRepository.save(review);
-    return this.toResponseObject(review);
+    return review.toResponseObject();
   }
 
-  async update(id: string, userId: string, data: Partial<ReviewDTO>) {
+  async update(articleId: string, userId: string, data: Partial<ReviewDTO>) {
     const review = await this.reviewRepository.findOne({
-      where: { id },
+      where: { article: { id: articleId }, user: { id: userId } },
       relations: ['user', 'article'],
     });
+    if (!review) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
     this.ensureOwnership(review, userId);
-    await this.reviewRepository.update({ id }, data);
-    return this.toResponseObject(review);
+    await this.reviewRepository.update({ id: review.id }, data);
+    return review.toResponseObject();
   }
 
-  async destroy(id: string, userId: string) {
+  async destroy(articleId: string, userId: string) {
     const review = await this.reviewRepository.findOne({
-      where: { id },
+      where: { article: { id: articleId }, user: { id: userId } },
       relations: ['user', 'article'],
     });
+    if (!review) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
     this.ensureOwnership(review, userId);
     await this.reviewRepository.remove(review);
-    return this.toResponseObject(review);
+    return review.toResponseObject();
   }
 }

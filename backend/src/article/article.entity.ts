@@ -40,19 +40,23 @@ export class ArticleEntity {
   @OneToMany(type => ReviewEntity, review => review.article, {cascade: true})
   reviews: ReviewEntity[];
   //it can show only the user's name and surname, for more parameters to show we need argument with boolean values
-  toResponseObject(showFull = true) {
-    const { id, date, title, description, rating, reviews } = this;
+  toResponseObject(showFull = false) {
+    const { id, date, title, description, rating } = this;
     const responseObject: any = {
       id,
       date,
       title,
       description,
       rating,
-      reviews,
+      
     };
     if (showFull) {
-      responseObject.user = this.user.toResponseObject();
-      responseObject.content = this.content;
+      if(this.user)
+        responseObject.user = this.user.toResponseObject();
+      if(this.content)
+        responseObject.content = this.content.map(content => content.toResponseObject());
+      if(this.reviews)
+        responseObject.reviews = this.reviews.map(review => review.toResponseObject());
     }
     return responseObject;
   }

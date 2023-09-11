@@ -61,7 +61,7 @@ export class ReviewController {
     return this.reviewService.show(id);
   }
 
-  @Delete(':id')
+  @Delete('article/:id')
   @UseGuards(new AuthGuard())
   destroyReview(@Param('id') id: string, @User('id') user: string) {
     return this.reviewService.destroy(id, user);

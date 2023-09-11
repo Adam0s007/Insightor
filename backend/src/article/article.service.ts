@@ -17,21 +17,13 @@ export class ArticleService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  toResponseObject(article: ArticleEntity) {
-    const responseObject: any = { ...article };
-    if (responseObject.user) {
-      responseObject.user = responseObject.user.toResponseObject();
-    }
-    return responseObject;
-  }
+  
 
   private ensureOwnership(article: ArticleEntity, userId: string) {
     if (article.user.id !== userId) {
       throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
     }
   }
-
-  
 
   async create(userId: string, articleDto: ArticleDTO) {
     if (articleDto.content.length === 0) {
@@ -46,7 +38,7 @@ export class ArticleService {
       user,
     });
     await this.articleRepository.save(article);
-    return this.toResponseObject(article);
+    return article.toResponseObject();
   }
 
   async findAll(max = undefined): Promise<ArticleEntity[]> {
@@ -57,29 +49,30 @@ export class ArticleService {
     let articles;
     if (max === undefined) {
       articles = await this.articleRepository.find({
-        relations: ['content', 'user'],
+        relations: ['content', 'user', 'reviews'],
       });
     } else {
       articles = await this.articleRepository.find({
-        relations: ['content', 'user'],
+        relations: ['content', 'user', 'reviews'],
         take: max,
         order: {
           date: 'DESC', // Order by date in descending order
         },
       });
     }
-    return articles.map((article) => this.toResponseObject(article));
+    return articles.map((article) => article.toResponseObject());
   }
 
-  async findOne(id: string): Promise<ArticleEntity> {
+  async findOne(id: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content', 'user'],
+      relations: ['content', 'user','reviews'],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    return this.toResponseObject(article);
+    //console.log(article);
+    return article.toResponseObject(true);
   }
 
   async update(
@@ -105,7 +98,7 @@ export class ArticleService {
     Object.assign(article, newArticleData);
     await this.articleRepository.save(article);
 
-    return this.toResponseObject(article);
+    return article.toResponseObject();
   }
 
   async remove(id: string, userId: string) {
@@ -124,6 +117,6 @@ export class ArticleService {
     }
     await this.articleRepository.delete({ id });
 
-    return this.toResponseObject(article);
+    return article.toResponseObject();
   }
 }

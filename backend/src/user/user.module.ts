@@ -9,6 +9,7 @@ import { EmailService } from 'src/email/email.service';
 
 
 
+
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity,UnverifiedUserEntity])],
   controllers: [UserController],
