@@ -17,26 +17,7 @@
   width: 100vw;
   position:relative;
 }
-.returnPage{
-  display:flex;
-  justify-content:flex-start;
-  width:100%;
-  padding: 0 0.2em;
-  font-size: 1.6em;
-  z-index:15;
-  
-}
 
-.returnPage .returnNav{
-  border: 2px solid var(--color);
-  padding: 0.2em 0.5em;
-  background-color:transparent;
-  display:flex;
-  color:var(--color);
-  align-items:center;
-  border-radius: 5px;
-  justify-content:center;
-}
 
 .postInfo {
   display: flex;

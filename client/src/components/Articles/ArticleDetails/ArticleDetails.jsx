@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styles from "./ArticleDetails.module.css";
 import "./Animations.css";
 import Reviews from "./Reviews";
 import ModalWithMenu from "./ModalWithMenu";
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticle } from "../../../utils/http";
 
@@ -16,6 +15,7 @@ import {
 import { formatShortMonthDate } from "../../../utils/date-conventer";
 import LoadingIndicator from "../../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer";
+import Exit from "../../../ui/Exit/Exit";
 const animationTiming = {
   enter: 800,
   exit: 1000,
@@ -75,12 +75,9 @@ const ArticleDetails = () => {
           content={newContent}
           menuClickHandler={menuClickHandler}
         />
-        <div className={styles.returnPage}>
-          <Link to='..'  className={styles.returnNav}>  
-             <AiOutlineArrowLeft  />
-          </Link>
-         
-        </div>
+        
+        
+        <Exit path=".."/>
         <div className={styles.postInfo}>
           <span>
             <FaUser className={styles.icon} /> {personName}

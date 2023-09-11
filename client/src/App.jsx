@@ -57,7 +57,7 @@ function App() {
                   path: "edit",
                   element: <EditArticlePage />,
                   id: "edit-article",
-                  //loader: checkAuthLoader,
+                  loader: checkAuthLoader,
                 },
               ],
             },

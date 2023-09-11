@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import { IoMdReturnLeft } from 'react-icons/io';
 import styles from './ModalWithMenu.module.css';
-
+import Exit from '../../../ui/Exit/Exit'
 const animationTiming = {
   enter: 1000,
   exit: 2000,
@@ -31,7 +31,8 @@ const ModalWithMenu = ({ isModalVisible, closeModal, content, menuClickHandler }
         }}
       >
         <div className={styles.newContent}>
-          <button type="button" className={styles.closeButton} onClick={closeModal}><IoMdReturnLeft /></button>
+          {/* <button type="button" className={styles.closeButton} onClick={closeModal}><IoMdReturnLeft /></button> */}
+          <Exit onClick={closeModal} />
           {content}
         </div>
       </CSSTransition>

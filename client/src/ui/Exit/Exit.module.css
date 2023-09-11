@@ -1,0 +1,19 @@
+.returnPage{
+  display:flex;
+  justify-content:flex-start;
+  width:100%;
+  padding: 0 0.2em;
+  font-size: 1.6em;
+  z-index:3;
+  
+}
+
+.returnPage .returnNav{
+  padding: 0.2em;
+  background-color:transparent;
+  display:flex;
+  color:var(--color);
+  align-items:center;
+  border-radius: 5px;
+  justify-content:center;
+}
