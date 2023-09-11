@@ -5,6 +5,7 @@ import { ArticleEntity } from './article.entity';
 import { ContentEntity } from '../content/content.entity';
 import { ArticleDTO } from './article.dto';
 import { ContentService } from 'src/content/content.service';
+import { UserEntity } from 'src/user/user.entity';
 
 @Injectable()
 export class ArticleService {
@@ -14,77 +15,92 @@ export class ArticleService {
     @InjectRepository(ContentEntity)
     private readonly contentRepository: Repository<ContentEntity>,
     private readonly contentService: ContentService,
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
   ) {}
 
   toResponseObject(article: ArticleEntity) {
     const responseObject: any = { ...article };
-    if (responseObject.content) {
-      responseObject.content = responseObject.content.map(content => ({
-        ...content,
-      }));
+    if (responseObject.user) {
+      responseObject.user = {
+        name: responseObject.user.name,
+        surname: responseObject.user.surname,
+      };
     }
     return responseObject;
   }
 
-  async create(articleDto: ArticleDTO) {
-    if(articleDto.content.length === 0) {
-      throw new HttpException('Content should not be empty!', HttpStatus.BAD_REQUEST);
+  private ensureOwnership(article: ArticleEntity, userId: string) {
+    if (article.user.id !== userId) {
+      throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
     }
-    let article = new ArticleEntity();
-    
-    Object.assign(article, articleDto); // or you can use some library like class-transformer to convert DTO to entity
-    const savedArticle = await this.articleRepository.save(article);
-
-    for (let contentData of articleDto.content) {
-      await this.contentService.createContentByArticle(savedArticle.id, contentData);
-    }
-    
-
-    return savedArticle;
   }
 
-  async findAll(max=undefined): Promise<ArticleEntity[]> {
-    if(max === undefined){
-      return await this.articleRepository.find({
-        relations: ['content'],
-      });
+  async create(userId: string, articleDto: ArticleDTO) {
+    if (articleDto.content.length === 0) {
+      throw new HttpException(
+        'Content should not be empty!',
+        HttpStatus.BAD_REQUEST,
+      );
     }
-    if(max < 1 || isNaN(max)){
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const article = await this.articleRepository.create({
+      ...articleDto,
+      user,
+    });
+    await this.articleRepository.save(article);
+    return this.toResponseObject(article);
+  }
+
+  async findAll(max = undefined): Promise<ArticleEntity[]> {
+    if (max && (max < 1 || isNaN(max))) {
       throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
     }
-    else{
-      return await this.articleRepository.find({
-        relations: ['content'],
-        take: max,  
+
+    let articles;
+    if (max === undefined) {
+      articles = await this.articleRepository.find({
+        relations: ['content', 'user'],
+      });
+    } else {
+      articles = await this.articleRepository.find({
+        relations: ['content', 'user'],
+        take: max,
         order: {
-          date: 'DESC',  // Order by date in descending order
+          date: 'DESC', // Order by date in descending order
         },
       });
     }
-    
+    return articles.map((article) => this.toResponseObject(article));
   }
 
   async findOne(id: string): Promise<ArticleEntity> {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content'],
+      relations: ['content', 'user'],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    return article;
+    return this.toResponseObject(article);
   }
 
-  async update(id: string, newArticleData: Partial<ArticleDTO>): Promise<ArticleEntity> {
+  async update(
+    id: string,
+    userId: string,
+    newArticleData: Partial<ArticleDTO>,
+  ): Promise<ArticleEntity> {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content'],
+      relations: ['content', 'user'],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    if(newArticleData.content && newArticleData.content.length > 0) {
-      while(article.content.length > 0) {
+    this.ensureOwnership(article, userId);
+
+    if (newArticleData.content && newArticleData.content.length > 0) {
+      while (article.content.length > 0) {
         await this.contentRepository.remove(article.content.pop());
       }
     }
@@ -92,30 +108,25 @@ export class ArticleService {
     Object.assign(article, newArticleData);
     await this.articleRepository.save(article);
 
-
-    return article;
+    return this.toResponseObject(article);
   }
 
-  async remove(id: string): Promise<ArticleEntity[]> {
+  async remove(id: string, userId: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content'],
+      relations: ['content', 'user'],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
+    this.ensureOwnership(article, userId);
     console.log(article.content);
 
     while (article.content.length > 0) {
-      console.log("tu sie wykonuję!")
       await this.contentRepository.remove(article.content.pop());
     }
     await this.articleRepository.delete({ id });
-    
-    const articles:ArticleEntity[] = await this.articleRepository.find({
-      relations: ['content'],
-    });
 
-    return articles;
+    return this.toResponseObject(article);
   }
 }

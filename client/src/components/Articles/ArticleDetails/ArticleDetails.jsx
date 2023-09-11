@@ -76,7 +76,7 @@ const ArticleDetails = () => {
   }
   if (data) {
     console.log(data);
-    const personName = data?.personName ?? "Unknown Person";
+    const personName = (data?.user?.name + " " +data?.user?.surname) ?? "Unknown Person";
     const title = data?.title ?? "Unknown Title";
     const img = data?.img ?? "";
     const description = data?.description ?? "";

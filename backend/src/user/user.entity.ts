@@ -13,6 +13,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { UserRO } from './user.dto';
 import { ArticleEntity } from 'src/article/article.entity';
+import { Exclude } from 'class-transformer';
 //without 'user' this table will be named 'user_entity
 @Entity('user')
 export class UserEntity {
@@ -25,7 +26,8 @@ export class UserEntity {
   name: string;
   @Column('text')
   surname: string;
-
+  
+  @Exclude()
   @Column('text')
   password: string;
 
@@ -35,15 +37,22 @@ export class UserEntity {
   })
   email: string;
 
+
+  @OneToMany(type => ArticleEntity, article => article.user)
+  articles: ArticleEntity[];
+
   toResponseObject(showToken: boolean = false): UserRO {
-    const { id, created, name, surname, email, token } = this;
+    const { id, created, name, surname, email, token,articles } = this;
     const responseObject: UserRO = { id, created, email, name, surname };
     if (showToken) {
       responseObject.token = token;
     }
-
+    if (articles) {
+      responseObject.articles = articles;
+    }
     return responseObject;
-  }
+  
+}
 
   async comparePassword(attempt: string) {
     return await bcrypt.compare(attempt, this.password);

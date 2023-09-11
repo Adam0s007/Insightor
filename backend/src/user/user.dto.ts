@@ -48,4 +48,5 @@ export class UserRO {
   ideas?: ArticleEntity[];
   token?: string;
   bookmarks?: ArticleEntity[];
+  articles?: ArticleEntity[];
 }

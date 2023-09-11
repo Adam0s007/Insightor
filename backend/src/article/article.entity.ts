@@ -1,10 +1,12 @@
 import { ContentEntity } from 'src/content/content.entity';
+import { UserEntity } from 'src/user/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
   CreateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity('article')
@@ -22,10 +24,10 @@ export class ArticleEntity {
   description: string;
 
   @Column()
-  personName: string;
-
-  @Column()
   img: string;
+
+  @ManyToOne(type => UserEntity, user => user.articles)
+  user: UserEntity;
 
   @OneToMany((type) => ContentEntity, (content) => content.article,{
       cascade: true

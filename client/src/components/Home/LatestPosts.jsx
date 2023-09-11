@@ -37,7 +37,7 @@ const LatestPosts = () => {
               title={post.title}
               description={post.description}
               date={post.date}
-              personName={post.personName}
+              personName={`${post.user?.name} ${post.user?.surname}`}
               img={post.img}
               rating={post.rating}
             />

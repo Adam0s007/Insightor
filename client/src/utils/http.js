@@ -18,7 +18,7 @@ export const fetchArticles = async ({ signal, max }) => {
   }
 
   const articles = await response.json();
-
+  console.log(articles);
   return articles;
 };
 

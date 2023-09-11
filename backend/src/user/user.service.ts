@@ -17,12 +17,11 @@ export class UserService {
   ) {}
 
   async generateVerificationCode(): Promise<string> {
-    // For simplicity, let's generate a random 6-digit code. You can replace this with a more secure implementation.
     return Math.floor(100007 + Math.random() * 900000).toString();
   }
   async showAll(): Promise<UserRO[]> {
     const users = await this.userRepository.find({
-      // relations: ['ideas', 'bookmarks'],
+      relations: ['articles','articles.content'],
     });
     return users.map((user) => user.toResponseObject(true));
   }
@@ -30,6 +29,7 @@ export class UserService {
   async showUser(userId: string): Promise<UserRO> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
+      relations: ['articles','articles.content'],
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);

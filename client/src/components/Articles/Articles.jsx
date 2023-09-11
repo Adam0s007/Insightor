@@ -11,7 +11,7 @@ const Articles = () => {
   
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["articles"],
-    queryFn: fetchArticles,
+    queryFn:({signal}) => fetchArticles({signal}),
     staleTime: 4000,
   });
 
@@ -34,7 +34,7 @@ const Articles = () => {
                     title={post.title}
                     description={post.description}
                     date={post.date}
-                    personName={post.personName}
+                    personName={`${post.user?.name} ${post.user?.surname}`}
                     img={post.img}
                     rating={post.rating}
                 />
