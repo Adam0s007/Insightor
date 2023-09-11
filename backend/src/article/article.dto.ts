@@ -16,9 +16,6 @@ export class ArticleDTO {
     @IsNotEmpty()
     personName: string;
 
-    @IsString()
-    @IsNotEmpty()
-    img: string;
     
     @IsNumber()
     @Min(0)

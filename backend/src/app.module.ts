@@ -12,6 +12,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { EmailModule } from './email/email.module';
 import {MailerModule} from '@nestjs-modules/mailer';
+import { ReviewModule } from './review/review.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -31,6 +32,7 @@ import {MailerModule} from '@nestjs-modules/mailer';
     ContentModule,
     UserModule,
     EmailModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [

@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { ContentEntity } from '../content/content.entity';
 import { ArticleDTO } from './article.dto';
-import { ContentService } from 'src/content/content.service';
 import { UserEntity } from 'src/user/user.entity';
 
 @Injectable()
@@ -14,7 +13,6 @@ export class ArticleService {
     private readonly articleRepository: Repository<ArticleEntity>,
     @InjectRepository(ContentEntity)
     private readonly contentRepository: Repository<ContentEntity>,
-    private readonly contentService: ContentService,
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
   ) {}
@@ -22,10 +20,7 @@ export class ArticleService {
   toResponseObject(article: ArticleEntity) {
     const responseObject: any = { ...article };
     if (responseObject.user) {
-      responseObject.user = {
-        name: responseObject.user.name,
-        surname: responseObject.user.surname,
-      };
+      responseObject.user = responseObject.user.toResponseObject();
     }
     return responseObject;
   }
@@ -35,6 +30,8 @@ export class ArticleService {
       throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
     }
   }
+
+  
 
   async create(userId: string, articleDto: ArticleDTO) {
     if (articleDto.content.length === 0) {
