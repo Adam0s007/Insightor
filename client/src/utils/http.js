@@ -24,7 +24,13 @@ export const fetchArticles = async ({ signal, max }) => {
 };
 
 export async function fetchArticle({ signal, id }) {
-  const response = await fetch(`${defaultUrl}/articles/${id}`);
+  const response = await fetch(`${defaultUrl}/articles/${id}`,{
+    signal,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization":"Bearer " + getAuthToken()
+    }
+  });
 
   if (!response.ok) {
     const err = await response.json();
@@ -160,7 +166,44 @@ export async function fetchUser({ signal }) {
   return user;
 }
 
+export async function fetchReviews({ signal, articleId }) {
+  const response = await fetch(`${defaultUrl}/reviews/article/${articleId}`, {
+    signal,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization":"Bearer " + getAuthToken()
+    },
+  });
 
-// updating review, creating review, getting review, getting reviews, deleting review 
-// rest api: localhost:4002/reviews/article/:articleId (Get,put,post,delete)
-// rest api: localhost:4002/reviews/article (get)
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
+
+  const reviews = await response.json();
+  return reviews;
+}
+
+// one function with arg method: POST,PUT,DELETE
+export async function reviewAction({ reviewData, articleId,method }){
+  const response = await fetch(`${defaultUrl}/reviews/article/${articleId}`, {
+    method: method,
+    body: JSON.stringify(reviewData),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization":"Bearer " + getAuthToken()
+    },
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
+
+  const review = await response.json();
+  return review;
+}

@@ -1,5 +1,5 @@
-import React, { useState ,useEffect} from "react";
-import { useParams,useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import styles from "./ArticleDetails.module.css";
 import "./Animations.css";
 import Reviews from "./Review/Reviews";
@@ -7,7 +7,6 @@ import Reviews from "./Review/Reviews";
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticle } from "../../../utils/http";
-
 
 import {
   calculateReadingTime,
@@ -18,10 +17,6 @@ import LoadingIndicator from "../../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer";
 import MessageModal from "../../../ui/MessageModal/MessageModal";
 import Exit from "../../../ui/Exit/Exit";
-const animationTiming = {
-  enter: 800,
-  exit: 1000,
-};
 
 const ArticleDetails = () => {
   const params = useParams();
@@ -31,7 +26,7 @@ const ArticleDetails = () => {
   const modalMessage = location.state?.message;
   const type = location.state?.type;
   useEffect(() => {
-    if(modalMessage && type) {
+    if (modalMessage && type) {
       setShowModal(true);
     }
   }, [modalMessage, type]);
@@ -39,12 +34,10 @@ const ArticleDetails = () => {
     setShowModal(false);
   };
 
-
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["article", params.articleId],
     queryFn: ({ signal }) => fetchArticle({ signal, id: params.articleId }),
   });
-
 
   let imageGroup = [];
 
@@ -58,90 +51,99 @@ const ArticleDetails = () => {
   }
   if (data) {
     console.log(data);
-    const personName = (data?.user?.name + " " +data?.user?.surname) ?? "Unknown Person";
+    const personName =
+      data?.user?.name + " " + data?.user?.surname ?? "Unknown Person";
     const title = data?.title ?? "Unknown Title";
     const img = data?.imgUrl ?? "";
     const description = data?.description ?? "";
     const content = data?.content ?? [];
     const readingTime = formatReadingTime(calculateReadingTime(content));
     const formattedDate = formatShortMonthDate(data?.date ?? "");
+
+    const reviews = data?.reviews ?? [];
     mainContent = (
-      <>
-       
-       
-        <Exit path=".."/>
-        <div className={styles.postInfo}>
-          <span>
-            <FaUser className={styles.icon} /> {personName}
-          </span>
-          <span>
-            <FaCalendarAlt className={styles.icon} /> {formattedDate}
-          </span>
-          <span>
-            <FaClock className={styles.icon} /> {readingTime} of reading
-          </span>
-        </div>
+      
+        <div className={styles.section}>
+          <Exit path=".." />
+          <div className={styles.postInfo}>
+            <span>
+              <FaUser className={styles.icon} /> {personName}
+            </span>
+            <span>
+              <FaCalendarAlt className={styles.icon} /> {formattedDate}
+            </span>
+            <span>
+              <FaClock className={styles.icon} /> {readingTime} of reading
+            </span>
+          </div>
 
-        <h1>{title}</h1>
-        <img
-          src={img}
-          alt={title}
-          loading="lazy"
-          className={styles.mainImage}
-        />
-        <p className={styles.description}>{description}</p>
+          <h1>{title}</h1>
+          <img
+            src={img}
+            alt={title}
+            loading="lazy"
+            className={styles.mainImage}
+          />
+          <p className={styles.description}>{description}</p>
 
-        <div className={styles.article}>
-          {content.map((item, index) => {
-            if (item.type === "paragraph") {
-              // Jeżeli mamy obrazy w grupie, renderujemy je przed akapitem
-              if (imageGroup.length > 0) {
-                const images = (
-                  <div className={styles.imageGroup} key={`img-group-${index}`}>
-                    {imageGroup}
-                  </div>
-                );
-                imageGroup = []; // Resetujemy grupę
+          <div className={styles.article}>
+            {content.map((item, index) => {
+              if (item.type === "paragraph") {
+                // Jeżeli mamy obrazy w grupie, renderujemy je przed akapitem
+                if (imageGroup.length > 0) {
+                  const images = (
+                    <div
+                      className={styles.imageGroup}
+                      key={`img-group-${index}`}
+                    >
+                      {imageGroup}
+                    </div>
+                  );
+                  imageGroup = []; // Resetujemy grupę
+                  return (
+                    <div key={`wrapper-${index}`}>
+                      {images}
+                      <p className={styles.paragraph}>{item.value}</p>
+                    </div>
+                  );
+                }
                 return (
-                  <div key={`wrapper-${index}`}>
-                    {images}
-                    <p className={styles.paragraph}>{item.value}</p>
-                  </div>
+                  <p className={styles.paragraph} key={index}>
+                    {item.value}
+                  </p>
                 );
+              } else {
+                // Dodajemy obraz do grupy
+                imageGroup.push(
+                  <img
+                    className={styles.image}
+                    key={index}
+                    src={item.value}
+                    loading="lazy"
+                    alt={`content-${index}-${title}`}
+                  />
+                );
+                return null;
               }
-              return (
-                <p className={styles.paragraph} key={index}>
-                  {item.value}
-                </p>
-              );
-            } else {
-              // Dodajemy obraz do grupy
-              imageGroup.push(
-                <img
-                  className={styles.image}
-                  key={index}
-                  src={item.value}
-                  loading="lazy"
-                  alt={`content-${index}-${title}`}
-                />
-              );
-              return null;
-            }
-          })}
-          {/* Jeżeli po ostatnim akapicie są jeszcze obrazy */}
-          {imageGroup.length > 0 && (
-            <div className={styles.imageGroup}>{imageGroup}</div>
-          )}
+            })}
+            {/* Jeżeli po ostatnim akapicie są jeszcze obrazy */}
+            {imageGroup.length > 0 && (
+              <div className={styles.imageGroup}>{imageGroup}</div>
+            )}
+          </div>
+          <Reviews reviews={reviews} />
         </div>
-      </>
+        
+      
     );
   }
 
   return (
     <section key={"details-" + params.postId} className={styles.container}>
-      {showModal && <MessageModal type={type} message={modalMessage} onClose={closeModal} />}
+      {showModal && (
+        <MessageModal type={type} message={modalMessage} onClose={closeModal} />
+      )}
       {mainContent}
-      <Reviews/>
     </section>
   );
 };

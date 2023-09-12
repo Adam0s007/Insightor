@@ -16,7 +16,7 @@ const Review = (props) => {
         <div className={classes.imageContainer}>
           <img
             className={classes.authorImage}
-            src={props.imgUrl}
+            src={props.imgUrl ?? "https://picsum.photos/200/200?random=1"}
             alt={props.author}
           />
         </div>
@@ -41,8 +41,8 @@ const Review = (props) => {
         <span className={classes.ratingLabel} style={{ color:`${ratingLabel.color}`,backgroundColor: color, 'outline':`2px solid ${ratingLabel.color}` }}>{ratingLabel.label}</span>
         </div>
         <div className={classes.thumbs}>
-          <FaThumbsUp color="#4CAF50" /> {props.thumbsUp}
-          <FaThumbsDown color="#F44336" /> {props.thumbsDown}
+          <FaThumbsUp color="#4CAF50" /> {props.thumbsUp ?? 0}
+          <FaThumbsDown color="#F44336" /> {props.thumbsDown ?? 0}
         </div>
       </div>
     </div>
