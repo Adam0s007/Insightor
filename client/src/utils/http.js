@@ -63,11 +63,15 @@ export async function createNewArticle({ articleData }) {
 export async function updateArticle({ article, id }) {
   //remove id from article and also remove id from article.content array (if exists and has length > 0)
   delete article.id;
+  delete article.reviews;
+  delete article.date;
+  delete article.user;
   if (article.content && article.content.length > 0) {
     article.content.forEach((content) => {
       delete content.id;
     });
   }
+  console.log(JSON.stringify(article));
 
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
     method: "PUT",
@@ -115,7 +119,7 @@ export async function authAction({ request, params }) {
     {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(sendingData),
     }
@@ -134,4 +138,25 @@ export async function authAction({ request, params }) {
 
    return redirect(`/?status=${dataType === "login" ? "logged-in" : "signed-up"}`);
 
+}
+
+export async function fetchUser({ signal }) {
+  // fetching from /localhost:4002/myProfile, needed application-type and Authorization Bearer token
+  const response = await fetch(`${defaultUrl}/myProfile`, {
+    signal,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization":"Bearer " + getAuthToken()
+    },
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
+
+  const user = await response.json();
+  return user;
 }

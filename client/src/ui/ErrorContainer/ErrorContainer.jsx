@@ -9,7 +9,7 @@ const ErrorContainer = (props) => {
         navgiate('/');
     }
     const tryAgain = props.onTryAgain || defaultTryAgain;
-
+    const showButton = props.showButton === undefined ? true : props.showButton;
     if(props.onTryAgain){
       content = <button className={styles.button} onClick={tryAgain}>{navMess}</button> 
     }
@@ -17,7 +17,7 @@ const ErrorContainer = (props) => {
         <div className={styles['error-container']}>
             <h1>{props.title ? props.title : ''}</h1>
             <p>{props.message? props.message: ''}</p>
-            <button className={styles.button} onClick={tryAgain}>{navMess}</button> 
+            {showButton && <button className={styles.button} onClick={tryAgain}>{navMess}</button> }
         </div>
     );
 }

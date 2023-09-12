@@ -45,9 +45,7 @@ const ArticleDetails = () => {
     queryFn: ({ signal }) => fetchArticle({ signal, id: params.articleId }),
   });
 
-  console.log(data);
-  // Konwersja daty na czytelny format
-
+  
   const ratingChanged = (newRating) => {
     console.log(newRating);
   };

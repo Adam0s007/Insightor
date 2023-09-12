@@ -93,6 +93,7 @@
   text-transform: uppercase;
   width: 100px;
   transition: all 0.4s ease-out;
+  text-decoration: none;
 }
 
 .reviewArticleButton:hover {

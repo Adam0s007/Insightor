@@ -23,7 +23,7 @@ const LatestPosts = () => {
   }
   if (isError) {
     content = (
-      <ErrorContainer title="An error occurred" message={error.message} />
+      <ErrorContainer showButton={false} title="An error occurred" message={error.message} />
     );
   }
   if (data) {

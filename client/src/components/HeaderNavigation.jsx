@@ -48,14 +48,15 @@ const HeaderNavigation = (props) => {
             </li>
             <li>
               <NavLink
-                to="contact"
+                to="my-profile"
                 className={({ isActive }) =>
                   (isActive = isActive
                     ? `${classes.link}  ${classes.active}`
                     : `${classes.link}`)
                 }
+
               >
-                Contact
+                My Profile
               </NavLink>
             </li>
             {!token && (

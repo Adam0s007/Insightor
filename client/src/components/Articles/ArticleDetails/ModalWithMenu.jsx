@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
-import { IoMdReturnLeft } from 'react-icons/io';
+import {Link} from 'react-router-dom'
 import styles from './ModalWithMenu.module.css';
 import Exit from '../../../ui/Exit/Exit'
 const animationTiming = {
@@ -43,12 +43,9 @@ const ModalWithMenu = ({ isModalVisible, closeModal, content, menuClickHandler }
         >
           Reviews
         </button>
-        <button
-          className={styles.reviewArticleButton}
-          onClick={() => menuClickHandler('reviews')}
-        >
+        <Link to="edit" className={styles.reviewArticleButton}>
           Edit
-        </button>
+        </Link>
       </div>
     </>
   );

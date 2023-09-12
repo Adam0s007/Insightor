@@ -18,6 +18,9 @@
   position:relative;
 }
 
+.container *{
+  word-wrap: break-word;
+}
 
 .postInfo {
   display: flex;
