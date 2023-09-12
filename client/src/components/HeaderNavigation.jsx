@@ -9,7 +9,7 @@ import classes from "./HeaderNavigation.module.css";
 const HeaderNavigation = (props) => {
   let token = useRouteLoaderData("root");
   token = token === "EXPIRED" ? null : token;
-  let email = decodeToken(token)?.email;
+  let name = decodeToken(token)?.name;
 
   return (
     <Fragment>
@@ -60,7 +60,7 @@ const HeaderNavigation = (props) => {
                 }
 
               >
-                 <FaUser/> {email ?? "My Profile"}
+                 <FaUser/>{name ?? "My Profile"}
               </NavLink>
             </li>}
             {!token && (

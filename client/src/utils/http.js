@@ -135,7 +135,6 @@ export async function authAction({ request, params }) {
   const token = resData.token;
 
   localStorage.setItem("token", token);
-
    return redirect(`/?status=${dataType === "login" ? "logged-in" : "signed-up"}`);
 
 }
