@@ -82,7 +82,7 @@ export class ReviewService {
       relations: ['user'],
     });
 
-    this.ensureNotOwner(article, userId);
+    
     await this.ensureUniqueReview(articleId, userId);
     const user = await this.userRepository.findOne({
       where: { id: userId },
@@ -90,6 +90,7 @@ export class ReviewService {
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
+    this.ensureNotOwner(article, userId);
     const review = await this.reviewRepository.create({
       ...data,
       article,

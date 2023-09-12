@@ -25,17 +25,19 @@ export class ReviewEntity{
     @ManyToOne(type=>ArticleEntity,article => article.reviews)
     article: ArticleEntity;
 
-    toResponseObject(showArticle = false) {
+    toResponseObject(showArticle=false) {
         const { id, created, content, rating } = this;
         const responseObject: any = {
           id,
           created,
           content,
           rating,
-          user: this.user.toResponseObject(),
         };
-       
-        if (showArticle) {
+        if(this.user){
+          responseObject.user = this.user.toResponseObject();
+        }
+        
+        if(showArticle && this.article){
           responseObject.article = this.article.toResponseObject();
         }
         return responseObject;

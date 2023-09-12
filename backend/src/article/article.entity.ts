@@ -61,7 +61,5 @@ export class ArticleEntity {
     return responseObject;
   }
     
-  
-
 }
 
