@@ -22,24 +22,22 @@ export class ReviewEntity{
     @JoinTable()
     user:UserEntity;
     
-    @ManyToOne(type=>ArticleEntity,article => article.reviews, { nullable: true })
+    @ManyToOne(type=>ArticleEntity,article => article.reviews,{cascade:true})
     article: ArticleEntity;
 
     toResponseObject(showArticle=false) {
-        const { id, created, content, rating } = this;
+        const { id, created, content, rating,article } = this;
         const responseObject: any = {
           id,
           created,
           content,
           rating,
+          article
         };
         if(this.user){
           responseObject.user = this.user.toResponseObject();
         }
         
-        if(showArticle && this.article){
-          responseObject.article = this.article.toResponseObject();
-        }
         return responseObject;
       }
 }

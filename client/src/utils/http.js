@@ -159,3 +159,8 @@ export async function fetchUser({ signal }) {
   const user = await response.json();
   return user;
 }
+
+
+// updating review, creating review, getting review, getting reviews, deleting review 
+// rest api: localhost:4002/reviews/article/:articleId (Get,put,post,delete)
+// rest api: localhost:4002/reviews/article (get)

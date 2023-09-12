@@ -39,11 +39,11 @@ export class ArticleEntity {
   @Column('real')
   rating: number;
 
-  @OneToMany(type => ReviewEntity, review => review.article, {cascade: true})
+  @OneToMany(type => ReviewEntity, review => review.article)
   reviews: ReviewEntity[];
   //it can show only the user's name and surname, for more parameters to show we need argument with boolean values
-  toResponseObject(showFull = false) {
-    const { id, date, title, description, rating,content,imgUrl,user } = this;
+  toResponseObject() {
+    const { id, date, title, description, rating,content,imgUrl,user,reviews } = this;
     const responseObject: any = {
       id,
       date,
@@ -53,11 +53,9 @@ export class ArticleEntity {
       imgUrl,
       content,
       user: user.toResponseObject(),
+      reviews: reviews.map(review => review.toResponseObject()),
     };
-    if (showFull) {
-      if(this.reviews)
-        responseObject.reviews = this.reviews.map(review => review.toResponseObject());
-    }
+    
     return responseObject;
   }
     

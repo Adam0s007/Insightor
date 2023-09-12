@@ -35,10 +35,13 @@ export class ArticleService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.userRepository.findOne({ 
+      where: { id: userId }
+    });
     const article = await this.articleRepository.create({
       ...articleDto,
       user,
+      reviews: []
     });
     await this.articleRepository.save(article);
     return article.toResponseObject();
@@ -80,7 +83,7 @@ export class ArticleService {
       isOwner = article.user.id === userId;
     }
   
-    const responseObject = article.toResponseObject(true);
+    const responseObject = article.toResponseObject();
     return { ...responseObject, isOwner };
   }
   
@@ -92,7 +95,7 @@ export class ArticleService {
   ): Promise<ArticleEntity> {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content', 'user'],
+      relations: ['content', 'user', 'reviews'],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);

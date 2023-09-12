@@ -56,7 +56,7 @@ export class ReviewService {
   async showByArticle(id: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['reviews', 'reviews.user', 'reviews.article'],
+      relations: ['reviews'],
     });
     return article.reviews.map((review) => review.toResponseObject());
   }
@@ -73,7 +73,7 @@ export class ReviewService {
     const reviews = await this.reviewRepository.find({
       relations: ['user', 'article'],
     });
-    return reviews.map((review) => review.toResponseObject(true));
+    return reviews.map((review) => review.toResponseObject());
   }
 
   async create(articleId: string, userId: string, data: ReviewDTO) {
