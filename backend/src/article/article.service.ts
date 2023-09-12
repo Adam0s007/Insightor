@@ -5,6 +5,7 @@ import { ArticleEntity } from './article.entity';
 import { ContentEntity } from '../content/content.entity';
 import { ArticleDTO } from './article.dto';
 import { UserEntity } from 'src/user/user.entity';
+import { ReviewEntity } from 'src/review/review.entity';
 
 @Injectable()
 export class ArticleService {
@@ -15,6 +16,8 @@ export class ArticleService {
     private readonly contentRepository: Repository<ContentEntity>,
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+    @InjectRepository(ReviewEntity)
+    private reviewRepository: Repository<ReviewEntity>
   ) {}
 
   
@@ -104,7 +107,7 @@ export class ArticleService {
   async remove(id: string, userId: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content', 'user'],
+      relations: ['content', 'user', 'reviews'],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
@@ -114,6 +117,9 @@ export class ArticleService {
 
     while (article.content.length > 0) {
       await this.contentRepository.remove(article.content.pop());
+    }
+    while (article.reviews.length > 0) {
+      await this.reviewRepository.remove(article.reviews.pop());
     }
     await this.articleRepository.delete({ id });
 

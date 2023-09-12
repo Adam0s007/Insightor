@@ -22,7 +22,7 @@ export class ReviewEntity{
     @JoinTable()
     user:UserEntity;
     
-    @ManyToOne(type=>ArticleEntity,article => article.reviews)
+    @ManyToOne(type=>ArticleEntity,article => article.reviews, { nullable: true })
     article: ArticleEntity;
 
     toResponseObject(showArticle=false) {

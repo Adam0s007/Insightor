@@ -101,7 +101,7 @@ export class ReviewService {
   }
 
   async update(articleId: string, userId: string, data: Partial<ReviewDTO>) {
-    const review = await this.reviewRepository.findOne({
+    let review = await this.reviewRepository.findOne({
       where: { article: { id: articleId }, user: { id: userId } },
       relations: ['user', 'article'],
     });
@@ -110,6 +110,10 @@ export class ReviewService {
     }
     this.ensureOwnership(review, userId);
     await this.reviewRepository.update({ id: review.id }, data);
+    review = await this.reviewRepository.findOne({
+      where: { article: { id: articleId }, user: { id: userId } },
+      relations: ['user', 'article'],
+    });
     return review.toResponseObject();
   }
 

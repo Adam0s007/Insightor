@@ -6,10 +6,11 @@ import { ArticleEntity } from './article.entity';
 import { ContentEntity } from '../content/content.entity';
 import { ContentService } from 'src/content/content.service';
 import { UserEntity } from 'src/user/user.entity';
+import { ReviewEntity } from 'src/review/review.entity';
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([ArticleEntity,ContentEntity,UserEntity])
+    TypeOrmModule.forFeature([ArticleEntity,ContentEntity,UserEntity,ReviewEntity])
   ],
   controllers: [ArticleController],
   providers: [ArticleService,ContentService]

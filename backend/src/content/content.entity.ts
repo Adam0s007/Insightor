@@ -15,16 +15,5 @@ export class ContentEntity {
   @ManyToOne((type) => ArticleEntity, (article) => article.content)
   article: ArticleEntity;
 
-  public toResponseObject(showFull = false) {
-    const { id,type, value } = this;
-    const responseObject: any = {
-      id,
-      type,
-      value,
-    };
-    if (showFull) {
-      responseObject.article = this.article.toResponseObject();
-    }
-    return responseObject;
-  }
+  
 }
