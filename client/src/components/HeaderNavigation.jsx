@@ -1,12 +1,16 @@
 import { NavLink, useRouteLoaderData,Form } from "react-router-dom";
+import { isExpired, decodeToken } from "react-jwt";
 import { Fragment } from "react";
+import { FaHome, FaNewspaper, FaUser, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 import Logo from "../ui/Logo";
 
 import classes from "./HeaderNavigation.module.css";
 const HeaderNavigation = (props) => {
-  const token = useRouteLoaderData("root");
- 
+  let token = useRouteLoaderData("root");
+  token = token === "EXPIRED" ? null : token;
+  let email = decodeToken(token)?.email;
+
   return (
     <Fragment>
       <input
@@ -30,7 +34,7 @@ const HeaderNavigation = (props) => {
                     : `${classes.link}`)
                 }
               >
-                Home
+                <FaHome/> Home
               </NavLink>{" "}
             </li>
 
@@ -43,10 +47,10 @@ const HeaderNavigation = (props) => {
                     : `${classes.link}`)
                 }
               >
-                Articles
+              <FaNewspaper/>  Articles
               </NavLink>
             </li>
-            <li>
+           {token && <li>
               <NavLink
                 to="my-profile"
                 className={({ isActive }) =>
@@ -56,9 +60,9 @@ const HeaderNavigation = (props) => {
                 }
 
               >
-                My Profile
+                 <FaUser/> {email ?? "My Profile"}
               </NavLink>
-            </li>
+            </li>}
             {!token && (
               <li>
                 <NavLink
@@ -69,14 +73,14 @@ const HeaderNavigation = (props) => {
                       : `${classes.link}`)
                   }
                 >
-                  Login
+                 <FaSignInAlt/> Login
                 </NavLink>
               </li>
             )}
             {token && (
               <li>
                 <Form action="/logout" method="post">
-                  <button className={classes.link}>Logout</button>
+                  <button className={classes.link}><FaSignOutAlt/>Logout</button>
                 </Form>
               </li>
             )}

@@ -5,7 +5,7 @@ import ErrorContainer from "../ui/ErrorContainer/ErrorContainer";
 function AuthErrorPage() {
   const error = useRouteError();
   const navigate = useNavigate();
-  console.log(error);
+ 
   let title = "An error occurred!";
   const tryAgainHandler = () => {
      navigate("/auth/login");

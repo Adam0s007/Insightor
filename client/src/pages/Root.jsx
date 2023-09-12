@@ -2,7 +2,7 @@ import "../App.css";
 import HeaderNavigation from "../components/HeaderNavigation";
 import {
   Outlet,
-  useLocation,
+  
   useLoaderData,
   useSubmit,
 } from "react-router-dom";
@@ -17,7 +17,6 @@ import {useStatusModal} from '../hooks/use-status-modal'
 const RootLayout = (props) => {
   const { modalMessage, type,location } = useStatusModal();
   const [showModal, setShowModal] = useState(Boolean(modalMessage));
- 
 
   useEffect(() => {
     if (modalMessage && type) {

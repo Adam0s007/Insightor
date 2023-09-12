@@ -5,10 +5,10 @@ import { fetchArticles } from "../../utils/http.js";
 import classes from "./Articles.module.css";
 import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer";
-
-
+import {Link} from 'react-router-dom'
+import { getAuthToken } from "../../utils/auth";
 const Articles = () => {
-  
+  const token = getAuthToken() === "EXPIRED" ? null : getAuthToken();
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["articles"],
     queryFn:({signal}) => fetchArticles({signal}),
@@ -43,9 +43,18 @@ const Articles = () => {
     );
 }
 
-  return <section className={classes.posts}>
+  
+
+return (<>
+  {token && <div className={classes.addArticle}>
+      <Link to="new">New Article</Link>
+    </div>}
+  <section className={classes.posts}>
     {content}
-  </section>;
+  </section>
+  </>
+);
+
 };
 
 export default Articles;

@@ -1,13 +1,11 @@
 import styles from "./Profile.module.css";
 import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer";
+
+import { formatShortMonthDate } from "../../utils/date-conventer";
+
 const Profile = (props) => {
-  // const {
-  //     name = "N/A",
-  //     surname = "N/A",
-  //     email = "N/A",
-  //     articles = []
-  // } = props.data || {};
+ 
   const { data, isPending, isError, error } = props.queryObj;
 
   let mainContent = null;
@@ -33,7 +31,7 @@ const Profile = (props) => {
             articles.map((article) => (
               <li key={article.id}>
                 <h3>{article.title || "Untitled"}</h3>
-                <p>Date: {article.date || "N/A"}</p>
+                <p>Date: {formatShortMonthDate(article.date) || "N/A"}</p>
                 <p>Description: {article.description || "No description"}</p>
                 <p>Rating: {article.rating || 0}</p>
               </li>

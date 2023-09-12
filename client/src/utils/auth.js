@@ -4,7 +4,7 @@ import { redirect } from 'react-router-dom';
 export function getTokenDuration() {
     const token = localStorage.getItem('token');
     const decoded = decodeToken(token);
-
+    console.log(decoded);
     if (!decoded || !decoded.exp) {
         return 0;
     }
