@@ -40,6 +40,7 @@ export async function fetchArticle({ signal, id }) {
   }
 
   const article = await response.json();
+  console.log(article);
   return article;
 }
 

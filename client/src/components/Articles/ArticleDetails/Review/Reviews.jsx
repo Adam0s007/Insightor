@@ -3,7 +3,16 @@
 import React from "react";
 import Review from "./Review";
 import ReviewForm from "./ReviewForm";
+import AddReview from './AddReview'
+import EditReview from './EditReview'
+
 import classes from "./Reviews.module.css";
+import { Link } from "react-router-dom";
+import {  decodeToken } from "react-jwt";
+import { getAuthToken } from "../../../../utils/auth";
+
+const userAlreadyReviewed = (reviews, userEmail) => reviews.find(review => review.user.email === userEmail);
+
 const Reviews = (props) => {
   // const dummyReviews = [
   //   {
@@ -92,13 +101,35 @@ const Reviews = (props) => {
   //   // ... możesz dodać więcej recenzji w podobny sposób
   // ];
   const reviews = props.reviews;
+  let token = getAuthToken();
+  token = token === "EXPIRED" ? null : token;
+  let email = decodeToken(token)?.email;
+  const userReview = userAlreadyReviewed(reviews, email);
+
+  let content = null;
+  if(!userReview){
+    content = <AddReview  />;
+  }
+  else{
+    console.log(userReview)
+    content = <EditReview review={userReview} />;
+  }
 
   return (
     <div className={classes.container}>
-      <ReviewForm />
+      <h2 className={classes.title}>Reviews</h2>
+      
+      {token && !props.isOwner && content}
+      {!token && (
+        <h4>
+          {" "}
+          <Link to="/auth/login" className={classes.h4}>
+            Log in to leave a review!
+          </Link>
+        </h4>
+      )}
       <div className={classes.content}>
         {reviews.map((review, index) => (
-          <>
           <Review
             key={index}
             content={review.content}
@@ -109,27 +140,6 @@ const Reviews = (props) => {
             date={review.created}
             // imgUrl={review.imgUrl}
           />
-          <Review
-            key={index+"HIH"}
-            content={"HE  JDCSIDEIJDEJIEDIJEDEDJIOEDWJIEJIEWOIJEWJIOJIOOJIEOJI :)"}
-            rating={review.rating}
-            // thumbsUp={review.thumbsUp}
-            // thumbsDown={review.thumbsDown}
-            author={review.user.name + " " + review.user.surname}
-            date={review.created}
-            // imgUrl={review.imgUrl}
-          />
-          <Review
-            key={index+"980"}
-            content={" TO JEST SUPER TO JEST SUPER TO JEST SUPER!!EFJIEFJOIE3CRFC3RJIO3CRJIO3RQ4JIO3R4QJIOEJIEDOIEWJDEWDIJOEWQDJIOQEWOJIEDWJOIWDEDJIOEDWIOJEWDIOJEDWOEIJDWOIEJ"}
-            rating={review.rating}
-            // thumbsUp={review.thumbsUp}
-            // thumbsDown={review.thumbsDown}
-            author={review.user.name + " " + review.user.surname}
-            date={review.created}
-            // imgUrl={review.imgUrl}
-          />
-          </>
         ))}
       </div>
     </div>

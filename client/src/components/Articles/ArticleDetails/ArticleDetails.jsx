@@ -61,6 +61,7 @@ const ArticleDetails = () => {
     const formattedDate = formatShortMonthDate(data?.date ?? "");
 
     const reviews = data?.reviews ?? [];
+    const isOwner = data?.isOwner ?? false;
     mainContent = (
       
         <div className={styles.section}>
@@ -131,7 +132,7 @@ const ArticleDetails = () => {
               <div className={styles.imageGroup}>{imageGroup}</div>
             )}
           </div>
-          <Reviews reviews={reviews} />
+          <Reviews reviews={reviews} isOwner={isOwner} />
         </div>
         
       

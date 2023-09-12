@@ -12,7 +12,7 @@ const EditArticlePage = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null); // "success" or "error"
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["article", params.articleId],
@@ -23,13 +23,21 @@ const EditArticlePage = () => {
     mutationFn: updateArticle,
     onMutate: async (data) => {
       const newArticle = data.article;
-      await queryClient.cancelQueries({ queryKey: ["articles", params.articleId] });
-      const previousArticle = queryClient.getQueryData(["articles", params.articleId]);
+      await queryClient.cancelQueries({
+        queryKey: ["articles", params.articleId],
+      });
+      const previousArticle = queryClient.getQueryData([
+        "articles",
+        params.articleId,
+      ]);
       queryClient.setQueryData(["articles", params.articleId], newArticle);
       return { previousArticle };
     },
     onError: (error, data, context) => {
-      queryClient.setQueryData(["articles", params.articleId], context.previousArticle);
+      queryClient.setQueryData(
+        ["articles", params.articleId],
+        context.previousArticle
+      );
       setMessage("An error occurred! Try again later.");
       setModalType("error");
       setShowModal(true);
@@ -41,10 +49,10 @@ const EditArticlePage = () => {
       // setMessage('Article updated successfully!');
       // setModalType("success");
       // setShowModal(true);
-      navigate('..',{
-        state: { message: 'Article updated successfully!', type: 'success' }
+      navigate("..", {
+        state: { message: "Article updated successfully!", type: "success" },
       });
-    }
+    },
   });
 
   function handleSubmit(article) {
@@ -54,7 +62,7 @@ const EditArticlePage = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  
+
   let content = null;
   if (data) {
     content = <ArticleForm data={data} onSubmit={handleSubmit} type="edit" />;
@@ -66,7 +74,9 @@ const EditArticlePage = () => {
 
   return (
     <div className={styles.container}>
-       {showModal && <MessageModal type={modalType} message={message} onClose={closeModal} />}
+      {showModal && (
+        <MessageModal type={modalType} message={message} onClose={closeModal} />
+      )}
       {content}
     </div>
   );

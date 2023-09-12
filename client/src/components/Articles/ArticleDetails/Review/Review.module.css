@@ -10,7 +10,7 @@
     flex-direction: column;
     transition: background-color 0.3s ease;
     box-shadow:0px 0px 8px 1px rgb(71, 71, 71);
-    max-width:40em;
+    max-width:44em;
     width:fit-content;
 }
 
@@ -66,7 +66,8 @@
 .reviewFooter {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    flex-direction:column;
+    align-items: flex-start;
 }
 
 
@@ -104,10 +105,6 @@
     
     .content {
         font-size: 11px;
-    }
-    .reviewFooter{
-        flex-direction:column;
-        align-items: flex-start;
     }
     
 }

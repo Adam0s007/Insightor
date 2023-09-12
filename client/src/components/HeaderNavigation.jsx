@@ -1,5 +1,5 @@
 import { NavLink, useRouteLoaderData,Form } from "react-router-dom";
-import { isExpired, decodeToken } from "react-jwt";
+import {  decodeToken } from "react-jwt";
 import { Fragment } from "react";
 import { FaHome, FaNewspaper, FaUser, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
@@ -9,7 +9,12 @@ import classes from "./HeaderNavigation.module.css";
 const HeaderNavigation = (props) => {
   let token = useRouteLoaderData("root");
   token = token === "EXPIRED" ? null : token;
-  let name = decodeToken(token)?.name;
+  let name = ""
+  if(token){
+    name = decodeToken(token).name;
+  }
+  
+  
 
   return (
     <Fragment>
