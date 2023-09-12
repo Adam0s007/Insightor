@@ -2,7 +2,7 @@
 
 import React from "react";
 import Review from "./Review";
-import NewReview from "./NewReview";
+import ReviewForm from "./ReviewForm";
 import classes from "./Reviews.module.css";
 const Reviews = () => {
   const dummyReviews = [
@@ -94,7 +94,7 @@ const Reviews = () => {
 
   return (
     <div className={classes.container}>
-      <NewReview  />
+      <ReviewForm  />
       <div className={classes.content}>
 
       

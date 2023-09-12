@@ -1,0 +1,143 @@
+:root {
+  --primary-color: rgb(86, 86, 240);
+  --secondary-color: rgb(220, 220, 255);
+  --font-family: "Arial", sans-serif;
+  --transition-speed: 0.1s;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  gap: 0.8em;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px var(--shadow-color);
+  width: 100%;
+  align-items: center;
+  z-index: 10;
+}
+
+.formShow {
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
+.formHide {
+  overflow-y: hidden;
+  max-height: 140px;
+}
+
+.formHide:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: rgb(255, 255, 255);
+  background: -moz-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 17%,
+    rgba(200, 200, 255, 0) 100%
+  );
+  background: -webkit-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 17%,
+    rgba(200, 200, 255, 0) 100%
+  );
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 17%,
+    rgba(200, 200, 255, 0) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#c8c8ff",GradientType=1);
+  z-index: 1000;
+}
+.toggleIcon {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  background-color: #e5e5e5;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+.form h2 {
+  font-size: 1.5em;
+  color: var(--primary-color);
+  font-weight: bold;
+  text-align: center;
+}
+
+.rating,
+.textarea {
+  font-size: 14px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.rating {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 2em;
+}
+.textarea {
+  width: 85%;
+  border: none;
+  border-bottom: 2px solid var(--primary-color);
+  border-radius: 5px;
+  padding: 0.8em;
+  font-weight: normal;
+  font-family: var(--font-family);
+  font-size: 16px;
+  min-height: 3em;
+  background-color: var(--secondary-color);
+  transition: border-color var(--transition-speed),
+    box-shadow var(--transition-speed);
+  max-height: max-content;
+}
+
+.textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0px 2px 10px rgba(86, 86, 240, 0.2);
+  outline: none;
+}
+
+.button {
+  font-size: 16px;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed),
+    transform var(--transition-speed);
+  padding: 14px 28px;
+  font-weight: 600;
+  box-shadow: 0px 4px 14px var(--shadow-color);
+}
+
+.button:hover {
+  background-color: rgb(66, 66, 230);
+  transform: translateY(-3px);
+}
+
+.p {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.5em;
+}

@@ -32,6 +32,7 @@ const AutoExpandTextArea = (props) => {
       onChange={props.onChange}
       maxLength={props.maxLength}
       type={props.type}
+      placeholder={props.placeholder}
       className={props.className}
       defaultValue={props.defaultValue}
       style={{ overflow: "hidden", resize: "none" }}

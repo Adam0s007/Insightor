@@ -2,9 +2,9 @@ import React from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import ReactStars from "react-rating-stars-component";
 import classes from "./Review.module.css";
-import { TimeAgo } from "../../../utils/time-ago";
-import { getRatingLabel } from "../../../utils/rating";
-import { hexToRgba } from "../../../utils/color-converter";
+import { TimeAgo } from "../../../../utils/time-ago";
+import { getRatingLabel } from "../../../../utils/rating";
+import { hexToRgba } from "../../../../utils/color-converter";
 
 const Review = (props) => {
   const ratingLabel = getRatingLabel(props.rating);

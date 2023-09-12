@@ -2,8 +2,8 @@ import React, { useState ,useEffect} from "react";
 import { useParams,useLocation } from "react-router-dom";
 import styles from "./ArticleDetails.module.css";
 import "./Animations.css";
-import Reviews from "./Reviews";
-import ModalWithMenu from "./ModalWithMenu";
+import Reviews from "./Review/Reviews";
+
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticle } from "../../../utils/http";
@@ -45,25 +45,9 @@ const ArticleDetails = () => {
     queryFn: ({ signal }) => fetchArticle({ signal, id: params.articleId }),
   });
 
-  
-  const ratingChanged = (newRating) => {
-    console.log(newRating);
-  };
+
   let imageGroup = [];
 
-  const [isModalVisible, setisModalVisible] = useState(false);
-  const [newContent, setNewContent] = useState(null);
-
-  const menuClickHandler = (menu) => {
-    switch (menu) {
-      case "reviews":
-        setNewContent(<Reviews />);
-        setisModalVisible(true);
-        break;
-      default:
-        break;
-    }
-  };
   let mainContent = null;
 
   if (isPending) {
@@ -83,14 +67,8 @@ const ArticleDetails = () => {
     const formattedDate = formatShortMonthDate(data?.date ?? "");
     mainContent = (
       <>
-        <ModalWithMenu
-          isModalVisible={isModalVisible}
-          closeModal={() => setisModalVisible(false)}
-          content={newContent}
-          menuClickHandler={menuClickHandler}
-        />
-        
-        
+       
+       
         <Exit path=".."/>
         <div className={styles.postInfo}>
           <span>
@@ -163,6 +141,7 @@ const ArticleDetails = () => {
     <section key={"details-" + params.postId} className={styles.container}>
       {showModal && <MessageModal type={type} message={modalMessage} onClose={closeModal} />}
       {mainContent}
+      <Reviews/>
     </section>
   );
 };
