@@ -17,6 +17,7 @@ import { ArticleDTO } from './article.dto';
 import { ValidationPipe } from '../shared/validation.pipe';
 import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from 'src/user/user.decorator';
+import { WeakAuthGuard } from 'src/shared/weak-auth.guard';
 
 @Controller('articles')
 export class ArticleController {
@@ -35,8 +36,9 @@ export class ArticleController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.articleService.findOne(id);
+  @UseGuards(new WeakAuthGuard())
+  async findOne(@Param('id') id: string,@User('id') user?: string) {
+    return await this.articleService.findOne(id,user);
   }
 
   @Put(':id')

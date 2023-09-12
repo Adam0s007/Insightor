@@ -78,7 +78,7 @@ const ArticleDetails = () => {
     console.log(data);
     const personName = (data?.user?.name + " " +data?.user?.surname) ?? "Unknown Person";
     const title = data?.title ?? "Unknown Title";
-    const img = data?.img ?? "";
+    const img = data?.imgUrl ?? "";
     const description = data?.description ?? "";
     const content = data?.content ?? [];
     const readingTime = formatReadingTime(calculateReadingTime(content));

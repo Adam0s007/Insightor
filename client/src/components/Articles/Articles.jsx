@@ -35,7 +35,7 @@ const Articles = () => {
                     description={post.description}
                     date={post.date}
                     personName={`${post.user?.name} ${post.user?.surname}`}
-                    img={post.img}
+                    img={post.imgUrl}
                     rating={post.rating}
                 />
             ))}

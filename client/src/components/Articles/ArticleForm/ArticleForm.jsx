@@ -6,8 +6,7 @@ const ArticleForm = (props) => {
   const [article, setArticle] = useState({
     title: "",
     description: "",
-    img: "",
-    personName: "Current User", // set default value here
+    imgUrl: "",
     content: [],
     rating: 0,
     ...(props.data || {}),
@@ -41,7 +40,7 @@ const ArticleForm = (props) => {
   const isNotValidForm =
     article.title.length === 0 ||
     article.description.length === 0 ||
-    article.img.length === 0 ||
+    article.imgUrl.length === 0 ||
     article.content.length === 0 ||
     article.content.some((item) => item.value.length === 0);
 
@@ -80,8 +79,8 @@ const ArticleForm = (props) => {
           type="text"
           maxLength={200}
           placeholder="Image URL"
-          defaultValue={article.img ?? ""}
-          onChange={(e) => setArticle({ ...article, img: e.target.value })}
+          defaultValue={article.imgUrl ?? ""}
+          onChange={(e) => setArticle({ ...article, imgUrl: e.target.value })}
         />
       </div>
 

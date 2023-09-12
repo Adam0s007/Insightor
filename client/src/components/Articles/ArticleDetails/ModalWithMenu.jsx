@@ -43,6 +43,12 @@ const ModalWithMenu = ({ isModalVisible, closeModal, content, menuClickHandler }
         >
           Reviews
         </button>
+        <button
+          className={styles.reviewArticleButton}
+          onClick={() => menuClickHandler('reviews')}
+        >
+          Edit
+        </button>
       </div>
     </>
   );

@@ -24,7 +24,9 @@ export class ArticleEntity {
 
   @Column()
   description: string;
-
+  
+  @Column()
+  imgUrl: string;
 
   @ManyToOne(type => UserEntity, user => user.articles)
   user: UserEntity;
@@ -41,19 +43,18 @@ export class ArticleEntity {
   reviews: ReviewEntity[];
   //it can show only the user's name and surname, for more parameters to show we need argument with boolean values
   toResponseObject(showFull = false) {
-    const { id, date, title, description, rating,content } = this;
+    const { id, date, title, description, rating,content,imgUrl,user } = this;
     const responseObject: any = {
       id,
       date,
       title,
       description,
       rating,
-      content
-      
+      imgUrl,
+      content,
+      user: user.toResponseObject(),
     };
     if (showFull) {
-      if(this.user)
-        responseObject.user = this.user.toResponseObject();
       if(this.reviews)
         responseObject.reviews = this.reviews.map(review => review.toResponseObject());
     }

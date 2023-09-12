@@ -66,17 +66,24 @@ export class ArticleService {
     return articles.map((article) => article.toResponseObject());
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, userId?: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content', 'user','reviews','reviews.user'],
+      relations: ['content', 'user', 'reviews', 'reviews.user'],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    //console.log(article);
-    return article.toResponseObject(true);
+  
+    let isOwner = false;
+    if (userId) {
+      isOwner = article.user.id === userId;
+    }
+  
+    const responseObject = article.toResponseObject(true);
+    return { ...responseObject, isOwner };
   }
+  
 
   async update(
     id: string,

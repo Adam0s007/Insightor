@@ -11,17 +11,16 @@ export class ArticleDTO {
     @IsString()
     @IsNotEmpty()
     description: string;
-
-    @IsString()
-    @IsNotEmpty()
-    personName: string;
-
     
     @IsNumber()
     @Min(0)
     @Max(5)
     @IsNotEmpty()
     rating: number;
+
+    @IsString()
+    @IsNotEmpty()
+    imgUrl: string;
 
     @ValidateNested({ each: true })
     @Type(() => ContentDTO)

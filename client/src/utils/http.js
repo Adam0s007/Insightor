@@ -1,5 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import { redirect, json } from "react-router-dom";
+import {getAuthToken} from './auth'
 export const queryClient = new QueryClient();
 
 const defaultUrl = "http://localhost:4002";
@@ -43,6 +44,7 @@ export async function createNewArticle({ articleData }) {
     body: JSON.stringify(articleData),
     headers: {
       "Content-Type": "application/json",
+      "Authorization":"Bearer " + getAuthToken()
     },
   });
 
@@ -72,6 +74,7 @@ export async function updateArticle({ article, id }) {
     body: JSON.stringify(article),
     headers: {
       "Content-Type": "application/json",
+      "Authorization":"Bearer " + getAuthToken()
     },
   });
 
