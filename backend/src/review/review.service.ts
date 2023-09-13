@@ -102,6 +102,7 @@ export class ReviewService {
   }
 
   async update(articleId: string, userId: string, data: Partial<ReviewDTO>) {
+   
     let review = await this.reviewRepository.findOne({
       where: { article: { id: articleId }, user: { id: userId } },
       relations: ['user', 'article'],
@@ -110,6 +111,10 @@ export class ReviewService {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     this.ensureOwnership(review, userId);
+
+    if(data.content.length < 1){
+      throw new HttpException('No Content!', HttpStatus.BAD_REQUEST);
+    }
     await this.reviewRepository.update({ id: review.id }, data);
     review = await this.reviewRepository.findOne({
       where: { article: { id: articleId }, user: { id: userId } },

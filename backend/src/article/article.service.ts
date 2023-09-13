@@ -93,7 +93,7 @@ export class ArticleService {
         where: { id: userId },
       });
 
-    const responseObject = article.toResponseObject(user);
+    const responseObject = article.toResponseObject();
     return { ...responseObject, isOwner };
   }
 
