@@ -1,19 +1,12 @@
-import { useState } from "react";
 import ReviewForm from "./ReviewForm";
 import { useMutation } from "@tanstack/react-query";
 import LoadingOverlay from "../../../../ui/LoadingOverlay/LoadingOverlay";
-import MessageModal from "../../../../ui/MessageModal/MessageModal";
 import styles from "./ReviewForm.module.css";
 import { reviewAction, queryClient } from "../../../../utils/http";
 import { useParams } from "react-router-dom";
 
 const EditReview = (props) => {
-  
   const params = useParams();
-
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState(null); // "success" or "error"
-  const [message, setMessage] = useState("");
 
   const { mutate, isPending } = useMutation({
     mutationFn: reviewAction,
@@ -27,54 +20,35 @@ const EditReview = (props) => {
       queryClient.setQueryData(["reviews", params.articleId], newReview);
       return { previousReviews };
     },
-    onError: (err, daya, context) => {
+    onError: (err, data, context) => {
       queryClient.setQueryData(
         ["reviews", params.articleId],
         context.previousReviews
       );
-      setMessage("An error occurred! Try again later.");
-      setModalType("error");
-      setShowModal(true);
+      props.onShowModal("ERROR");
     },
     onSettled: () => {
       queryClient.invalidateQueries(["reviews", params.articleId]);
     },
-    onSuccess: (data) => {
-      console.log(data);
-      setMessage("Review updated successfully!");
-      setModalType("success");
-      setShowModal(true);
-    },
   });
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  function submitHandler(review) {
-    mutate({ articleId: params.articleId, reviewData: review, method: "PUT" }); //this object is going to onMutate too
+  function addHandler(review) {
+    mutate(
+      { articleId: params.articleId, 
+        reviewData: review, 
+        method: "POST" },
+      {
+        onSuccess: () => {
+          props.onShowModal("POST");
+        },
+      }
+    );
   }
 
-  function deleteHandler() {
-    mutate({
-      articleId: params.articleId,
-      reviewData: review,
-      method: "DELETE",
-    });
-  }
   return (
     <div className={styles.container}>
-      {showModal && (
-        <MessageModal type={modalType} message={message} onClose={closeModal} />
-      )}
       {isPending && <LoadingOverlay />}
-        <ReviewForm
-          
-          type="add"
-          onSubmit={submitHandler}
-          onDelete={deleteHandler}
-        />
-      
+      <ReviewForm type="add" onSubmit={addHandler} />
     </div>
   );
 };
