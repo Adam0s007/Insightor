@@ -23,8 +23,12 @@ const Reviews = (props) => {
   
   let token = getAuthToken();
   token = token === "EXPIRED" ? null : token;
-  let user = decodeToken(token);
-  let email = user?.email;
+  let user = null;
+  let email = null;
+  if(token){
+    user = decodeToken(token);
+    email = user.email;
+  }
   const userReview = userAlreadyReviewed(reviews, email);
   
   const handleRefresh = () => {
@@ -117,8 +121,10 @@ const Reviews = (props) => {
             id={review.id}
             content={review.content}
             rating={review.rating}
-            thumbsUp={review.upvotes}
-            thumbsDown={review.downvotes}
+            upvotes={review.upvotes}
+            downvotes={review.downvotes}
+            upvoted={review.upvoted}
+            downvoted={review.downvoted}
             author={review.user.name + " " + review.user.surname}
             date={review.created}
             starsKey={starsKey}

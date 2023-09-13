@@ -34,7 +34,7 @@ export class ReviewEntity{
     @JoinTable()
     downvotes:UserEntity[];
 
-    toResponseObject(showArticle=false) {
+    toResponseObject(user = undefined) {
         const { id, created, content, rating,article } = this;
         const responseObject: any = {
           id,
@@ -53,6 +53,11 @@ export class ReviewEntity{
           responseObject.downvotes = this.downvotes.length;
         }
         
+        //jesli user jest zdefiniowany (czyli zalogowany)
+        if (user && user instanceof UserEntity) {
+          responseObject.upvoted = this.upvotes.some(upvote => upvote.id === user.id);
+          responseObject.downvoted = this.downvotes.some(downvote => downvote.id === user.id);
+        }
         return responseObject;
       }
 }

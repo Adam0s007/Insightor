@@ -212,9 +212,9 @@ export async function reviewAction({ reviewData, articleId, method }) {
   return review;
 }
 
-export async function voteAction({ reviewId, method}){
-  //method -> downvote, upvote, rest point: /localhost:4002/reviews/:reviewId/:method
-  const response = await fetch(`${defaultUrl}/reviews/${reviewId}/${method}`, {
+export async function voteAction({ reviewId, action}){
+  //action -> downvote, upvote, rest point: /localhost:4002/reviews/:reviewId/:action
+  const response = await fetch(`${defaultUrl}/reviews/${reviewId}/${action}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -17,10 +17,8 @@ export class ArticleService {
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
     @InjectRepository(ReviewEntity)
-    private reviewRepository: Repository<ReviewEntity>
+    private reviewRepository: Repository<ReviewEntity>,
   ) {}
-
-  
 
   private ensureOwnership(article: ArticleEntity, userId: string) {
     if (article.user.id !== userId) {
@@ -35,13 +33,13 @@ export class ArticleService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const user = await this.userRepository.findOne({ 
-      where: { id: userId }
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
     });
     const article = await this.articleRepository.create({
       ...articleDto,
       user,
-      reviews: []
+      reviews: [],
     });
     await this.articleRepository.save(article);
     return article.toResponseObject();
@@ -72,21 +70,32 @@ export class ArticleService {
   async findOne(id: string, userId?: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content', 'user', 'reviews', 'reviews.user','reviews.upvotes','reviews.downvotes'],
+      relations: [
+        'content',
+        'user',
+        'reviews',
+        'reviews.user',
+        'reviews.upvotes',
+        'reviews.downvotes',
+      ],
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-  
+
     let isOwner = false;
     if (userId) {
       isOwner = article.user.id === userId;
     }
-  
-    const responseObject = article.toResponseObject();
+    let user = undefined;
+    if (userId)
+      user = await this.userRepository.findOne({
+        where: { id: userId },
+      });
+
+    const responseObject = article.toResponseObject(user);
     return { ...responseObject, isOwner };
   }
-  
 
   async update(
     id: string,

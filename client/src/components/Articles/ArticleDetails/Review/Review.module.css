@@ -84,7 +84,10 @@
     margin-right:1em;
     font-size:12px;
 }
-
+.thumbsItem{
+    padding:5px;
+    cursor:pointer;
+}
 .ratingContainer{
     display: flex;
     align-items: center;
