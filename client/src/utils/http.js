@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import { redirect, json } from "react-router-dom";
-import {getAuthToken} from './auth'
+import { getAuthToken } from "./auth";
 export const queryClient = new QueryClient();
 
 const defaultUrl = "http://localhost:4002";
@@ -24,12 +24,12 @@ export const fetchArticles = async ({ signal, max }) => {
 };
 
 export async function fetchArticle({ signal, id }) {
-  const response = await fetch(`${defaultUrl}/articles/${id}`,{
+  const response = await fetch(`${defaultUrl}/articles/${id}`, {
     signal,
     headers: {
       "Content-Type": "application/json",
-      "Authorization":"Bearer " + getAuthToken()
-    }
+      Authorization: "Bearer " + getAuthToken(),
+    },
   });
 
   if (!response.ok) {
@@ -51,7 +51,7 @@ export async function createNewArticle({ articleData }) {
     body: JSON.stringify(articleData),
     headers: {
       "Content-Type": "application/json",
-      "Authorization":"Bearer " + getAuthToken()
+      Authorization: "Bearer " + getAuthToken(),
     },
   });
 
@@ -85,7 +85,7 @@ export async function updateArticle({ article, id }) {
     body: JSON.stringify(article),
     headers: {
       "Content-Type": "application/json",
-      "Authorization":"Bearer " + getAuthToken()
+      Authorization: "Bearer " + getAuthToken(),
     },
   });
 
@@ -126,7 +126,7 @@ export async function authAction({ request, params }) {
     {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(sendingData),
     }
@@ -142,8 +142,9 @@ export async function authAction({ request, params }) {
   const token = resData.token;
 
   localStorage.setItem("token", token);
-   return redirect(`/?status=${dataType === "login" ? "logged-in" : "signed-up"}`);
-
+  return redirect(
+    `/?status=${dataType === "login" ? "logged-in" : "signed-up"}`
+  );
 }
 
 export async function fetchUser({ signal }) {
@@ -152,7 +153,7 @@ export async function fetchUser({ signal }) {
     signal,
     headers: {
       "Content-Type": "application/json",
-      "Authorization":"Bearer " + getAuthToken()
+      Authorization: "Bearer " + getAuthToken(),
     },
   });
 
@@ -172,7 +173,7 @@ export async function fetchReviews({ signal, articleId }) {
     signal,
     headers: {
       "Content-Type": "application/json",
-      "Authorization":"Bearer " + getAuthToken()
+      Authorization: "Bearer " + getAuthToken(),
     },
   });
 
@@ -188,23 +189,44 @@ export async function fetchReviews({ signal, articleId }) {
 }
 
 // one function with arg method: POST,PUT,DELETE
-export async function reviewAction({ reviewData, articleId,method }){
+export async function reviewAction({ reviewData, articleId, method }) {
+  const formattedReviewData = {
+    content: reviewData.content,
+    rating: reviewData.rating,
+  };
   const response = await fetch(`${defaultUrl}/reviews/article/${articleId}`, {
     method: method,
-    body: JSON.stringify(reviewData),
+    body: JSON.stringify(formattedReviewData),
     headers: {
       "Content-Type": "application/json",
-      "Authorization":"Bearer " + getAuthToken()
+      Authorization: "Bearer " + getAuthToken(),
     },
   });
-
   if (!response.ok) {
     const err = await response.json();
     console.log(err);
     const message = `status: ${err.statusCode} - ${err.message}`;
     throw new Error(message);
   }
+  const review = await response.json();
+  return review;
+}
 
+export async function voteAction({ reviewId, method}){
+  //method -> downvote, upvote, rest point: /localhost:4002/reviews/:reviewId/:method
+  const response = await fetch(`${defaultUrl}/reviews/${reviewId}/${method}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
   const review = await response.json();
   return review;
 }

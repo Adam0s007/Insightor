@@ -19,6 +19,10 @@ const Reviews = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null); // "success" or "error"
   const [message, setMessage] = useState("");
+  const [starsKey, setStarsKey] = useState(Math.random());
+  const handleRefresh = () => {
+    setStarsKey(Math.random());
+  };
 
   const closeModal = () => {
     setShowModal(false);
@@ -36,6 +40,7 @@ const Reviews = (props) => {
       case "PUT":
         setMessage("Review updated successfully!");
         setModalType("success");
+        handleRefresh();
         break;
       case "POST":
         setMessage("Review added successfully!");
@@ -84,13 +89,14 @@ const Reviews = (props) => {
         {reviews.map((review, index) => (
           <Review
             key={index}
+            id={review.id}
             content={review.content}
             rating={review.rating}
-            // thumbsUp={review.thumbsUp}
-            // thumbsDown={review.thumbsDown}
+            thumbsUp={review.upvotes}
+            thumbsDown={review.downvotes}
             author={review.user.name + " " + review.user.surname}
             date={review.created}
-            // imgUrl={review.imgUrl}
+            starsKey={starsKey}
           />
         ))}
       </div>

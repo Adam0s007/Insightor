@@ -10,6 +10,8 @@ const Review = (props) => {
   const ratingLabel = getRatingLabel(props.rating);
   const color = hexToRgba(ratingLabel.color, 0.2);
   const bgColor = hexToRgba(ratingLabel.color, 0.08);
+  
+  
   return (
     <div className={classes.reviewContainer} style={{background:bgColor}} >
       <div className={classes.authorInfo}>
@@ -31,6 +33,7 @@ const Review = (props) => {
       <div className={classes.reviewFooter}>
         <div className={classes.ratingContainer}>
         <ReactStars
+          key={props.starsKey}
           count={5}
           value={props.rating ? props.rating : 0}
           edit={false}
