@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import ReactStars from "react-rating-stars-component";
 import classes from "./Review.module.css";
@@ -6,49 +6,36 @@ import { TimeAgo } from "../../../../utils/time-ago";
 import { getRatingLabel } from "../../../../utils/rating";
 import { hexToRgba } from "../../../../utils/color-converter";
 import {useMutation} from '@tanstack/react-query'
-import { voteAction } from "../../../../utils/http";
+import { voteAction,queryClient } from "../../../../utils/http";
 const Review = (props) => {
   const ratingLabel = getRatingLabel(props.rating);
   const color = hexToRgba(ratingLabel.color, 0.2);
   const bgColor = hexToRgba(ratingLabel.color, 0.08);
-  
-  const [vote,setVote] = useState({
-    upvoted: props.upvoted,//gdy tam wczesniej kliknał
-    downvoted: props.downvoted, //gdy tam wczesniej kliknął
-    upvote: props.upvotes,//calkowita ilosc upvote
-    downvote: props.downvotes//calkowita ilosc downvote
-  });
 
   const {mutate} = useMutation({
     mutationFn: voteAction,
+    onMutate: async (data) => {
+      await queryClient.cancelQueries(["reviews", props.id]);
+      const previousReviews = queryClient.getQueryData([
+        "reviews",
+        props.id,
+      ]);
+      queryClient.setQueryData(["reviews", props.id], data.review);
+      return { previousReviews };
+    },
+    onError: (err, data, context) => {
+      queryClient.setQueryData(["reviews", props.id], context.previousReviews);
+      onShowModal("ERROR");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["reviews", props.id]);
+    },
   })
   const thumbsHandler = (type) => {
-    if(props.upvoted === undefined || props.downvoted === undefined){
-      return;
+    if(props.token){
+      mutate({reviewId: props.id,action: type })
     }
-  if(type === "up"){
-    mutate({reviewId: props.id,action: "upvote" })
-    if(vote.upvoted){
-      setVote(prevVote => ({...prevVote, upvote: prevVote.upvote - 1, upvoted: false}));
-    } else {
-      if(vote.downvoted){
-        setVote(prevVote => ({...prevVote, upvote: prevVote.upvote + 1, downvote: prevVote.downvote - 1, upvoted: true, downvoted: false}));
-      } else {
-        setVote(prevVote => ({...prevVote, upvote: prevVote.upvote + 1, upvoted: true}));
-      }
-    }
-  }else if(type === "down"){
-    mutate({reviewId: props.id,action: "downvote"})
-    if(vote.downvoted){
-      setVote(prevVote => ({...prevVote, downvote: prevVote.downvote - 1, downvoted: false}));
-    } else {
-      if(vote.upvoted){
-        setVote(prevVote => ({...prevVote, downvote: prevVote.downvote + 1, upvote: prevVote.upvote - 1, downvoted: true, upvoted: false}));
-      } else {
-        setVote(prevVote => ({...prevVote, downvote: prevVote.downvote + 1, downvoted: true}));
-      }
-    }
-  }
+    
 }
   
   return (
@@ -91,11 +78,11 @@ const Review = (props) => {
           </span>
         </div>
         <div className={classes.thumbs}>
-          <span className={classes.thumbsItem} onClick={()=>thumbsHandler("up")}>
-            <FaThumbsUp color="#4CAF50" /> {vote.upvote}
+          <span className={classes.thumbsItem} onClick={()=>thumbsHandler("upvote")}>
+            <FaThumbsUp color="#4CAF50" /> {props.upvotes}
           </span>
-          <span className={classes.thumbsItem} onClick={()=>thumbsHandler("down")}>
-            <FaThumbsDown color="#F44336" /> {vote.downvote}
+          <span className={classes.thumbsItem} onClick={()=>thumbsHandler("downvote")}>
+            <FaThumbsDown color="#F44336" /> {props.downvotes}
           </span>
         </div>
       </div>

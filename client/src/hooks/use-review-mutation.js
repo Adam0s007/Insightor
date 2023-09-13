@@ -19,7 +19,7 @@ export const useReviewMutation = (articleId, onShowModal) => {
       onShowModal("ERROR");
     },
     onSettled: () => {
-      //queryClient.invalidateQueries(["reviews", articleId]);
+      queryClient.invalidateQueries(["reviews", articleId]);
     },
   });
 

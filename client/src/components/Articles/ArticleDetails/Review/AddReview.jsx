@@ -14,7 +14,6 @@ const AddReview = (props) => {
       { articleId: params.articleId, reviewData: review, method: "POST" },
       {
         onSuccess: () => {
-          props.onAddReview(review);
           props.onShowModal("POST");
         },
       }

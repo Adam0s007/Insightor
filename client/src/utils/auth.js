@@ -25,6 +25,12 @@ export function getAuthToken() {
     return token;
 }
 
+export function getSimpleToken(){
+    let token = getAuthToken();
+  token = token === "EXPIRED" ? null : token;
+    return token;
+}
+
 export function tokenLoader() {
     return getAuthToken();
 }
