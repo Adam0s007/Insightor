@@ -66,4 +66,17 @@ export class ReviewController {
   destroyReview(@Param('id') id: string, @User('id') user: string) {
     return this.reviewService.destroy(id, user);
   }
+
+
+  @Post(':id/upvote')
+  @UseGuards(new AuthGuard())
+  upvoteReview(@Param('id') id: string, @User('id') user: string) {
+    return this.reviewService.upvote(id,user);
+  }
+
+  @Post(':id/downvote')
+  @UseGuards(new AuthGuard())
+  downvoteReview(@Param('id') id: string, @User('id') user: string) {
+    return this.reviewService.downvote(id,user);
+  }
 }

@@ -1,6 +1,6 @@
 import { ArticleEntity } from "src/article/article.entity";
 import { UserEntity } from "src/user/user.entity";
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity('review')
@@ -25,6 +25,15 @@ export class ReviewEntity{
     @ManyToOne(type=>ArticleEntity,article => article.reviews,{cascade:true})
     article: ArticleEntity;
 
+
+    @ManyToMany(type=>UserEntity,{cascade:true})
+    @JoinTable()
+    upvotes:UserEntity[];
+
+    @ManyToMany(type=>UserEntity,{cascade:true})
+    @JoinTable()
+    downvotes:UserEntity[];
+
     toResponseObject(showArticle=false) {
         const { id, created, content, rating,article } = this;
         const responseObject: any = {
@@ -36,6 +45,12 @@ export class ReviewEntity{
         };
         if(this.user){
           responseObject.user = this.user.toResponseObject();
+        }
+        if(this.upvotes){
+          responseObject.upvotes = this.upvotes.length;
+        }
+        if(this.downvotes){
+          responseObject.downvotes = this.downvotes.length;
         }
         
         return responseObject;

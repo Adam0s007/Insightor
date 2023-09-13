@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { ReviewEntity } from './Review.entity';
 
 import { ReviewDTO } from './Review.dto';
+import { Votes } from 'src/shared/votes.enum';
 
 @Injectable()
 export class ReviewService {
@@ -48,7 +49,7 @@ export class ReviewService {
   async show(id: string) {
     const review = await this.reviewRepository.findOne({
       where: { id },
-      relations: ['user', 'article'],
+      relations: ['user', 'article','upvotes','downvotes'  ],
     });
     return review.toResponseObject();
   }
@@ -56,7 +57,7 @@ export class ReviewService {
   async showByArticle(id: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['reviews'],
+      relations: ['reviews', 'reviews.user','reviews.upvotes','reviews.downvotes'],
     });
     return article.reviews.map((review) => review.toResponseObject());
   }
@@ -64,14 +65,14 @@ export class ReviewService {
   async showByUser(id: string) {
     const reviews = await this.reviewRepository.find({
       where: { user: { id } },
-      relations: ['user'],
+      relations: ['user', 'article','upvotes','downvotes'],
     });
     return reviews.map((review) => review.toResponseObject());
   }
 
   async showAll() {
     const reviews = await this.reviewRepository.find({
-      relations: ['user', 'article'],
+      relations: ['user', 'article','upvotes','downvotes'],
     });
     return reviews.map((review) => review.toResponseObject());
   }
@@ -127,6 +128,65 @@ export class ReviewService {
     }
     this.ensureOwnership(review, userId);
     await this.reviewRepository.remove(review);
+    return review.toResponseObject();
+  }
+
+
+
+  private async vote(review:ReviewEntity, user: UserEntity, vote: Votes) {
+    const opposite = vote === Votes.UP ? Votes.DOWN : Votes.UP;
+    if (
+      review[opposite].filter((voter) => voter.id === user.id).length > 0 ||
+      review[vote].filter((voter) => voter.id === user.id).length > 0
+    ) {
+      let gaveOppositeVote = review[opposite].some((voter) => voter.id === user.id,);
+      let gaveSameVote = review[vote].some((voter) => voter.id === user.id);
+      
+      if (gaveOppositeVote) {
+        review[opposite] = review[opposite].filter(
+          (voter) => voter.id !== user.id,
+        );
+        review[vote].push(user);
+      }
+      if (gaveSameVote) {
+        review[vote] = review[vote].filter((voter) => voter.id !== user.id);
+      }
+
+      await this.reviewRepository.save(review);
+    } else if (review[vote].filter((voter) => voter.id === user.id).length < 1) {
+      review[vote].push(user);
+      await this.reviewRepository.save(review);
+    } else {
+      throw new HttpException(
+        'Unable to cast vote',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return review;
+}
+
+
+  async upvote(id: string, userId: string) {
+    let review = await this.reviewRepository.findOne({
+      where: { id },
+      relations: ['user', 'upvotes', 'downvotes','article'],
+    });
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    review = await this.vote(review, user, Votes.UP);
+    return review.toResponseObject();
+  }
+
+  async downvote(id: string, userId: string) {
+    let review = await this.reviewRepository.findOne({
+      where: { id },
+      relations: ['user', 'upvotes', 'downvotes','article'],
+    });
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    review = await this.vote(review, user, Votes.DOWN);
     return review.toResponseObject();
   }
 }
