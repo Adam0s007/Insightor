@@ -15,6 +15,7 @@ const EditReview = (props) => {
       { articleId: params.articleId, reviewData: updatedReview, method: "PUT" },
       {
         onSuccess: () => {
+          props.onEditReview(updatedReview)
           props.onShowModal("PUT");
         },
       }
@@ -26,6 +27,7 @@ const EditReview = (props) => {
       { articleId: params.articleId, reviewData: review, method: "DELETE" },
       {
         onSuccess: () => {
+          props.onDeleteReview(review.id)
           props.onShowModal("DELETE");
         },
       }

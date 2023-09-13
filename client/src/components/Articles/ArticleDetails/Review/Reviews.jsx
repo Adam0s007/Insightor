@@ -15,14 +15,42 @@ import MessageModal from "../../../../ui/MessageModal/MessageModal";
 const userAlreadyReviewed = (reviews, userEmail) => reviews.find(review => review.user.email === userEmail);
 
 const Reviews = (props) => {
-  
+  const [reviews,setReviews] = useState(props.reviews);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null); // "success" or "error"
   const [message, setMessage] = useState("");
   const [starsKey, setStarsKey] = useState(Math.random());
+  
+  let token = getAuthToken();
+  token = token === "EXPIRED" ? null : token;
+  let user = decodeToken(token);
+  let email = user?.email;
+  const userReview = userAlreadyReviewed(reviews, email);
+  
   const handleRefresh = () => {
     setStarsKey(Math.random());
   };
+
+  const addReviewHandler = (review) =>{
+    review = {...review, user: user}
+    setReviews(prevReviews => [...prevReviews,review])
+  } 
+
+  const editReviewHandler = (review) =>{
+    setReviews(prevReviews => {
+      const index = prevReviews.findIndex(r => r.id === review.id);
+      const updatedReviews = [...prevReviews];
+      updatedReviews[index] = review;
+      return updatedReviews;
+    })
+  }
+
+  const deleteReviewHandler = (reviewId) =>{
+    setReviews(prevReviews => {
+      const updatedReviews = prevReviews.filter(r => r.id !== reviewId);
+      return updatedReviews;
+    })
+  }
 
   const closeModal = () => {
     setShowModal(false);
@@ -54,25 +82,22 @@ const Reviews = (props) => {
     setShowModal(true);
   }
 
-  const reviews = props.reviews;
-  let token = getAuthToken();
-  token = token === "EXPIRED" ? null : token;
-  let email = decodeToken(token)?.email;
-  const userReview = userAlreadyReviewed(reviews, email);
+  
+  
 
   let content = null;
   if(!userReview){
-    content = <AddReview onShowModal={openModal}  />;
+    content = <AddReview onShowModal={openModal} onAddReview={addReviewHandler} />;
   }
   else{
     console.log(userReview)
-    content = <EditReview review={userReview} onShowModal={openModal} />;
+    content = <EditReview review={userReview} onShowModal={openModal} onEditReview={editReviewHandler} onDeleteReview={deleteReviewHandler} />;
   }
 
   return (
     <div className={classes.container}>
       {showModal && (
-        <MessageModal type={modalType} message={message} onClose={closeModal} />
+        <MessageModal type={modalType} message={message} onClose={closeModal}  />
       )}
       <h2 className={classes.title}>Reviews</h2>
       
