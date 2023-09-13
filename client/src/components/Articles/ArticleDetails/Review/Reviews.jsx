@@ -27,8 +27,8 @@ const Reviews = (props) => {
         setModalObject(prevState => ({ ...prevState, showModal: false }));
     };
 
-    const openModal = (method) => {
-        const modalData = getModalMessage(method);
+    const openModal = (method,message="An error occurred! Try again later.",type="error") => {
+        const modalData = getModalMessage(method,message,type);
         setModalObject({
           modalType: modalData.type,
           message: modalData.message,

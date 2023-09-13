@@ -205,7 +205,7 @@ export async function reviewAction({ reviewData, articleId, method }) {
   if (!response.ok) {
     const err = await response.json();
     console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
+    const message = `${err.message}`;
     throw new Error(message);
   }
   const review = await response.json();
@@ -224,8 +224,7 @@ export async function voteAction({ reviewId, action}){
   if (!response.ok) {
     const err = await response.json();
     console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
+    throw new Error(err.message);
   }
   const review = await response.json();
   return review;

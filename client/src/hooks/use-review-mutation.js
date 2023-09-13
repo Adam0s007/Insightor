@@ -15,8 +15,9 @@ export const useReviewMutation = (articleId, onShowModal) => {
       return { previousReviews };
     },
     onError: (err, data, context) => {
+      console.log(err)
       queryClient.setQueryData(["reviews", articleId], context.previousReviews);
-      onShowModal("ERROR");
+      onShowModal("ERROR",err.message);
     },
     onSettled: () => {
       queryClient.invalidateQueries(["reviews", articleId]);

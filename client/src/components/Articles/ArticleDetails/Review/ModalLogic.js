@@ -1,7 +1,4 @@
-export const getModalMessage = (method) => {
-    let message = "An error occurred! Try again later.";
-    let type = "error";  // by default
-
+export const getModalMessage = (method,message="An error occurred! Try again later.",type="error") => {
     switch (method) {
         case "DELETE":
             message = "Review deleted successfully!";
