@@ -12,11 +12,6 @@ export class ArticleDTO {
     @IsNotEmpty()
     description: string;
     
-    @IsNumber()
-    @Min(0)
-    @Max(5)
-    @IsNotEmpty()
-    rating: number;
 
     @IsString()
     @IsNotEmpty()

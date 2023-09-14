@@ -8,6 +8,7 @@ import {
   OneToMany,
   CreateDateColumn,
   ManyToOne,
+  AfterLoad,
 } from 'typeorm';
 
 @Entity('article')
@@ -36,12 +37,15 @@ export class ArticleEntity {
   })
   content: ContentEntity[];
 
-  @Column('real')
+  @Column('real',{default: 0})
   rating: number;
 
   @OneToMany(type => ReviewEntity, review => review.article)
   reviews: ReviewEntity[];
-  //it can show only the user's name and surname, for more parameters to show we need argument with boolean values
+  
+  
+
+
   toResponseObject() {
     const { id, date, title, description, rating,content,imgUrl,user,reviews } = this;
     const responseObject: any = {
