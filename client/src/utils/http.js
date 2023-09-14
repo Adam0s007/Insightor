@@ -5,9 +5,13 @@ export const queryClient = new QueryClient();
 
 const defaultUrl = "http://localhost:4002";
 
-export const fetchArticles = async ({ signal, max }) => {
+export const fetchArticles = async ({ signal, max,page }) => {
+  console.log("Page: "+page)
   let url = `${defaultUrl}/articles`;
-  if (max) {
+  if (page) {
+    url = `${url}?page=${page}`;
+  }
+  else if (max) {
     url = `${url}?max=${max}`;
   }
   const response = await fetch(url, { signal });

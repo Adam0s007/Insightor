@@ -13,11 +13,11 @@ const NewArticlePage = () => {
   const [openErrorModal,setOpenErrorModal] = useState(false);
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: createNewArticle,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ["articles"],
       });
-      navigate("/articles");
+      navigate("/articles/" + data.id);
     },
   });
 

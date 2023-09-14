@@ -3,7 +3,7 @@
         "title": "Golden Glory: The Art of Chasing SunsetsGolden Glory: The Art of Chasing Sunsetssttt",
         "description": "orem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel malesuada ex. Ut ac condimentum nisl. Sed feugiat risus tellus, quis feugiat metus sagittis volutpat. Praesent commodo convallis consequat. In vestibulum nisl urna, sed pharetra ligula pellentesque vel. Nunc vestibulum ac velit eu blandit. Aenean id consequat sem, pharetra suscipit nibh. Integer leo leo, vehicula sed bibendum quis, tincidunt sit amet enim. Aenean faucibus sollicitudin eros, vitae cursus lectus pulvinar aliquet. Suspendisse malesuada, nisl sit amet sollicitudin cursus, purus purus iaculis sapien, eget aliquet dolor arcu ut dolor. Aenean rutrum orci at erat bibendum, vel ullamcorper metus fringilla.",
         "personName": "Alice Green",
-        "img": "https://picsum.photos/800/1200",
+        "imgUrl": "https://picsum.photos/800/1200",
         "content": [
             {
                 "type": "paragraph",
@@ -13,14 +13,13 @@
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=1"
             }
-        ],
-        "rating": 4
+        ]
     },
     {
         "title": "High Altitudes: The Power and Beauty of Mountains",
         "description": "Bob Smith showcases the majesty of mountain landscapes.",
         "personName": "Bob Smith",
-        "img": "https://picsum.photos/900/700",
+        "imgUrl": "https://picsum.photos/900/700",
         "content": [
             {
                 "type": "paragraph",
@@ -30,14 +29,13 @@
                 "type": "image",
                 "value": "https://picsum.photos/900/700?random=1"
             }
-        ],
-        "rating": 5
+        ]
     },
     {
         "title": "The Heartbeat of the City: Uncovering Urban Life",
         "description": "Charlie Johnson captures the vibrancy of urban life.",
         "personName": "Charlie Johnson",
-        "img": "https://picsum.photos/1200/800",
+        "imgUrl": "https://picsum.photos/1200/800",
         "content": [
             {
                 "type": "paragraph",
@@ -47,14 +45,13 @@
                 "type": "image",
                 "value": "https://picsum.photos/1200/800?random=1"
             }
-        ],
-        "rating": 3
+        ]
     },
     {
         "title": "The Endless Sands: A Visual Ode to Desert Beauty",
         "description": "Danielle White's captivating photos reveal desert landscapes.",
         "personName": "Danielle White",
-        "img": "https://picsum.photos/1100/700",
+        "imgUrl": "https://picsum.photos/1100/700",
         "content": [
             {
                 "type": "paragraph",
@@ -64,14 +61,13 @@
                 "type": "image",
                 "value": "https://picsum.photos/1100/700?random=1"
             }
-        ],
-        "rating": 4
+        ]
     },
     {
         "title": "Whispers of the Woods: Unraveling Forest Mysteries",
         "description": "Join Erik Brown on an exploration of the forest.",
         "personName": "Erik Brown",
-        "img": "https://picsum.photos/720/1280",
+        "imgUrl": "https://picsum.photos/720/1280",
         "content": [
             {
                 "type": "paragraph",
@@ -81,14 +77,13 @@
                 "type": "image",
                 "value": "https://picsum.photos/720/1280?random=1"
             }
-        ],
-        "rating": 5
+        ]
     },
     {
         "title": "Echoes of the Past: A Journey Through Ancient Ruins",
         "description": "Fiona Martin's images transport you back in time.",
         "personName": "Fiona Martin",
-        "img": "https://picsum.photos/1090/1200",
+        "imgUrl": "https://picsum.photos/1090/1200",
         "content": [
             {
                 "type": "paragraph",
@@ -98,90 +93,73 @@
                 "type": "image",
                 "value": "https://picsum.photos/1090/1200?random=1"
             }
-        ],
-        "rating": 2
+        ]
     },
     {
-        "id": "1be4d8b0-4189-4a95-8d04-4b1c12766f12",
-        "date": "2023-09-07T14:39:55.258Z",
-        "title": "Super Adventure needed to see at all cost - CROATIA",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et justo. Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et justo. Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et justo. Lorem ipsum dolor sit amet, consectetur",
-        "personName": "Adam Kowal",
-        "img": "https://picsum.photos/800/1200?random=8",
-        "rating": 4,
+        "title": "Discovering the Beauty of Croatia",
+        "description": "Croatia, nestled on the Adriatic Sea, is a blend of rich history, pristine beaches, and awe-inspiring natural wonders. Whether you're gazing at the majestic walls of Dubrovnik or sailing across its turquoise waters, every moment in Croatia is a chapter in a timeless tale.",
+        "personName": "Ivana Horvat",
+        "imgUrl": "https://picsum.photos/800/1200?random=8",
         "content": [
             {
-                "id": "0857f3dd-d4a4-4ae2-aa24-382bbf310e99",
                 "type": "paragraph",
-                "value": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32."
+                "value": "Croatia has always been a coveted destination for travelers seeking both adventure and relaxation. From the ancient city of Split to the serene islands of Hvar and Korčula, each region offers a unique experience. Dubrovnik, often dubbed the 'Pearl of the Adriatic', stands as a testament to Croatia's rich history and architectural prowess."
             },
             {
-                "id": "e35d786a-3368-4b55-89ab-684ea0946e8c",
                 "type": "paragraph",
-                "value": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
+                "value": "Croatian cuisine is a palatable journey in itself. Seafood from the Adriatic, such as grilled fish, black risotto with squid ink, and octopus salad, delight every seafood lover. For those with a sweet tooth, the traditional 'rožata' pudding is a must-try."
             },
             {
-                "id": "b3659b5b-3b9c-4128-9628-14bb004d730e",
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=1"
             },
             {
-                "id": "f3d8fc89-6e2f-4b33-93a3-764e1f042c6d",
                 "type": "paragraph",
-                "value": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                "value": "The Plitvice Lakes National Park is another jewel in Croatia's crown. Cascading waterfalls, shimmering lakes, and lush forests create a scene straight out of a fairy tale. For adrenaline seekers, the park also offers various hiking and cycling trails."
             },
             {
-                "id": "54cf8e79-f4b6-48dc-a9a0-26bfb7613d29",
                 "type": "paragraph",
-                "value": "Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie."
+                "value": "The Croatian coast offers a sailing paradise with over a thousand islands. Each island boasts its distinct character, from the lavender fields of Hvar to the serene monasteries of Korčula."
             },
             {
-                "id": "d9b4e79a-4641-4500-8867-a518e392c072",
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=2"
             },
             {
-                "id": "858fc3bc-b5fd-4881-9a76-0b72f983a277",
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=3"
             },
             {
-                "id": "dfd74dc0-f11c-4937-9092-a27535c8a795",
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=4"
             },
             {
-                "id": "db2167a5-4957-435b-a04b-c21fe3b9769a",
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=5"
             },
             {
-                "id": "c475d438-57cf-47bc-a0b2-086dd0df47b0",
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=6"
             },
             {
-                "id": "c0e74767-892c-47f2-bb53-e6771afac09c",
                 "type": "paragraph",
-                "value": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                "value": "While summer sees a surge in tourists, autumn in Croatia is a serene retreat. With the summer crowds gone, the streets of its towns and cities take on a quiet charm. The fall foliage, especially in the hinterlands, paints the landscape in warm hues of red, orange, and gold."
             },
             {
-                "id": "5096f4ab-41a9-4a9b-9a95-c6d3a8815450",
                 "type": "paragraph",
-                "value": "Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie."
+                "value": "Croatians are known for their warmth and hospitality. Their vibrant festivals, from the Sinjska Alka Knight Tournament to the Rijeka Carnival, offer a glimpse into the country's rich culture and traditions."
             },
             {
-                "id": "e73f75d3-1572-4dc5-b1e8-468618fac7c8",
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=6"
             },
             {
-                "id": "4d7d8bdd-189b-4607-b136-e940ea03fbf7",
                 "type": "paragraph",
-                "value": "Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie.Czwarty akapit o tym, jak zachody słońca wpływają na nasze samopoczucie."
+                "value": "To sum it up, Croatia is a blend of natural beauty, ancient history, and modern charm. Whether you're strolling along the ancient city walls or basking on a sun-kissed beach, Croatia promises memories that will last a lifetime."
             }
         ]
     }
+    
 ]
 
 

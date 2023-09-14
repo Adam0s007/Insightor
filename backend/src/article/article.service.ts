@@ -56,7 +56,7 @@ export class ArticleService {
     return article.toResponseObject();
   }
 
-  async findAll(max = undefined): Promise<ArticleEntity[]> {
+  async findAll(max = undefined,page:number =1): Promise<ArticleEntity[]> {
     if (max && (max < 1 || isNaN(max))) {
       throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
     }
@@ -65,6 +65,8 @@ export class ArticleService {
     if (max === undefined) {
       articles = await this.articleRepository.find({
         relations: ['content', 'user', 'reviews'],
+        take: 3,
+        skip: 3 * (page - 1),
       });
     } else {
       articles = await this.articleRepository.find({

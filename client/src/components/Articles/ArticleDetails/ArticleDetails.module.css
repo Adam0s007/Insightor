@@ -1,7 +1,7 @@
 /* PostDetails.module.css */
 
 :root {
-  --bg: rgba(255, 255, 255, 0.804);
+  --bg: rgba(255, 255, 255, 0.886);
 }
 
 .section{
@@ -123,9 +123,9 @@
   z-index: 2;
   color: rgb(32, 32, 32);
   line-height: 1.8em;
-  letter-spacing: 1px;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.367);
-  background: rgba(255, 255, 255, 0.705);
+  word-wrap: break-word;
+  
+  
   padding: 1.5em;
   border-radius: 5px;
   text-indent: 30px;

@@ -31,8 +31,8 @@ export class ArticleController {
   }
 
   @Get()
-  async findAll(@Query('max') max?: number) {
-    return await this.articleService.findAll(max);
+  async findAll(@Query('max') max?: number, @Query('page') page?: number) {
+    return await this.articleService.findAll(max,page);
   }
 
   @Get(':id')

@@ -1,8 +1,9 @@
+import React from 'react'
 import classes from "./Article.module.css";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 import {formatDate} from '../../utils/date-conventer'
-const Article = (props) => {
+const Article = React.forwardRef((props,ref) => {
   const ratingChanged = (newRating) => {
     console.log(newRating);
   };
@@ -21,7 +22,7 @@ const Article = (props) => {
       (currDescriptionLeng > maxDescriptionLeng ? "..." : "")
     : "Post Title";
   return (
-    <div className={classes.post}>
+    <div ref={ref} className={classes.post}>
       <picture className={classes["img-wrapper"]}>
         <img className={classes.img} src={props.img} loading="lazy" ></img>
       </picture>
@@ -64,6 +65,6 @@ const Article = (props) => {
       </div>
     </div>
   );
-};
+});
 
 export default Article;
