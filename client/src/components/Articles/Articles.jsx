@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState, useRef,useEffect  } from "react";
 import Article from "./Article";
 import classes from "./Articles.module.css";
 import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
@@ -8,6 +8,10 @@ import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
 
 const Articles = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const token = getSimpleToken();
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -22,10 +26,11 @@ const Articles = () => {
       if (entries[0].isIntersecting && hasMore) {
         setPageNumber((prevPageNumber) => prevPageNumber + 1);
       }
-    },{ rootMargin: '0px 0px 0px 0px' });
+    });
     if (node) observer.current.observe(node);
   },[isPending, hasMore]);
 
+  
   return (
     <>
       {token && (

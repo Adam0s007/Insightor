@@ -25,17 +25,7 @@ export class ArticleService {
       throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
     }
   }
-  private roundToHalf(value: number): number {
-    return Math.round(value * 2) / 2;
-  }
-  private computeAverageRating(article: ArticleEntity): void {
-    if (article.reviews && article.reviews.length) {
-      const averageRating =
-        article.reviews.reduce((total, review) => total + review.rating, 0) /
-        article.reviews.length;
-      article.rating = this.roundToHalf(averageRating);
-    }
-  }
+  
 
   async create(userId: string, articleDto: ArticleDTO) {
     if (articleDto.content.length === 0) {
@@ -77,7 +67,7 @@ export class ArticleService {
         },
       });
     }
-    articles.forEach((article) => this.computeAverageRating(article));
+    
 
     return articles.map((article) => article.toResponseObject());
   }
@@ -107,7 +97,7 @@ export class ArticleService {
       user = await this.userRepository.findOne({
         where: { id: userId },
       });
-    this.computeAverageRating(article);
+    
 
     const responseObject = article.toResponseObject();
     return { ...responseObject, isOwner };

@@ -13,7 +13,7 @@ async function bootstrap() {
     origin: 'http://127.0.0.1:5173',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-  }); // Włączenie CORS dla wszystkich źródeł
+  }); 
   
   await app.listen(port);
   Logger.log(`Server running on http://localhost:${port}`, 'Bootstrap');

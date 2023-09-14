@@ -19,6 +19,26 @@ export class ReviewService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
+  private roundToHalf(value: number): number {
+    return Math.round(value * 2) / 2;
+  }
+
+  private async computeAverageRating(article: ArticleEntity) {
+    const reviews = await this.reviewRepository.find({
+      where: { article: { id: article.id } },
+    });
+    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+    article.rating = this.roundToHalf(totalRating / reviews.length);
+  }
+
+  private async updateArticleRating(id: string) {
+    const article = await this.articleRepository.findOne({ where: { id },  relations: ['reviews'] });
+    await this.computeAverageRating(article);
+    await this.articleRepository.save(article);
+  }
+  
+  
+
   private ensureOwnership(review: ReviewEntity, userId: string) {
     if (review.user.id !== userId) {
       throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
@@ -98,6 +118,7 @@ export class ReviewService {
       user,
     });
     await this.reviewRepository.save(review);
+    await this.updateArticleRating(articleId);
     return review.toResponseObject();
   }
 
@@ -120,6 +141,7 @@ export class ReviewService {
       where: { article: { id: articleId }, user: { id: userId } },
       relations: ['user', 'article'],
     });
+    await this.updateArticleRating(articleId);
     return review.toResponseObject();
   }
 
@@ -133,6 +155,7 @@ export class ReviewService {
     }
     this.ensureOwnership(review, userId);
     await this.reviewRepository.remove(review);
+    await this.updateArticleRating(articleId);
     return review.toResponseObject();
   }
 
