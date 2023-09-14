@@ -2,10 +2,22 @@
     display:flex;
     flex-wrap:wrap;
     place-content:center;
-    gap:1.3em;
+    gap:1.8em;
     min-height:70vh;
     margin-top:5em;
 }
+
+
+.fullWidth {
+    flex-basis: 100%; /* This will make it take the full width */
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+
 
 .addArticle {
     position:fixed;

@@ -11,7 +11,7 @@ const Articles = () => {
   const token = getSimpleToken();
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { data, isPending, isError, error, hasMore } = useFetchArticles({
+  const { articles, isPending, isError, error, hasMore } = useFetchArticles({
     pageNumber,
   });
   const observer = useRef();
@@ -34,8 +34,8 @@ const Articles = () => {
         </div>
       )}
       <section className={classes.posts}>
-        {data && data.map((post, index) => {
-          const isLastElement = data.length === index + 1;
+        {articles && articles.map((post, index) => {
+          const isLastElement = articles.length === index + 1;
           return (
             <Article  
               key={post.id}
@@ -50,8 +50,11 @@ const Articles = () => {
             />
           );
         })}
+        <div className={classes.fullWidth}>
         {isPending && <LoadingIndicator />}
         {isError && <ErrorContainer title="An error occurred" message={error.message} />}
+        </div>
+        
       </section>
     </>
   );
