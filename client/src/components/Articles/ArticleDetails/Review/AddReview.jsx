@@ -7,7 +7,10 @@ import { useParams } from "react-router-dom";
 import { useReviewMutation } from "../../../../hooks/use-review-mutation";
 const AddReview = (props) => {
   const params = useParams();
-  const { mutateReview, isPending } = useReviewMutation(params.articleId, props.onShowModal);
+  const { mutateReview, isPending } = useReviewMutation(
+    params.articleId,
+    props.onShowModal
+  );
 
   function addHandler(review) {
     mutateReview(
@@ -21,10 +24,9 @@ const AddReview = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <ReviewForm type="add" onSubmit={addHandler}>
       {isPending && <LoadingOverlay />}
-      <ReviewForm type="add" onSubmit={addHandler} />
-    </div>
+    </ReviewForm>
   );
 };
 

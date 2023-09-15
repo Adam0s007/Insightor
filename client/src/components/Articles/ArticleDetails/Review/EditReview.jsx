@@ -8,7 +8,10 @@ import { useParams } from "react-router-dom";
 const EditReview = (props) => {
   const review = props.review;
   const params = useParams();
-  const { mutateReview, isPending } = useReviewMutation(params.articleId, props.onShowModal);
+  const { mutateReview, isPending } = useReviewMutation(
+    params.articleId,
+    props.onShowModal
+  );
 
   function submitHandler(updatedReview) {
     mutateReview(
@@ -33,15 +36,14 @@ const EditReview = (props) => {
   }
 
   return (
-    <div className={styles.container}>
+    <ReviewForm
+      data={review}
+      type="update"
+      onSubmit={submitHandler}
+      onDelete={deleteHandler}
+    >
       {isPending && <LoadingOverlay />}
-      <ReviewForm
-        data={review}
-        type="update"
-        onSubmit={submitHandler}
-        onDelete={deleteHandler}
-      />
-    </div>
+    </ReviewForm>
   );
 };
 

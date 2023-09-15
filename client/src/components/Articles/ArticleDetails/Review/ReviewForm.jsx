@@ -85,6 +85,7 @@ const ReviewForm = (props) => {
           </button>
         )}
       </div>
+      {props.children}
     </form>
   );
 };

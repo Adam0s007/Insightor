@@ -50,7 +50,7 @@ const ArticleDetails = () => {
     mainContent = <ErrorContainer title="Error" message={error?.message} />;
   }
   if (data) {
-    console.log(data);
+   
     const personName =
       data?.user?.name + " " + data?.user?.surname ?? "Unknown Person";
     const title = data?.title ?? "Unknown Title";

@@ -1,21 +1,27 @@
-.returnPage{
-  display:flex;
-  justify-content:flex-start;
-  width:100%;
-  padding: 0 0.2em;
-  font-size: 1.6em;
-  z-index:3;
-  
+.returnPage {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1.8em;
+  z-index: 3;
+  background-color: rgba(255, 255, 255, 0.1); /* półprzezroczyste tło dla lepszego kontrastu */
+  border-radius: 5px; /* zaokrąglenie krawędzi */
 }
 
-.returnPage .returnNav{
-  padding: 0.2em;
-  background-color:transparent;
-  display:flex;
-  color:var(--color);
-  align-items:center;
+.returnPage .returnNav {
+  padding: 0.3em 0.5em; /* trochę więcej paddingu po bokach */
+  background-color: rgba(0, 0, 0, 0.05); /* delikatne tło dla lepszej widoczności na różnych tłach */
+  display: flex;
+  color: var(--color);
+  align-items: center;
   border-radius: 5px;
-  justify-content:center;
-  position:relative;
-  
+  justify-content: center;
+  position: relative;
+  transition: background-color 0.3s ease; /* płynne przejście dla efektu hover */
+
+  /* Efekt hover dla lepszej interaktywności */
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 }
