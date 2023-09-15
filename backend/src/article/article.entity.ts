@@ -40,6 +40,9 @@ export class ArticleEntity {
   @Column('real',{default: 0})
   rating: number;
 
+  @Column('int',{default:0})
+  reviewsCount:number;
+
   @OneToMany(type => ReviewEntity, review => review.article)
   reviews: ReviewEntity[];
   
@@ -47,7 +50,7 @@ export class ArticleEntity {
 
 
   toResponseObject() {
-    const { id, date, title, description, rating,content,imgUrl,user,reviews } = this;
+    const { id, date, title, description, rating,content,imgUrl,user,reviews,reviewsCount } = this;
     const responseObject: any = {
       id,
       date,
@@ -56,6 +59,7 @@ export class ArticleEntity {
       rating,
       imgUrl,
       content,
+      reviewsCount,
       user: user.toResponseObject(),
       reviews: reviews.map(review => review.toResponseObject()),
     };

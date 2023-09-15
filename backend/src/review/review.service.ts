@@ -33,6 +33,7 @@ export class ReviewService {
 
   private async updateArticleRating(id: string) {
     const article = await this.articleRepository.findOne({ where: { id },  relations: ['reviews'] });
+    article.reviewsCount = article.reviews.length;
     await this.computeAverageRating(article);
     await this.articleRepository.save(article);
   }

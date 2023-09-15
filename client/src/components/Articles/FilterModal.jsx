@@ -6,7 +6,8 @@ import FilterContent from "./FilterContent";
 
 const FilterModal = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  
+  console.log(props.fechObject);
+
   let initialFilters = {
     authorName: searchParams.get("authorName") || "",
     authorSurname: searchParams.get("authorSurname") || "",
@@ -49,6 +50,7 @@ const FilterModal = (props) => {
     setSearchParams(newSearchParams);
     setPrevFilters(filters);
     setFiltersChanged(false);
+    
     props.onClose();
   };
 

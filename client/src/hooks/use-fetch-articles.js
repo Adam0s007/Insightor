@@ -26,7 +26,7 @@ export function useFetchArticles({ pageNumber, trigger }) {
       sort: searchParams.get("sort") ?? '',
       order: searchParams.get("order") ?? '',
     };
-
+    console.log(queryObject);
     setIsPending(true);
     setError(false);
 

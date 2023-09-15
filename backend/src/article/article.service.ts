@@ -105,7 +105,8 @@ export class ArticleService {
       case 'rating':
         query.orderBy('article.rating', sortOrder);
         break;
-        
+      case 'reviews':
+        query.orderBy('article.reviewsCount', sortOrder);  
       default:
         query.orderBy('article.date', 'DESC');  // Default sort by date
         break;

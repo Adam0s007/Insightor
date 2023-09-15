@@ -99,7 +99,7 @@ const FilterContent = ({ filters, setFilters }) => {
           onChange={handleChange}
           className={classes.sortDropdown}
         >
-          <option value="">None</option>
+          <option value="" disabled>None</option>
           <option value="date">Date</option>
           <option value="reviews">Popularity</option>
           <option value="rating">Rating</option>
@@ -113,11 +113,12 @@ const FilterContent = ({ filters, setFilters }) => {
         <select 
           name="order" 
           id="order"
+          disabled={!filters.sort}
           value={filters.order || ""} 
           onChange={handleChange}
           className={classes.sortDropdown}
         >
-          <option value="">None</option>
+          <option value="" disabled>None</option>
           <option value="ASC">Ascending</option>
           <option value="DESC">Descending</option>
         </select>

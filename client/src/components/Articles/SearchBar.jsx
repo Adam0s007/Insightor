@@ -31,6 +31,9 @@ const SearchBar = (props) => {
     props.onFiltersSubmit();
   };
 
+  const closeModal = () =>{
+    setIsModalOpen(false);
+  }
   return (
     <div className={styles.wrapper}>
       <form onSubmit={submitHandler} className={styles.searchContainer}>
@@ -63,7 +66,8 @@ const SearchBar = (props) => {
       {isModalOpen && (
         <FilterModal
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={closeModal}
+          
         />
       )}
     </div>
