@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     z-index:9;
+    transition: all 0.3s ease-out;
   }
   
   .modalContent {
@@ -18,10 +19,15 @@
     width: 80%;
     max-width: 500px;
     z-index:10;
-    transition: all 0.3s ease-out;
+   
+  }
+
+  .group{
+    display:flex;
+    gap:1em;
   }
   
-  .button__close{
+  .button{
     border: none;
     background-color: var(--main-color);
     cursor: pointer;
@@ -33,6 +39,27 @@
     transition: opacity 0.15s ease-out;
   }
 
-  .button__close:hover{
+  .button:hover{
     opacity:1;
   }
+
+
+  .applyButton{
+    background-color: var(--color);
+  }
+
+  .resetButton{
+    background-color:rgb(251, 60, 60);
+  }
+
+  .button:disabled {
+    cursor: not-allowed;
+    background-color: #aaa;
+    color: #777;
+    opacity: 0.5;
+  }
+  
+  .button:disabled:hover {
+    opacity: 0.5;  /* Upewnij się, że hover nie ma wpływu na wyłączone przyciski */
+  }
+  

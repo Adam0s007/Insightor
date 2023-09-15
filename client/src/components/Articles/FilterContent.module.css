@@ -1,0 +1,51 @@
+
+
+.container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-around;
+    font-size:15px;
+    padding:0.8em;
+}
+
+.group{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-around;
+    width:100%;
+    margin: 0 0 1rem 0;
+}
+.container label{
+    font-size:13px;
+}
+.dateRange{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    width:100%;
+    margin: 0 0 1rem 0;  
+}
+.dateRange label{
+    font-size:13px;
+}
+
+.Item{
+    gap:0.6em;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.container input{
+    width:100%;
+    max-width:15em;
+    padding:0.5em;
+    border-radius:0.5em;
+    border:1px solid #ccc;
+    margin:0.4em;
+}
+
+

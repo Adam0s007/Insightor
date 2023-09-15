@@ -6,6 +6,7 @@ import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer";
 import { Link } from "react-router-dom";
 import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
+import SearchBar from "./SearchBar";
 
 const Articles = () => {
   useEffect(() => {
@@ -39,6 +40,7 @@ const Articles = () => {
         </div>
       )}
       <section className={classes.posts}>
+        <SearchBar />
         {articles && articles.map((post, index) => {
           const isLastElement = articles.length === index + 1;
           return (

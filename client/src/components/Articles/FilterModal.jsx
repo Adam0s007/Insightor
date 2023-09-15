@@ -1,53 +1,86 @@
-
-import React, {useRef } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import { useSearchParams } from "react-router-dom";
 import classes from "./FilterModal.module.css";
-import './ModalAnimation.css';
-import CSSTransition from "react-transition-group/CSSTransition";
 import FilterContent from "./FilterContent";
-const animationTiming = {
-  enter: 160,
-  exit: 160,
+
+const initialFilters = {
+  authorName: "",
+  authorSurname: "",
+  dateFrom: "",
+  dateTo: "",
+  rating: "",
 };
 
 const FilterModal = (props) => {
-    const nodeRef = useRef(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filters, setFilters] = useState(initialFilters);
+  const [prevFilters, setPrevFilters] = useState(initialFilters);
+  const [filtersChanged, setFiltersChanged] = useState(false);
 
-    const handleApplyFilters = (newFilters) => {
-        props.onNewFilters(newFilters);
-        props.onClose();
+  useEffect(() => {
+    if (JSON.stringify(filters) !== JSON.stringify(prevFilters)) {
+      setFiltersChanged(true);
+    } else {
+      setFiltersChanged(false);
     }
+  }, [filters, prevFilters]);
 
-    return ReactDOM.createPortal(
-        <CSSTransition
-            nodeRef={nodeRef}
-            mountOnEnter
-            unmountOnExit
-            in={props.isOpen}
-            timeout={animationTiming}
-            classNames={{
-                enter: "",
-                enterActive: "ModalOpen",
-                exit: "",
-                exitActive: "ModalClosed",
-            }}
-        >
-            <div 
-                ref={nodeRef}
-                className={classes.modalOverlay} 
-                onClick={props.onClose}
-            >
-                <div
-                    className={classes.modalContent}
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <FilterContent onApplyFilters={handleApplyFilters} />
-                    <button onClick={props.onClose} className={classes['button__close']}>Close</button>
-                </div>
-            </div>
-        </CSSTransition>,
-        document.getElementById("modal-root")
-    );
+  const anyFieldFilled = Object.values(filters).some((value) => value !== "");
+
+  const handleApply = () => {
+    for (let key in filters) {
+      if (filters[key]) {
+        searchParams.set(key, filters[key]);
+      }
+    }
+    setSearchParams(searchParams);
+    props.onApplyFilters(filters);
+    setPrevFilters(filters);
+    setFiltersChanged(false);
+  };
+
+  const handleReset = () => {
+    const keys = Array.from(searchParams.keys());
+    keys.forEach((key) => {
+      searchParams.delete(key);
+    });
+    setSearchParams(searchParams);
+    setFilters(initialFilters);
+    setPrevFilters(initialFilters);
+    setFiltersChanged(false);
+  };
+
+  return ReactDOM.createPortal(
+    <div className={classes.modalOverlay} onClick={props.onClose}>
+      <div
+        className={classes.modalContent}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <FilterContent filters={filters} setFilters={setFilters} filtersChanged={filtersChanged} />
+        <div className={classes.group}>
+          <button onClick={props.onClose} className={classes.button}>
+            Close
+          </button>
+          <button
+            onClick={handleReset}
+            className={` ${classes.button} ${classes.resetButton}`}
+            disabled={!anyFieldFilled}
+          >
+            Reset
+          </button>
+          <button
+            onClick={handleApply}
+            className={` ${classes.button} ${classes.applyButton}`}
+            disabled={!filtersChanged}
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.getElementById("filter-modal")
+  );
 };
 
 export default FilterModal;

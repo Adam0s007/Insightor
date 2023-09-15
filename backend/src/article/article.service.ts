@@ -46,31 +46,79 @@ export class ArticleService {
     return article.toResponseObject();
   }
 
-  async findAll(max = undefined,page:number =1): Promise<ArticleEntity[]> {
+  async findAll(
+    max = undefined,
+    page: number = 1,
+    rating?: number,
+    dateFrom?: Date,
+    dateTo?: Date,
+    authorName?: string,
+    authorSurname?: string,
+    text?: string,
+    sortBy?: 'date' | 'rating' | 'reviews',
+    sortOrder: 'ASC' | 'DESC' = 'DESC'
+  ): Promise<ArticleEntity[]> {
+  
     if (max && (max < 1 || isNaN(max))) {
       throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
     }
-
-    let articles;
-    if (max === undefined) {
-      articles = await this.articleRepository.find({
-        relations: ['content', 'user', 'reviews'],
-        take: 3,
-        skip: 3 * (page - 1),
-      });
-    } else {
-      articles = await this.articleRepository.find({
-        relations: ['content', 'user', 'reviews'],
-        take: max,
-        order: {
-          date: 'DESC', // Order by date in descending order
-        },
-      });
+  
+    const query = this.articleRepository.createQueryBuilder('article')
+      .leftJoinAndSelect('article.content', 'content')
+      .leftJoinAndSelect('article.user', 'user')
+      .leftJoinAndSelect('article.reviews', 'reviews');
+  
+    if (rating) {
+      query.andWhere('article.rating = :rating', { rating });
     }
-    
+  
+    if (dateFrom) {
+      query.andWhere('article.date >= :dateFrom', { dateFrom });
+    }
+    if (dateTo) {
+      query.andWhere('article.date <= :dateTo', { dateTo });
+    }
 
-    return articles.map((article) => article.toResponseObject());
+    if (authorName) {
+      query.andWhere('user.name = :name', { name: authorName });
+    }
+    if (authorSurname) {
+      query.andWhere('user.surname = :surname', { surname: authorSurname });
+    }
+    if (text) {
+      query.andWhere(
+        'article.title LIKE :text OR article.description LIKE :text',
+        { text: `%${text}%` }
+      );
+    }
+    if (max) {
+      query.take(max);
+    } else {
+      query.take(3).skip(3 * (page - 1));
+    }
+    switch (sortBy) {
+      case 'date':
+        query.orderBy('article.date', sortOrder);
+        break;
+      case 'rating':
+        query.orderBy('article.rating', sortOrder);
+        break;
+      case 'reviews':
+        query.orderBy(
+          '(SELECT COUNT(r.id) FROM ReviewEntity r WHERE r.articleId = article.id)',
+          sortOrder
+        );
+        break;
+      default:
+        query.orderBy('article.date', 'DESC');  // Default sort by date
+        break;
+    }
+  
+    const articles = await query.getMany();
+    return articles.map(article => article.toResponseObject());
   }
+  
+  
 
   async findOne(id: string, userId?: string) {
     const article = await this.articleRepository.findOne({
