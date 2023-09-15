@@ -38,14 +38,9 @@ const Articles = () => {
   };
   
   return (
-    <>
-      {token && (
-        <div className={classes.addArticle}>
-          <Link to="new">New Article</Link>
-        </div>
-      )}
+    
       <section className={classes.posts}>
-        <SearchBar onFiltersSubmit={filtersSubmitHandler} isPending={isPending} />
+        <SearchBar onFiltersSubmit={filtersSubmitHandler} isPending={isPending} token={token} />
         {articles && articles.map((post, index) => {
           const isLastElement = articles.length === index + 1;
           return (
@@ -68,7 +63,7 @@ const Articles = () => {
         </div>
         
       </section>
-    </>
+    
   );
 };
 

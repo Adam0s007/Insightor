@@ -23,6 +23,8 @@ export function useFetchArticles({ pageNumber, trigger }) {
       dateTo: searchParams.get("dateTo") ?? '',
       rating: searchParams.get("rating") ?? '',
       text: searchParams.get("text") ?? '',
+      sort: searchParams.get("sort") ?? '',
+      order: searchParams.get("order") ?? '',
     };
 
     setIsPending(true);

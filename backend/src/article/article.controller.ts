@@ -40,8 +40,8 @@ export class ArticleController {
     @Query('authorName') authorName?: string,
     @Query('authorSurname') authorSurname?: string,
     @Query('text') text?: string,
-    @Query('sortBy') sortBy?: 'date' | 'rating' | 'reviews',
-    @Query('sortOrder') sortOrder?: 'ASC' | 'DESC',
+    @Query('sort') sortBy?: 'date' | 'rating' | 'reviews',
+    @Query('order') sortOrder?: 'ASC' | 'DESC',
   ) {
     return await this.articleService.findAll(
       max,

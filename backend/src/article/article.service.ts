@@ -83,7 +83,6 @@ export class ArticleService {
       query.andWhere('article.date <= :dateTo', { dateTo: endDate.toISOString() });
     }
     
-
     if (authorName) {
       query.andWhere('user.name = :name', { name: authorName });
     }
@@ -96,13 +95,9 @@ export class ArticleService {
         { text: `%${text}%` }
       );
     }
-    if (max) {
-      query.take(max);
-    } else {
-      query.take(3).skip(3 * (page - 1));
+   if(sortOrder !== 'ASC' && sortOrder !== 'DESC') {
+    sortOrder = 'DESC';
     }
-    console.log(query.getSql());
-
     switch (sortBy) {
       case 'date':
         query.orderBy('article.date', sortOrder);
@@ -110,15 +105,15 @@ export class ArticleService {
       case 'rating':
         query.orderBy('article.rating', sortOrder);
         break;
-      case 'reviews':
-        query.orderBy(
-          '(SELECT COUNT(r.id) FROM ReviewEntity r WHERE r.articleId = article.id)',
-          sortOrder
-        );
-        break;
+        
       default:
         query.orderBy('article.date', 'DESC');  // Default sort by date
         break;
+    }
+    if (max) {
+      query.take(max);
+    } else {
+      query.take(3).skip(3 * (page - 1));
     }
   
     const articles = await query.getMany();
