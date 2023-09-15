@@ -1,50 +1,119 @@
-
-
-.container{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:space-around;
-    font-size:15px;
-    padding:0.8em;
-}
-
-.group{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    justify-content:space-around;
-    width:100%;
-    margin: 0 0 1rem 0;
-}
-.container label{
-    font-size:13px;
-}
-.dateRange{
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    justify-content:space-around;
-    width:100%;
-    margin: 0 0 1rem 0;  
-}
-.dateRange label{
-    font-size:13px;
-}
-
-.Item{
-    gap:0.6em;
+.container {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Changed to center for a more balanced look */
+    font-size: 15px;
+    padding: 1.5em;
+    background-color: #f8f9fa;
+    border-radius: 10px; /* Increased border radius */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Fixed max-width for a modal appearance */
+    margin: 0 auto; /* Centers the modal if it's used directly within a page */
+}
+
+.group {
+    display: flex;
+    flex-wrap:wrap;
+    align-items: center;
+    justify-content: space-between; /* Changed to space-between for even distribution */
+    width: 100%;
+    gap: 0.5em;
+
+}
+
+.group>*{
+    flex-grow:1;
+}
+
+.container label {
+    font-size: 14px; /* Slightly larger font for better readability */
+    font-weight: 600;
+    color: #333;
+    display: block; /* Make labels take up the full width for better alignment */
     
 }
 
-.container input{
-    width:100%;
-    max-width:15em;
-    padding:0.5em;
-    border-radius:0.5em;
-    border:1px solid #ccc;
-    margin:0.4em;
+.dateRange, .dateItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
 }
 
+
+.container .Item {
+    gap: 0.6em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+   
+    max-width: 14em;
+    width:100%;
+}
+
+.container input, .container select {
+    width: 100%;
+    max-width: 13em;
+    padding: 0.5em;
+    border-radius: 8px; /* Slightly increased for a smoother look */
+    border: 1px solid #ccc;
+    margin: 0.4em 0; /* Adjusted margin to only apply vertically */
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+    background-color: #fff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05); /* subtle inner shadow for depth */
+}
+
+.container input:focus, .container select:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5), 0 3px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f1f4f8; /* light blue-ish tint on focus */
+    outline: none;
+}
+
+.container input:hover, .container select:hover {
+    border-color: #0056b3; /* Darker shade of blue for hover */
+    background-color: #f1f4f8; /* Same tint for hover to match focus */
+}
+
+@media only screen and (max-width: 500px) {
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.5em;
+    }
+
+    .group,
+    .container .Item,
+    .container .dateRange,
+    .container .dateItem {
+        flex-direction: column;
+        gap: 0.25em; /* Bardzo małe odstępy między elementami */
+    }
+
+    .group > * {
+        margin-bottom: 0.2em; /* Minimalny margines na dole */
+    }
+
+    .container label {
+        font-size: 13px; 
+        margin-bottom: -0.3em; /* Bardzo mały odstęp poniżej etykiety */
+        display: block; /* Dla pewności, że etykieta będzie zajmować pełną szerokość */
+        color: #444; /* Trochę ciemniejszy kolor dla lepszej widoczności na małych ekranach */
+    }
+
+    .container input, 
+    .container select {
+        width: 100%;
+        max-width: none;
+        margin: 0.2em 0; 
+        padding: 0.5em; /* Mniejszy padding dla lepszej adaptacji do małych ekranów */
+        border-radius: 4px;
+    }
+
+    .dateRange, 
+    .dateItem {
+        gap: 0.1em; /* Lekko zwiększone odstępy między datami dla czytelności */
+    }
+}

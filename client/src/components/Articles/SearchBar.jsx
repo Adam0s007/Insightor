@@ -7,12 +7,7 @@ import styles from "./SearchBar.module.css";
 const SearchBar = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [textFilter, setTextFilter] = useState(searchParams.get("text") || "");
-  const [sortCriteria, setSortCriteria] = useState(
-    searchParams.get("sort") || ""
-  );
-  const [sortOrder, setSortOrder] = useState(
-    searchParams.get("order") || ""
-  );
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = props.token;
   useEffect(() => {
@@ -29,21 +24,6 @@ const SearchBar = (props) => {
     setSearchParams(searchParams);
   };
 
-  const handleCriteriaChange = (e) => {
-    const newCriteria = e.target.value;
-    setSortCriteria(newCriteria);
-    searchParams.set("sort", newCriteria);
-    setSearchParams(searchParams);
-    submitHandler();
-  };
-
-  const handleOrderChange = (e) => {
-    const newOrder = e.target.value;
-    setSortOrder(newOrder);
-    searchParams.set("order", newOrder);
-    setSearchParams(searchParams);
-    submitHandler();
-  };
 
   const submitHandler = (e) => {
     e && e.preventDefault();
@@ -71,21 +51,6 @@ const SearchBar = (props) => {
           />
         </div>
       </form>
-
-      <div className={`${styles.searchContainer} ${styles.sortSection}`}>
-        <select onChange={handleCriteriaChange} value={sortCriteria}>
-          <option value="" disabled>Sort By</option>
-          <option value="date">Date</option>
-          <option value="reviews">Popularity</option>
-          <option value="rating">Rating</option>
-        </select>
-
-        <select onChange={handleOrderChange} value={sortOrder}>
-          <option value="" disabled>sort type</option>
-          <option value="ASC">Ascending</option>
-          <option value="DESC">Descending</option>
-        </select>
-      </div>
 
       {token && (
         <div className={`${styles.searchContainer} ${styles.new}`}>

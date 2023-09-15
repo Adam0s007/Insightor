@@ -23,8 +23,12 @@
   }
 
   .group{
+    margin:0.5em;
     display:flex;
     gap:1em;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items: center;
   }
   
   .button{
@@ -62,4 +66,6 @@
   .button:disabled:hover {
     opacity: 0.5;  /* Upewnij się, że hover nie ma wpływu na wyłączone przyciski */
   }
+
+  
   

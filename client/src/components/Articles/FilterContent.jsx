@@ -1,10 +1,8 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
 import classes from "./FilterContent.module.css";
 
 const FilterContent = ({ filters, setFilters }) => {
-  const [searchParams] = useSearchParams();
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({
@@ -19,18 +17,17 @@ const FilterContent = ({ filters, setFilters }) => {
         <input
           name="authorName"
           placeholder="Enter author name"
-          defaultValue={filters.authorName || searchParams.get("authorName") || ""}
+          value={filters.authorName || ""}
           onChange={handleChange}
         />
         <input
           name="authorSurname"
           placeholder="Enter author surname"
-          defaultValue={
-            filters.authorSurname || searchParams.get("authorSurname") || ""
-          }
+          value={filters.authorSurname  || ""}
           onChange={handleChange}
         />
       </div>
+
       <div className={classes.dateRange}>
         <div className={classes.dateItem}>
           <label htmlFor="dateFrom" className={classes.label}>
@@ -40,11 +37,11 @@ const FilterContent = ({ filters, setFilters }) => {
             id="dateFrom"
             type="date"
             name="dateFrom"
-            defaultValue={filters.dateFrom || searchParams.get("dateFrom") || ""}
+            value={filters.dateFrom || ""}
             onChange={handleChange}
           />
         </div>
-        <div className={classes.Item}>
+        <div className={classes.dateItem}> 
           <label htmlFor="dateTo" className={classes.label}>
             To
           </label>
@@ -52,11 +49,12 @@ const FilterContent = ({ filters, setFilters }) => {
             id="dateTo"
             type="date"
             name="dateTo"
-            defaultValue={filters.dateTo || searchParams.get("dateTo") || ""}
+            value={filters.dateTo  || ""}
             onChange={handleChange}
           />
         </div>
       </div>
+
       <div className={classes.Item}>
         <label className={classes.label} htmlFor="rating">
           Rating
@@ -69,7 +67,7 @@ const FilterContent = ({ filters, setFilters }) => {
           max="5"
           step="0.5"
           placeholder="0 to 5 (0.5 steps)"
-          defaultValue={filters.rating || searchParams.get("rating") || ""}
+          value={filters.rating || ""}
           className={classes.ratingInput}
           onChange={handleChange}
           onInvalid={(e) => {
@@ -86,8 +84,43 @@ const FilterContent = ({ filters, setFilters }) => {
               );
             }
           }}
-          onInput={(e) => e.target.setCustomValidity("")} // Reset custom validation
+          onInput={(e) => e.target.setCustomValidity("")}
         />
+      </div>
+
+      <div className={classes.Item}>
+        <label htmlFor="sort" className={classes.label}>
+          Sort
+        </label>
+        <select 
+          name="sort"
+          id="sort" 
+          value={filters.sort || ""} 
+          onChange={handleChange}
+          className={classes.sortDropdown}
+        >
+          <option value="">None</option>
+          <option value="date">Date</option>
+          <option value="reviews">Popularity</option>
+          <option value="rating">Rating</option>
+        </select>
+      </div>
+
+      <div className={classes.Item}>
+        <label htmlFor="order" className={classes.label}>
+          Order
+        </label>
+        <select 
+          name="order" 
+          id="order"
+          value={filters.order || ""} 
+          onChange={handleChange}
+          className={classes.sortDropdown}
+        >
+          <option value="">None</option>
+          <option value="ASC">Ascending</option>
+          <option value="DESC">Descending</option>
+        </select>
       </div>
     </div>
   );

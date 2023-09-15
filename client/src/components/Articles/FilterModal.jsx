@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ReactDOM from "react-dom";
 import { useSearchParams } from "react-router-dom";
 import classes from "./FilterModal.module.css";
 import FilterContent from "./FilterContent";
 
-const initialFilters = {
-  authorName: "",
-  authorSurname: "",
-  dateFrom: "",
-  dateTo: "",
-  rating: 0,
-};
-
 const FilterModal = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  
+  let initialFilters = {
+    authorName: searchParams.get("authorName") || "",
+    authorSurname: searchParams.get("authorSurname") || "",
+    dateFrom: searchParams.get("dateFrom") || "",
+    dateTo: searchParams.get("dateTo") || "",
+    rating: +searchParams.get("rating") || 0,
+    sort: searchParams.get("sort") || "", 
+    order: searchParams.get("order") || "",
+  };
+  
   const [filters, setFilters] = useState(initialFilters);
   const [prevFilters, setPrevFilters] = useState(initialFilters);
   const [filtersChanged, setFiltersChanged] = useState(false);
@@ -26,31 +29,41 @@ const FilterModal = (props) => {
     }
   }, [filters, prevFilters]);
 
-  const anyFieldFilled = Object.values(filters).some((value) => {
-    if (typeof value === "string") return value !== "";
-    if (typeof value === "number") return !isNaN(value) && isFinite(value);
-    return false;
-});
-
+  const anyFieldFilled = useMemo(() => {
+    return Object.values(filters).some((value) => {
+      if (typeof value === "string") return value !== "";
+      if (typeof value === "number") return !isNaN(value) && isFinite(value);
+      return false;
+    });
+  }, [filters]);
 
   const handleApply = () => {
+    let newSearchParams = new URLSearchParams(searchParams.toString()); // clone the searchParams
+
     for (let key in filters) {
       if (filters[key]) {
-        searchParams.set(key, filters[key]);
+        newSearchParams.set(key, filters[key]);
       }
     }
-    setSearchParams(searchParams);
+
+    setSearchParams(newSearchParams);
     setPrevFilters(filters);
     setFiltersChanged(false);
     props.onClose();
   };
 
   const handleReset = () => {
-    const keys = Array.from(searchParams.keys());
-    keys.forEach((key) => {
-      searchParams.delete(key);
-    });
-    setSearchParams(searchParams);
+    initialFilters = {
+      authorName: "",
+      authorSurname: "",
+      dateFrom: "",
+      dateTo: "",
+      rating: 0,
+      sort: "", // Resetting sorting state
+      order: ""      // Resetting sorting state
+    };
+    let newSearchParams = new URLSearchParams(); // create a fresh searchParams
+    setSearchParams(newSearchParams);
     setFilters(initialFilters);
     setPrevFilters(initialFilters);
     setFiltersChanged(false);
