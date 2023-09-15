@@ -73,11 +73,16 @@ export class ArticleService {
     }
   
     if (dateFrom) {
-      query.andWhere('article.date >= :dateFrom', { dateFrom });
+      const startDate = new Date(dateFrom);
+      startDate.setHours(0, 0, 0, 0); // set time to midnight
+      query.andWhere('article.date >= :dateFrom', { dateFrom: startDate.toISOString() });
     }
     if (dateTo) {
-      query.andWhere('article.date <= :dateTo', { dateTo });
+      const endDate = new Date(dateTo);
+      endDate.setHours(23, 59, 59, 999); // set time to the end of the day
+      query.andWhere('article.date <= :dateTo', { dateTo: endDate.toISOString() });
     }
+    
 
     if (authorName) {
       query.andWhere('user.name = :name', { name: authorName });
@@ -96,6 +101,8 @@ export class ArticleService {
     } else {
       query.take(3).skip(3 * (page - 1));
     }
+    console.log(query.getSql());
+
     switch (sortBy) {
       case 'date':
         query.orderBy('article.date', sortOrder);

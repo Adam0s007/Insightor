@@ -1,9 +1,10 @@
 import { QueryClient } from "@tanstack/react-query";
 import { redirect, json } from "react-router-dom";
 import { getAuthToken } from "./auth";
+
 export const queryClient = new QueryClient();
 
-const defaultUrl = "http://localhost:4002";
+export const defaultUrl = "http://localhost:4002";
 
 export const fetchArticles = async ({ signal, max,page }) => {
   console.log("Page: "+page)

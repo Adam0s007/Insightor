@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
 import SearchBar from "./SearchBar";
-
+import {queryClient} from '../../utils/http'
 const Articles = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -15,9 +15,10 @@ const Articles = () => {
   
   const token = getSimpleToken();
   const [pageNumber, setPageNumber] = useState(1);
-
-  const { articles, isPending, isError, error, hasMore } = useFetchArticles({
+  const [trigger,setTrigger] = useState(false);
+  const { articles, isPending, error, hasMore } = useFetchArticles({
     pageNumber,
+    trigger
   });
   const observer = useRef();
   const lastArticleElementRef = useCallback((node) => {
@@ -31,6 +32,10 @@ const Articles = () => {
     if (node) observer.current.observe(node);
   },[isPending, hasMore]);
 
+  const filtersSubmitHandler = () => {
+    setPageNumber(1);
+    setTrigger(!trigger);
+  };
   
   return (
     <>
@@ -40,7 +45,7 @@ const Articles = () => {
         </div>
       )}
       <section className={classes.posts}>
-        <SearchBar />
+        <SearchBar onFiltersSubmit={filtersSubmitHandler} />
         {articles && articles.map((post, index) => {
           const isLastElement = articles.length === index + 1;
           return (
@@ -59,7 +64,7 @@ const Articles = () => {
         })}
         <div className={classes.fullWidth}>
         {isPending && <LoadingIndicator />}
-        {isError && <ErrorContainer title="An error occurred" message={error.message} />}
+        {error && <ErrorContainer title="An error occurred" message={error.message} />}
         </div>
         
       </section>

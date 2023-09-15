@@ -3,6 +3,7 @@ import { FaSearch, FaFilter } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import styles from "./SearchBar.module.css";
+
 const SearchBar = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [textFilter, setTextFilter] = useState(searchParams.get("text") || "");
@@ -16,22 +17,23 @@ const SearchBar = (props) => {
   }, [searchParams]);
 
   const handleTextChange = (e) => {
-    setTextFilter(e.target.value);
-  };
-
-  const handleSearchClick = () => {
-    searchParams.set("text", textFilter);
+    const newText = e.target.value;
+    setTextFilter(newText);
+    
+    // Update the URL as the text changes
+    searchParams.set("text", newText);
     setSearchParams(searchParams);
-    props.onFiltersSubmit({ text: textFilter });
+ 
   };
 
-  const handleFiltersSubmit = (filters) => {
-    //props.onFiltersSubmit({ ...filters, text: textFilter });
+  const submitHandler = (e) => {
+    e.preventDefault();
+      props.onFiltersSubmit(); // assuming this will handle other filters and the search itself
   };
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.searchContainer}>
+      <form onSubmit={submitHandler} className={styles.searchContainer}>
         <input
           type="text"
           value={textFilter}
@@ -40,7 +42,7 @@ const SearchBar = (props) => {
           className={styles.searchInput}
         />
         <div className={styles.icons}>
-          <FaSearch onClick={handleSearchClick} className={styles.icon} />
+          <FaSearch className={styles.icon} onClick={submitHandler} />
           <FaFilter
             onClick={() => setIsModalOpen(true)}
             className={styles.icon}
@@ -50,10 +52,9 @@ const SearchBar = (props) => {
           <FilterModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            onApplyFilters={handleFiltersSubmit}
           />
         )}
-      </div>
+      </form>
     </div>
   );
 };

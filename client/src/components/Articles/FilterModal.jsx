@@ -9,7 +9,7 @@ const initialFilters = {
   authorSurname: "",
   dateFrom: "",
   dateTo: "",
-  rating: "",
+  rating: 0,
 };
 
 const FilterModal = (props) => {
@@ -26,7 +26,12 @@ const FilterModal = (props) => {
     }
   }, [filters, prevFilters]);
 
-  const anyFieldFilled = Object.values(filters).some((value) => value !== "");
+  const anyFieldFilled = Object.values(filters).some((value) => {
+    if (typeof value === "string") return value !== "";
+    if (typeof value === "number") return !isNaN(value) && isFinite(value);
+    return false;
+});
+
 
   const handleApply = () => {
     for (let key in filters) {
@@ -35,9 +40,9 @@ const FilterModal = (props) => {
       }
     }
     setSearchParams(searchParams);
-    props.onApplyFilters(filters);
     setPrevFilters(filters);
     setFiltersChanged(false);
+    props.onClose();
   };
 
   const handleReset = () => {
