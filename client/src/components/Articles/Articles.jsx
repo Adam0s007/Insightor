@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
 import SearchBar from "./SearchBar";
-import {queryClient} from '../../utils/http'
+
 const Articles = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,7 +45,7 @@ const Articles = () => {
         </div>
       )}
       <section className={classes.posts}>
-        <SearchBar onFiltersSubmit={filtersSubmitHandler} />
+        <SearchBar onFiltersSubmit={filtersSubmitHandler} isPending={isPending} />
         {articles && articles.map((post, index) => {
           const isLastElement = articles.length === index + 1;
           return (

@@ -19,13 +19,15 @@ const FilterContent = ({ filters, setFilters }) => {
         <input
           name="authorName"
           placeholder="Enter author name"
-          value={filters.authorName || searchParams.get("authorName") || ""}
+          defaultValue={filters.authorName || searchParams.get("authorName") || ""}
           onChange={handleChange}
         />
         <input
           name="authorSurname"
           placeholder="Enter author surname"
-          value={filters.authorSurname || searchParams.get("authorSurname") || ""}
+          defaultValue={
+            filters.authorSurname || searchParams.get("authorSurname") || ""
+          }
           onChange={handleChange}
         />
       </div>
@@ -34,11 +36,11 @@ const FilterContent = ({ filters, setFilters }) => {
           <label htmlFor="dateFrom" className={classes.label}>
             From
           </label>
-          <input 
-            id="dateFrom" 
-            type="date" 
-            name="dateFrom" 
-            value={filters.dateFrom || searchParams.get("dateFrom") || ""}
+          <input
+            id="dateFrom"
+            type="date"
+            name="dateFrom"
+            defaultValue={filters.dateFrom || searchParams.get("dateFrom") || ""}
             onChange={handleChange}
           />
         </div>
@@ -46,11 +48,11 @@ const FilterContent = ({ filters, setFilters }) => {
           <label htmlFor="dateTo" className={classes.label}>
             To
           </label>
-          <input 
-            id="dateTo" 
-            type="date" 
-            name="dateTo" 
-            value={filters.dateTo || searchParams.get("dateTo") || ""}
+          <input
+            id="dateTo"
+            type="date"
+            name="dateTo"
+            defaultValue={filters.dateTo || searchParams.get("dateTo") || ""}
             onChange={handleChange}
           />
         </div>
@@ -63,11 +65,28 @@ const FilterContent = ({ filters, setFilters }) => {
           id="rating"
           type="number"
           name="rating"
-          max="5"
           min="0"
+          max="5"
           step="0.5"
-          value={filters.rating || searchParams.get("rating") || ""}
+          placeholder="0 to 5 (0.5 steps)"
+          defaultValue={filters.rating || searchParams.get("rating") || ""}
+          className={classes.ratingInput}
           onChange={handleChange}
+          onInvalid={(e) => {
+            e.target.setCustomValidity("");
+            if (e.target.validity.valueMissing) {
+              e.target.setCustomValidity("Please provide a rating.");
+            } else if (
+              e.target.validity.rangeOverflow ||
+              e.target.validity.rangeUnderflow ||
+              e.target.validity.stepMismatch
+            ) {
+              e.target.setCustomValidity(
+                "Rating should be between 0 and 5, with 0.5 steps."
+              );
+            }
+          }}
+          onInput={(e) => e.target.setCustomValidity("")} // Reset custom validation
         />
       </div>
     </div>
