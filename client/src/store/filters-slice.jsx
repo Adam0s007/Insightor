@@ -1,26 +1,34 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialFiltersState = {
-  title: "",
-  description: "",
-  startDate: "",   // New property
-  endDate: "",     // New property
-  personName: "",
+export const initialFilters = {
+  // authorName: "",
+  // authorSurname: "",
+  // dateFrom: "",
+  // dateTo: "",
+  // rating: 0,
+  // sort: "",
+  // order: ""
+  text: ""
 };
 
-export const filtersSlice = createSlice({
-  name: "filters",
-  initialState: initialFiltersState,  // Just use the initialFiltersState directly here
+const filtersSlice = createSlice({
+  name: 'filters',
+  initialState: initialFilters,
   reducers: {
-    setFilters: (state, action) => {
+    updateFilters: (state, action) => {
       Object.assign(state, action.payload);
     },
+    
     resetFilters: (state) => {
-      Object.assign(state, initialFiltersState);
-    },
-  },
+      const textValue = state.text; 
+      return {
+        ...initialFilters,
+        text: textValue
+      };
+    }
+  }
 });
 
-export const filtersActions = filtersSlice.actions;
+export const { updateFilters, resetFilters } = filtersSlice.actions;
 
 export default filtersSlice;

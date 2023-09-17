@@ -7,18 +7,17 @@ import { Link } from "react-router-dom";
 import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
 import SearchBar from "./SearchBar";
-
+import { useSelector } from "react-redux";
 const Articles = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   const token = getSimpleToken();
   const [pageNumber, setPageNumber] = useState(1);
-  const [trigger, setTrigger] = useState(false);
+  const filters = useSelector((state) => state.filters);
   const { articles, isPending, error, hasMore } = useFetchArticles({
     pageNumber,
-    trigger,
+    filters,
   });
   const observer = useRef();
   const lastArticleElementRef = useCallback(
@@ -37,7 +36,6 @@ const Articles = () => {
 
   const filtersSubmitHandler = () => {
     setPageNumber(1);
-    setTrigger(!trigger);
   };
 
   return (

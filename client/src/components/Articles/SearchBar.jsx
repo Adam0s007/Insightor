@@ -1,39 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import FilterModal from "./FilterModal";
 import styles from "./SearchBar.module.css";
+import { useDispatch} from 'react-redux';
+import { updateFilters } from "../../store/filters-slice";
 
 const SearchBar = (props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [textFilter, setTextFilter] = useState(searchParams.get("text") || "");
-  
+  const dispach = useDispatch();
+  const [textFilter, setTextFilter] = useState("");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = props.token;
-  useEffect(() => {
-    const currentText = searchParams.get("text");
-    if (currentText !== textFilter) {
-      setTextFilter(currentText || "");
-    }
-  }, [searchParams]);
 
   const handleTextChange = (e) => {
-    const newText = e.target.value;
-    setTextFilter(newText);
-    searchParams.set("text", newText);
-    setSearchParams(searchParams);
+    setTextFilter(e.target.value);
   };
-
 
   const submitHandler = (e) => {
     e && e.preventDefault();
     if (props.isPending) return;
+    dispach(updateFilters({text:textFilter}));
     props.onFiltersSubmit();
   };
 
-  const closeModal = () =>{
+  const closeModal = (isSubmitting=false) => {
     setIsModalOpen(false);
-  }
+    if (isSubmitting) {
+      props.onFiltersSubmit();
+    }
+  };
   return (
     <div className={styles.wrapper}>
       <form onSubmit={submitHandler} className={styles.searchContainer}>
@@ -53,6 +49,9 @@ const SearchBar = (props) => {
             className={styles.icon}
           />
         </div>
+        {isModalOpen && (
+          <FilterModal isOpen={isModalOpen} onClose={closeModal} />
+        )}
       </form>
 
       {token && (
@@ -61,14 +60,6 @@ const SearchBar = (props) => {
             Create new article
           </Link>
         </div>
-      )}
-
-      {isModalOpen && (
-        <FilterModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          
-        />
       )}
     </div>
   );

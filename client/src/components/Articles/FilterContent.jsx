@@ -1,15 +1,14 @@
 import React from "react";
 import classes from "./FilterContent.module.css";
 
-const FilterContent = ({ filters, setFilters }) => {
- 
+const FilterContent = ({ filters, setFilters }) => { 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const newFilters = { ...filters, [name]: value };
+    setFilters(newFilters);
   };
+
 
   return (
     <div className={classes.container}>
