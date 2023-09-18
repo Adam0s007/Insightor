@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useRef} from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import {Link} from 'react-router-dom'
@@ -14,7 +14,7 @@ const animationTiming = {
 };
 
 const ModalWithMenu = ({ isModalVisible, closeModal }) => {
-  
+  const modalRef = useRef(null);
   const userObj = useQuery({
         queryKey: ['profile'],
         queryFn: (signal) => fetchUser(signal)
@@ -31,17 +31,18 @@ const ModalWithMenu = ({ isModalVisible, closeModal }) => {
       />
       <CSSTransition
         in={isModalVisible}
+        nodeRef={modalRef}
         mountOnEnter
         unmountOnExit
         timeout={animationTiming}
         classNames={{
           enter: "",
-          enterActive: "ModalOpen",
+          enterActive: styles.ModalOpen,
           exit: "",
-          exitActive: "ModalClosed",
+          exitActive: styles.ModalClosed,
         }}
       >
-        <div className={styles.newContent}>
+        <div className={styles.newContent} ref={modalRef}>
           <Exit onClick={closeModal} className={styles.exit} />
           {content}
         </div>
@@ -49,6 +50,7 @@ const ModalWithMenu = ({ isModalVisible, closeModal }) => {
       
     </>
   );
+  
 
   return ReactDOM.createPortal(
     modalContent,

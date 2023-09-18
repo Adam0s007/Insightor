@@ -1,52 +1,101 @@
-import React from "react";
+import React, { useState,useRef } from "react";
+import ProfileDetails from "./ProfileDetails"; // Zaimportuj ProfileDetails
+import ProfileArticles from "./ProfileArticles"; // Zaimportuj ProfileArticles
 import styles from "./Profile.module.css";
-import defaultProfileImage from "../../assets/images/profilePicture.png"; // Przyjmując, że masz obraz domyślny w tym miejscu
-import {formatShortMonthDate} from "../../utils/date-conventer";
-const ProfilePicture = ({ imageSrc, description }) => (
-  <div className={styles.profileImageContainer}>
-    <img
-      src={imageSrc || defaultProfileImage}
-      alt={description || "User profile"}
-    />
-    {description && <p>{description}</p>}
-  </div>
-);
+import { CSSTransition } from "react-transition-group";
+
+const animationTiming = {
+  enter: 800,
+  exit: 900,
+};
 
 const Profile = ({ user }) => {
+  const [selectedMenuItem, setSelectedMenuItem] = useState(null);
+
+
+  const profileDetailsRef = useRef(null); // Utwórz referencję
+  const profileArticlesRef = useRef(null); 
+
   if (!user || !user.data) return <div>Loading...</div>;
 
-  const {
-    id,
-    created,
-    email,
-    name,
-    surname,
-    articles,
-    profilePicture,
-    description,
-  } = user.data;
+  const changeDisplayedItem = (state) => {
+    if (selectedMenuItem === state) {
+      setSelectedMenuItem(null);
+    } else {
+      setSelectedMenuItem(state);
+    }
+  };
+
+  const menuClickHandler = (e) => {
+    if (
+      e.target.innerText === "Profile details" &&
+      selectedMenuItem === "ProfileDetails"
+    ) {
+      setSelectedMenuItem(null);
+    }
+
+    switch (e.target.innerText) {
+      case "Profile details":
+        changeDisplayedItem("ProfileDetails");
+        break;
+      case "My articles":
+        changeDisplayedItem("ProfileArticles");
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
-    <div className={styles.profileContainer}>
-      <div className={styles.containerInfo}>
-        <ProfilePicture imageSrc={profilePicture} description={description} />
-        <div className={styles.profileDetails}>
-          <p className={styles.fullName}>
-            {name} {surname}
-          </p>
-          <p className={styles.email}>{email}</p>
-          <p className={styles.description}>
-            {description}
-            Lorem ipsum dolor sit amet, consectetur adip inc commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia
-          </p>
+    <ul className={styles.menu}>
+      <li className={styles.menuItem} onClick={menuClickHandler}>
+        Profile details
+      </li>
 
-          <p className={styles.creationDate}>created {formatShortMonthDate(created)}</p>
+      <CSSTransition
+        nodeRef={profileDetailsRef} // Dodaj nodeRef
+        in={selectedMenuItem === "ProfileDetails"}
+        mountOnEnter
+        unmountOnExit
+        timeout={animationTiming}
+        classNames={{
+          enter: "",
+          enterActive: styles.MenuOpen,
+          exit: "",
+          exitActive: styles.MenuClosed,
+        }}
+      >
+        <div className={styles.newContent} ref={profileDetailsRef}>  
+          <ProfileDetails {...user.data} />
         </div>
-      </div>
-    </div>
+      </CSSTransition>
+
+      <li className={styles.menuItem} onClick={menuClickHandler}>
+        My articles
+      </li>
+
+      <CSSTransition
+        nodeRef={profileArticlesRef} // Dodaj nodeRef
+        in={selectedMenuItem === "ProfileArticles"}
+        mountOnEnter
+        unmountOnExit
+        timeout={animationTiming}
+        classNames={{
+          enter: "",
+          enterActive: styles.MenuOpen,
+          exit: "",
+          exitActive: styles.MenuClosed,
+        }}
+      >
+        <div ref={profileArticlesRef} className={styles.newContent}> {/* Przypisz referencję */}
+          <ProfileArticles {...user.data} />
+        </div>
+      </CSSTransition>
+
+      <li className={styles.menuItem}>Achievements</li>
+      <li className={styles.menuItem}>Settings</li>
+      <li className={styles.menuItem}>Log out</li>
+    </ul>
   );
 };
 

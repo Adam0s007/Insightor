@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styles from "./ArticleDetails.module.css";
-import "./Animations.css";
+
 import Reviews from "./Review/Reviews";
 
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
