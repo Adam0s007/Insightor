@@ -25,7 +25,6 @@ export class ArticleService {
       throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
     }
   }
-  
 
   async create(userId: string, articleDto: ArticleDTO) {
     if (articleDto.content.length === 0) {
@@ -56,47 +55,53 @@ export class ArticleService {
     authorSurname?: string,
     text?: string,
     sortBy?: 'date' | 'rating' | 'reviews',
-    sortOrder: 'ASC' | 'DESC' = 'DESC'
+    sortOrder: 'ASC' | 'DESC' = 'DESC',
   ): Promise<ArticleEntity[]> {
-  
     if (max && (max < 1 || isNaN(max))) {
       throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
     }
-  
-    const query = this.articleRepository.createQueryBuilder('article')
+
+    const query = this.articleRepository
+      .createQueryBuilder('article')
       .leftJoinAndSelect('article.content', 'content')
       .leftJoinAndSelect('article.user', 'user')
       .leftJoinAndSelect('article.reviews', 'reviews');
-  
+
     if (rating) {
       query.andWhere('article.rating = :rating', { rating });
     }
-  
+
     if (dateFrom) {
       const startDate = new Date(dateFrom);
       startDate.setHours(0, 0, 0, 0); // set time to midnight
-      query.andWhere('article.date >= :dateFrom', { dateFrom: startDate.toISOString() });
+      query.andWhere('article.date >= :dateFrom', {
+        dateFrom: startDate.toISOString(),
+      });
     }
     if (dateTo) {
       const endDate = new Date(dateTo);
       endDate.setHours(23, 59, 59, 999); // set time to the end of the day
-      query.andWhere('article.date <= :dateTo', { dateTo: endDate.toISOString() });
+      query.andWhere('article.date <= :dateTo', {
+        dateTo: endDate.toISOString(),
+      });
     }
-    
+
     if (authorName) {
-      query.andWhere('user.name = :name', { name: authorName });
+      query.andWhere('LOWER(user.name) = LOWER(:name)', { name: authorName });
     }
     if (authorSurname) {
-      query.andWhere('user.surname = :surname', { surname: authorSurname });
+      query.andWhere('LOWER(user.surname) = LOWER(:surname)', {
+        surname: authorSurname,
+      });
     }
     if (text) {
       query.andWhere(
-        'article.title LIKE :text OR article.description LIKE :text',
-        { text: `%${text}%` }
+        'article.title ILIKE :text OR article.description ILIKE :text', // Use ILIKE here for PostgreSQL
+        { text: `%${text}%` },
       );
     }
-   if(sortOrder !== 'ASC' && sortOrder !== 'DESC') {
-    sortOrder = 'DESC';
+    if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
+      sortOrder = 'DESC';
     }
     switch (sortBy) {
       case 'date':
@@ -106,9 +111,9 @@ export class ArticleService {
         query.orderBy('article.rating', sortOrder);
         break;
       case 'reviews':
-        query.orderBy('article.reviewsCount', sortOrder);  
+        query.orderBy('article.reviewsCount', sortOrder);
       default:
-        query.orderBy('article.date', 'DESC');  // Default sort by date
+        query.orderBy('article.date', 'DESC'); // Default sort by date
         break;
     }
     if (max) {
@@ -116,12 +121,10 @@ export class ArticleService {
     } else {
       query.take(3).skip(3 * (page - 1));
     }
-  
+
     const articles = await query.getMany();
-    return articles.map(article => article.toResponseObject());
+    return articles.map((article) => article.toResponseObject());
   }
-  
-  
 
   async findOne(id: string, userId?: string) {
     const article = await this.articleRepository.findOne({
@@ -148,7 +151,6 @@ export class ArticleService {
       user = await this.userRepository.findOne({
         where: { id: userId },
       });
-    
 
     const responseObject = article.toResponseObject();
     return { ...responseObject, isOwner };

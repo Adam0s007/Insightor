@@ -3,13 +3,24 @@ import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import {Link} from 'react-router-dom'
 import styles from './ModalWithMenu.module.css';
-import Exit from '../../../ui/Exit/Exit'
+import Exit from '../../ui/Exit/Exit'
+import { useQuery } from '@tanstack/react-query';
+import {fetchUser} from '../../utils/http'
+import Profile from './Profile';
+
 const animationTiming = {
   enter: 1000,
   exit: 2000,
 };
 
-const ModalWithMenu = ({ isModalVisible, closeModal, content, menuClickHandler }) => {
+const ModalWithMenu = ({ isModalVisible, closeModal }) => {
+  
+  const userObj = useQuery({
+        queryKey: ['profile'],
+        queryFn: (signal) => fetchUser(signal)
+    })
+  const content = <Profile user={userObj}/>
+  
   const modalContent = (
     <>
       <div
@@ -31,22 +42,11 @@ const ModalWithMenu = ({ isModalVisible, closeModal, content, menuClickHandler }
         }}
       >
         <div className={styles.newContent}>
-          {/* <button type="button" className={styles.closeButton} onClick={closeModal}><IoMdReturnLeft /></button> */}
-          <Exit onClick={closeModal} />
+          <Exit onClick={closeModal} className={styles.exit} />
           {content}
         </div>
       </CSSTransition>
-      <div className={`${styles.menu} ${isModalVisible ? styles.menuActive : ""}`}>
-        <button
-          className={styles.reviewArticleButton}
-          onClick={() => menuClickHandler('reviews')}
-        >
-          Reviews
-        </button>
-        <Link to="edit" className={styles.reviewArticleButton}>
-          Edit
-        </Link>
-      </div>
+      
     </>
   );
 

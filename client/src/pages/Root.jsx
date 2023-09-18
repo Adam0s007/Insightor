@@ -39,7 +39,6 @@ const RootLayout = (props) => {
     if (
       location.pathname === "/articles" ||
       location.pathname === "/contact" ||
-      location.pathname === "/my-profile" ||
       location.pathname === "/" 
     )
       return <HeaderNavigation />;

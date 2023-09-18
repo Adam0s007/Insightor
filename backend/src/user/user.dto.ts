@@ -45,6 +45,8 @@ export class UserRO {
   surname: string;
   email: string;
   created: Date;
+  description?: string;
+  profilePicture?: string;
   ideas?: ArticleEntity[];
   token?: string;
   bookmarks?: ArticleEntity[];

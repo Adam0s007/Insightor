@@ -7,7 +7,6 @@ import {
 
 import RootLayout from "./pages/Root";
 import HomePage from "./pages/HomePage";
-import ProfilePage from "./pages/ProfilePage"
 import ArticleLayout from "./pages/ArticlesPage";
 import ContactLayout from "./pages/Contact";
 import NewArticlePage from "./pages/NewArticlePage";
@@ -66,7 +65,7 @@ function App() {
         },
 
         { path: "contact", element: <ContactLayout />, id: "contact" },
-        {path: "my-profile", element: <ProfilePage />, id: "my-profile"},
+        
         {
           path: "auth",
           element: <AuthenticationPage />,

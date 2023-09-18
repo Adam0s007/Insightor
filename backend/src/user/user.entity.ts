@@ -37,13 +37,21 @@ export class UserEntity {
   })
   email: string;
 
+  
+  @Column({ type: 'text', nullable: true })
+  description: string;
+
+  //make column with name profile picture and type text and it can be nullable
+  @Column({ type: 'text', nullable: true })
+  profilePicture: string;
+  
 
   @OneToMany(type => ArticleEntity, article => article.user)
   articles: ArticleEntity[];
 
   toResponseObject(showToken: boolean = false): UserRO {
-    const { id, created, name, surname, email, token,articles } = this;
-    const responseObject: UserRO = { id, created, email, name, surname };
+    const { id, created, name, surname, email, token,articles,description,profilePicture } = this;
+    const responseObject: UserRO = { id, created, email, name, surname,description,profilePicture };
     if (showToken) {
       responseObject.token = token;
     }

@@ -1,52 +1,107 @@
-.profile{
-    min-height:100vh;
+.profileContainer {
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  width: 100%;
+  background-color: #fff;
+  overflow-y: scroll;
+  max-height: 100vh;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top:-25px;
+  overflow-x:hidden;
+  
 }
-.container {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+
+.profileContainer h2 {
+  margin-bottom: 20px;
+}
+
+.profileContainer h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: black;
+}
+
+
+.profileContainer ul {
+  list-style-type: disc;
+}
+
+.profileContainer li {
+  margin-bottom: 5px;
+}
+
+
+.profileImageContainer{
+    width:160px;
+    height:160px;
     display:flex;
     flex-direction:column;
-    
+    align-items:center;
+    justify-content:center;
+   
+}
+.profileImageContainer img{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:10px;
+    box-shadow:0px 0px 17px 1px rgb(145, 145, 145);
 }
 
-.container  h1,.container  h2,.container  h3 {
-    color: #333;
-    margin-top: 20px;
+.profileContainer .fullName{
+    font-size:20px;
+    font-weight:bold;
+    color:black;
+    margin-bottom:10px;
+    text-align:center;
 }
 
-.container p {
-    color: #555;
-    margin-bottom: 10px;
+.profileContainer .email,.creationDate{
+    font-size:12px;
+    font-weight:bold;
+    color: var(--description-color);
+    margin-bottom:10px;
+    text-align:center;
 }
 
-.container ul {
-    list-style-type: none;
-    padding: 0;
+.profileContainer .description{
+  color: var(--description-color);
+  margin-top: 1em;
+  line-height:1.7em;
+  font-size: 12px;
+  font-weight: normal;
+  text-align: left;
 }
 
-.container li {
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-}
 
-.container img {
-    max-width: 100%;
-    height: auto;
-    margin: 10px 0;
-    border-radius: 8px;
-}
-
-.container div {
-    padding: 10px 0;
+.containerInfo{
+    width:100%;
     display:flex;
     flex-direction:column;
-    
+    align-items:center;
+    justify-content:flex-start;
+    margin-bottom:20px;
+    color:black;
+    font-size:12px;
 }
+
+.profileDetails{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    margin-bottom:20px;
+    color:black;
+    font-size:10px;
+    word-wrap: break-word;
+}
+.profileDetails >*{
+    color: var(--person-info-color);
+   
+}
+

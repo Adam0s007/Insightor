@@ -1,20 +1,26 @@
-import { NavLink, useRouteLoaderData,Form } from "react-router-dom";
-import {  decodeToken } from "react-jwt";
-import { Fragment } from "react";
-import { FaHome, FaNewspaper, FaUser, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { NavLink, useRouteLoaderData, Form } from "react-router-dom";
+import { decodeToken } from "react-jwt";
+import { Fragment, useState } from "react";
+import {
+  FaHome,
+  FaNewspaper,
+  FaUser,
+  FaSignInAlt,
+  FaSignOutAlt,
+} from "react-icons/fa";
 
 import Logo from "../ui/Logo";
-
+import ModalWithMenu from "./Profile/ModalWithMenu";
 import classes from "./HeaderNavigation.module.css";
 const HeaderNavigation = (props) => {
+  const [isModalVisible, setModalVisible] = useState(false);
+
   let token = useRouteLoaderData("root");
   token = token === "EXPIRED" ? null : token;
-  let name = ""
-  if(token){
+  let name = "";
+  if (token) {
     name = decodeToken(token).name;
   }
-  
-  
 
   return (
     <Fragment>
@@ -39,7 +45,7 @@ const HeaderNavigation = (props) => {
                     : `${classes.link}`)
                 }
               >
-                <FaHome/> Home
+                <FaHome /> Home
               </NavLink>{" "}
             </li>
 
@@ -52,22 +58,25 @@ const HeaderNavigation = (props) => {
                     : `${classes.link}`)
                 }
               >
-              <FaNewspaper/>  Articles
+                <FaNewspaper /> Articles
               </NavLink>
             </li>
-           {token && <li>
-              <NavLink
-                to="my-profile"
-                className={({ isActive }) =>
-                  (isActive = isActive
-                    ? `${classes.link}  ${classes.active}`
-                    : `${classes.link}`)
-                }
-
-              >
-                 <FaUser/>{name ?? "My Profile"}
-              </NavLink>
-            </li>}
+            {token && (
+              <li>
+                <NavLink
+                  to="#my-profile"
+                  className={
+                    isModalVisible
+                      ? `${classes.link}  ${classes.active}`
+                      : `${classes.link}`
+                  }
+                  onClick={() => setModalVisible(true)}
+                >
+                  <FaUser />
+                  {name ?? "My Profile"}
+                </NavLink>
+              </li>
+            )}
             {!token && (
               <li>
                 <NavLink
@@ -78,14 +87,17 @@ const HeaderNavigation = (props) => {
                       : `${classes.link}`)
                   }
                 >
-                 <FaSignInAlt/> Login
+                  <FaSignInAlt /> Login
                 </NavLink>
               </li>
             )}
             {token && (
               <li>
                 <Form action="/logout" method="post">
-                  <button className={classes.link}><FaSignOutAlt/>Logout</button>
+                  <button className={classes.link}>
+                    <FaSignOutAlt />
+                    Logout
+                  </button>
                 </Form>
               </li>
             )}
@@ -95,6 +107,10 @@ const HeaderNavigation = (props) => {
           <span></span>
         </label>
       </header>
+      <ModalWithMenu
+        isModalVisible={isModalVisible}
+        closeModal={() => setModalVisible(false)}
+      />
     </Fragment>
   );
 };

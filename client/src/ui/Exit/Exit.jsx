@@ -5,9 +5,9 @@ import styles from "./Exit.module.css";
 
 const Exit = (props) => {
   const path = props.path || "#";
- 
+  const classes = props.className || "";
   return (
-    <div className={styles.returnPage}>
+    <div className={`${classes} ${styles.returnPage}`}>
       <Link to={path} className={styles.returnNav} onClick={props.onClick}>
         <AiOutlineArrowLeft />
       </Link>
