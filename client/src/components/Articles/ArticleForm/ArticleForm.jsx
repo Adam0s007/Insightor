@@ -66,7 +66,8 @@ const ArticleForm = (props) => {
           className={styles.textarea}
           type="text"
           maxLength={300}
-          defaultValue={article.description ?? ""}
+          //defaultValue={article.description ?? ""}
+          value={article.description ?? ""}
           onChange={(e) =>
             setArticle({ ...article, description: e.target.value })
           }
@@ -92,7 +93,8 @@ const ArticleForm = (props) => {
                 className={styles.textarea}
                 maxLength={1000}
                 onChange={(e) => updateItem(idx, e.target.value)}
-                defaultValue={item.value ?? ""}
+                //defaultValue={item.value ?? ""}
+                value={item.value ?? ""}
               />
 
               <label className={styles.counter}>

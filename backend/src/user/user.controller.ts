@@ -4,12 +4,13 @@ import {
   Delete,
   Get,
   Post,
+  Put,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { ValidationPipe } from '../shared/validation.pipe';
 import { UserService } from './user.service';
-import { LoginUserDTO, UserDTO } from './user.dto';
+import { LoginUserDTO, UserDTO, UserUpdateDTO } from './user.dto';
 import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from './user.decorator';
 
@@ -38,6 +39,13 @@ export class UserController {
     return this.userService.register(data);
   }
 
+  @Put('myProfile')
+  @UseGuards(new AuthGuard())
+  @UsePipes(new ValidationPipe())
+  updateUser(@User('id') userId: string, @Body() data: Partial<UserUpdateDTO>) {
+    return this.userService.updateUser(userId, data);
+  }
+
   @Delete('myProfile')
   @UseGuards(new AuthGuard())
   deleteUser(@User('id') userId: string) {
@@ -59,5 +67,7 @@ export class UserController {
     deleteUnverifiedUsers() {
         return this.userService.deleteUnverifiedUsers();
     }
+
+
 
 }

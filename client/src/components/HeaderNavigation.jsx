@@ -73,7 +73,7 @@ const HeaderNavigation = (props) => {
                   onClick={() => setModalVisible(true)}
                 >
                   <FaUser />
-                  {name ?? "My Profile"}
+                  My Profile
                 </NavLink>
               </li>
             )}
@@ -91,7 +91,7 @@ const HeaderNavigation = (props) => {
                 </NavLink>
               </li>
             )}
-            {token && (
+            {/* {token && (
               <li>
                 <Form action="/logout" method="post">
                   <button className={classes.link}>
@@ -100,7 +100,7 @@ const HeaderNavigation = (props) => {
                   </button>
                 </Form>
               </li>
-            )}
+            )} */}
           </ul>
         </nav>
         <label htmlFor="nav-toggle" className={classes["nav-toggle-label"]}>

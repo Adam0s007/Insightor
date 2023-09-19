@@ -24,6 +24,7 @@ export class UserDTO {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
 }
 
 export class LoginUserDTO {
@@ -51,4 +52,12 @@ export class UserRO {
   token?: string;
   bookmarks?: ArticleEntity[];
   articles?: ArticleEntity[];
+}
+
+
+export class UserUpdateDTO {
+  name?: string;
+  surname?: string;
+  description?: string;
+  profilePicture?: string;
 }

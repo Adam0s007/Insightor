@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
-import { LoginUserDTO, UserDTO, UserRO } from './user.dto';
+import { LoginUserDTO, UserDTO, UserRO, UserUpdateDTO } from './user.dto';
 import { UnverifiedUserEntity } from './unverified-user.entity';
 import { EmailService } from 'src/email/email.service';
 
@@ -116,6 +116,27 @@ export class UserService {
     const unverifiedUsers = await this.unverifiedUserRepository.find();
     await this.unverifiedUserRepository.remove(unverifiedUsers);
     return unverifiedUsers.map((unverifiedUser) => unverifiedUser.toResponseObject(true));
+  }
+
+  async updateUser(userId: string, data: Partial<UserUpdateDTO>): Promise<UserRO> {
+   
+    if (Object.keys(data).length === 0) {
+      throw new HttpException('No data submitted', HttpStatus.BAD_REQUEST);
+    }
+
+    let user = await this.userRepository.findOne({
+      where: { id: userId }
+    });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.userRepository.update(userId, data);
+    user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['articles','articles.reviews','articles.content'],
+    });
+    return user.toResponseObject(true);
   }
   
 

@@ -234,3 +234,22 @@ export async function voteAction({ reviewId, action}){
   const review = await response.json();
   return review;
 }
+
+
+export async function updateUser({ updatedFields }) {
+  const response = await fetch(`${defaultUrl}/myProfile`, {
+    method: "PUT",
+    body: JSON.stringify(updatedFields),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    throw new Error(err.message);
+  }
+  const user = await response.json();
+  return user;
+}
