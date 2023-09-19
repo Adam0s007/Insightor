@@ -8,11 +8,12 @@ import { UnverifiedUserEntity } from './unverified-user.entity';
 import { EmailService } from 'src/email/email.service';
 
 
-
-
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity,UnverifiedUserEntity])],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity, UnverifiedUserEntity]),
+   
+  ],
   controllers: [UserController],
-  providers: [UserService,ConfigService,EmailService]
+  providers: [UserService, ConfigService, EmailService],
 })
 export class UserModule {}

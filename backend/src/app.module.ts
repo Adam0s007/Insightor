@@ -12,6 +12,8 @@ import { EmailModule } from './email/email.module';
 import { ReviewModule } from './review/review.module';
 import { DatabaseModule } from './database.module'; 
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -23,6 +25,9 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     UserModule,
     EmailModule,
     ReviewModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads/temp'),
+    }),
   ],
   controllers: [AppController],
   providers: [

@@ -3,9 +3,13 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Put,
+  Res,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { ValidationPipe } from '../shared/validation.pipe';
@@ -13,6 +17,8 @@ import { UserService } from './user.service';
 import { LoginUserDTO, UserDTO, UserUpdateDTO } from './user.dto';
 import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from './user.decorator';
+import { multerOptions } from 'src/config/multer.config';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 export class UserController {
@@ -54,20 +60,24 @@ export class UserController {
 
   @Post('verify')
   @UsePipes(new ValidationPipe())
-  verify(@Body() data: {verificationCode: string }) {
+  verify(@Body() data: { verificationCode: string }) {
     return this.userService.verifyUser(data.verificationCode);
   }
 
   @Get('unverifiedUsers')
-    showAllUnverifiedUsers() {
-        return this.userService.showAllUnverifiedUsers();
-    }
+  showAllUnverifiedUsers() {
+    return this.userService.showAllUnverifiedUsers();
+  }
 
   @Delete('unverifiedUsers')
-    deleteUnverifiedUsers() {
-        return this.userService.deleteUnverifiedUsers();
-    }
+  deleteUnverifiedUsers() {
+    return this.userService.deleteUnverifiedUsers();
+  }
 
-
-
+  @Put('profilePicture')
+  @UseGuards(new AuthGuard())
+  @UseInterceptors(FileInterceptor('profilePicture', multerOptions))
+  async uploadProfilePicture(@UploadedFile() file, @User('id') userId: string) {
+    return this.userService.updateProfilePicture(userId, file.filename);
+  }
 }

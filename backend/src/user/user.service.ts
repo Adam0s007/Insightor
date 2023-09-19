@@ -5,8 +5,7 @@ import { Repository } from 'typeorm';
 import { LoginUserDTO, UserDTO, UserRO, UserUpdateDTO } from './user.dto';
 import { UnverifiedUserEntity } from './unverified-user.entity';
 import { EmailService } from 'src/email/email.service';
-
-
+import * as fs from 'fs';
 @Injectable()
 export class UserService {
   constructor(
@@ -14,7 +13,7 @@ export class UserService {
     private userRepository: Repository<UserEntity>,
     @InjectRepository(UnverifiedUserEntity)
     private unverifiedUserRepository: Repository<UnverifiedUserEntity>,
-    private emailService: EmailService
+    private emailService: EmailService,
   ) {}
 
   async generateVerificationCode(): Promise<string> {
@@ -22,7 +21,7 @@ export class UserService {
   }
   async showAll(): Promise<UserRO[]> {
     const users = await this.userRepository.find({
-      relations: ['articles','articles.content'],
+      relations: ['articles', 'articles.content'],
     });
     return users.map((user) => user.toResponseObject(true));
   }
@@ -30,7 +29,7 @@ export class UserService {
   async showUser(userId: string): Promise<UserRO> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['articles','articles.content'],
+      relations: ['articles', 'articles.content'],
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -60,7 +59,10 @@ export class UserService {
       where: { email },
     });
     if (unverifiedUserByEmail) {
-      throw new HttpException('unverified user with that email exists!', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'unverified user with that email exists!',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const user = this.unverifiedUserRepository.create(data);
@@ -71,7 +73,6 @@ export class UserService {
     //   user.email,
     //   user.verificationCode,
     // );
-
 
     return this.verifyUser(user.verificationCode);
   }
@@ -95,37 +96,39 @@ export class UserService {
   async deleteUser(userId: string): Promise<UserRO> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['articles','articles.reviews','articles.content'],
+      relations: ['articles', 'articles.reviews', 'articles.content'],
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
-    //before deleting user we need to delete all his articles , each article has reviews and content so we need to delete them too  
-    
+    //before deleting user we need to delete all his articles , each article has reviews and content so we need to delete them too
+
     await this.userRepository.delete(userId);
     return user.toResponseObject(true);
   }
 
-
-
   showAllUnverifiedUsers() {
     return this.unverifiedUserRepository.find();
   }
-//delete all unferified users
-  async deleteUnverifiedUsers(){
+  //delete all unferified users
+  async deleteUnverifiedUsers() {
     const unverifiedUsers = await this.unverifiedUserRepository.find();
     await this.unverifiedUserRepository.remove(unverifiedUsers);
-    return unverifiedUsers.map((unverifiedUser) => unverifiedUser.toResponseObject(true));
+    return unverifiedUsers.map((unverifiedUser) =>
+      unverifiedUser.toResponseObject(true),
+    );
   }
 
-  async updateUser(userId: string, data: Partial<UserUpdateDTO>): Promise<UserRO> {
-   
+  async updateUser(
+    userId: string,
+    data: Partial<UserUpdateDTO>,
+  ): Promise<UserRO> {
     if (Object.keys(data).length === 0) {
       throw new HttpException('No data submitted', HttpStatus.BAD_REQUEST);
     }
 
     let user = await this.userRepository.findOne({
-      where: { id: userId }
+      where: { id: userId },
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -134,12 +137,29 @@ export class UserService {
     await this.userRepository.update(userId, data);
     user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['articles','articles.reviews','articles.content'],
+      relations: ['articles', 'articles.reviews', 'articles.content'],
     });
     return user.toResponseObject(true);
   }
-  
 
-    
+  async updateProfilePicture(
+    userId: string,
+    filename: string,
+  ): Promise<UserRO> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
+    if (user.profilePicture) {
+      // Delete the old profile picture
+      const oldFilePath = `${process.env.Upload_TEMP_DIR}/${user.profilePicture}`;
+      if (fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath);
+      }
+    }
+
+    // Save the new profile picture path to the user record
+    user.profilePicture = filename;
+    await this.userRepository.save(user);
+    return user.toResponseObject();
+  }
 }
