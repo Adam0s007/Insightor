@@ -8,44 +8,24 @@ import ProfilePicture from "./ProfilePicture.jsx";
 import NameSurnameEdit from "./NameSurnameEdit.jsx";
 import DescriptionEdit from "./DescriptionEdit.jsx";
 
-const ProfileDetails = (props) => {
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalType, setModalType] = useState("");
+import useModal from "../../../hooks/use-profile-modal";
+import useProfileMutation from "../../../hooks/use-profile-mutation";
 
+const ProfileDetails = (props) => {
   const { created, email, name, surname, profilePicture, description } =
     props.user;
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: updateUser,
-    onMutate: async (data) => {
-      const fields = data.updatedFields;
-      await queryClient.cancelQueries(["profile"]);
-      const previousProfile = queryClient.getQueryData(["profile"]);
+  const {
+    showModal,
+    modalMessage,
+    modalType,
+    setModalMessage,
+    setModalType,
+    setShowModal,
+  } = useModal(3000);
 
-      const newUserObj = {
-        ...previousProfile,
-        ...fields,
-      };
-      queryClient.setQueryData(["profile"], newUserObj);
-      return { previousProfile };
-    },
-    onError: (err, data, context) => {
-      queryClient.setQueryData(["profile"], context.previousProfile);
-      setModalMessage("Operation failed!"); // Przykładowa wiadomość
-      setModalType("error");
-      setShowModal(true);
-    },
-    onSuccess: (data) => {
-      console.log("TAK!");
-      setModalMessage("Your data has been updated!"); // Przykładowa wiadomość
-      setModalType("success");
-      setShowModal(true);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(["profile"]);
-    },
-  });
+  const mutation = useProfileMutation(updateUser);
+
   const [isEditing, setIsEditing] = useState({
     name: false,
     surname: false,
@@ -74,7 +54,7 @@ const ProfileDetails = (props) => {
 
   const handleFieldSave = (field) => {
     if (editedFields[field] !== props.user[field]) {
-      mutate(
+      mutation.mutate(
         { updatedFields: editedFields },
         {
           onError: () => {
@@ -82,6 +62,14 @@ const ProfileDetails = (props) => {
               ...prev,
               [field]: props.user[field],
             }));
+            setModalMessage("Operation failed!");
+            setModalType("error");
+            setShowModal(true);
+          },
+          onSuccess: () => {
+            setModalMessage("Your data has been updated!");
+            setModalType("success");
+            setShowModal(true);
           },
         }
       );
@@ -89,16 +77,7 @@ const ProfileDetails = (props) => {
     handleEditToggle(field);
   };
 
-  useEffect(() => {
-    if (showModal) {
-      const timeoutId = setTimeout(() => {
-        setShowModal(false);
-      }, 3000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [showModal]);
-
+  const isPending = mutation.isPending;
   return (
     <div className={styles.profileContainer}>
       <div

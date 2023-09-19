@@ -15,7 +15,8 @@ async function bootstrap() {
     credentials: true,
   }); 
   
+  
   await app.listen(port);
-  Logger.log(`Server running on http://localhost:${port}`, 'Bootstrap');
+  Logger.log(`${process.env.MAX_FILE_SIZE}Server running on http://localhost:${port}`, 'Bootstrap');
 }
 bootstrap();

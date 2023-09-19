@@ -7,7 +7,7 @@ import {Request} from 'express'
 import { v4 as uuid } from 'uuid';
 export const multerOptions:MulterOptions = {
     limits: {
-      fileSize: +process.env.MAX_FILE_SZE || 5242880,  // 5MB
+      fileSize: 2097152,  // 2MB
     },
     fileFilter: (req:Request, file:Express.Multer.File, done:(error:Error,acceptFile:boolean)=>void) => {
       if (file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
@@ -39,6 +39,7 @@ export const multerOptions:MulterOptions = {
 
 function generateFileName(originalName:string):string{
     const fileExtension = extname(originalName);
+    
     return `${uuid()}${fileExtension}`
 }
 

@@ -5,42 +5,19 @@ import { url } from "../../../utils/pictures";
 import { useMutation } from "@tanstack/react-query";
 import { updateProfilePicture, queryClient } from "../../../utils/http";
 import LoadingOverlay from "../../../ui/LoadingOverlay/LoadingOverlay.jsx";
+
+import useModal from '../../../hooks/use-profile-modal'
+import useProfileMutation from "../../../hooks/use-profile-mutation";
+
 const ProfilePicture = ({ imageSrc, description }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const updateButtonRef = useRef(null);
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalType, setModalType] = useState("");
+  const { 
+    showModal, modalMessage, modalType, 
+    setModalMessage, setModalType, setShowModal
+  } = useModal(3000);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: updateProfilePicture,
-    onMutate: async (data) => {
-      const fields = data.formData;
-      await queryClient.cancelQueries(["profile"]);
-      const previousProfile = queryClient.getQueryData(["profile"]);
-
-      const newUserObj = {
-        ...previousProfile,
-        profilePicture: selectedFile.name,
-      };
-      queryClient.setQueryData(["profile"], newUserObj);
-      return { previousProfile };
-    },
-    onError: (err, data, context) => {
-      queryClient.setQueryData(["profile"], context.previousProfile);
-      setModalMessage("Operation failed!"); // Przykładowa wiadomość
-      setModalType("error");
-      setShowModal(true);
-    },
-    onSuccess: (data) => {
-      setModalMessage("Profile picture has been updated!"); // Przykładowa wiadomość
-      setModalType("success");
-      setShowModal(true);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(["profile"]);
-    },
-  });
+  const mutation = useProfileMutation(updateProfilePicture);
 
   const handleImageChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -51,9 +28,22 @@ const ProfilePicture = ({ imageSrc, description }) => {
     if (!selectedFile) return;
     const formData = new FormData();
     formData.append("profilePicture", selectedFile);
-
-    console.log("formData:", formData);
-    mutate({ formData });
+    mutation.mutate(
+      { formData },
+      {
+        onError: () => {
+          setModalMessage("Operation failed!");
+          setModalType("error");
+          setShowModal(true);
+        },
+        onSuccess: () => {
+          setModalMessage("Profile picture has been updated!");
+          setModalType("success");
+          setShowModal(true);
+          setSelectedFile(null);
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -67,16 +57,6 @@ const ProfilePicture = ({ imageSrc, description }) => {
     }
   }, [selectedFile]);
 
-  useEffect(() => {
-    if (showModal) {
-      const timeoutId = setTimeout(() => {
-        setShowModal(false);
-      }, 3000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [showModal]);
-
   return (
     <div className={styles.profileImageContainer}>
       <div
@@ -86,7 +66,7 @@ const ProfilePicture = ({ imageSrc, description }) => {
       >
         {modalMessage}
       </div>
-        {isPending && <LoadingOverlay />}
+        {mutation.isPending && <LoadingOverlay />}
       <div className={styles.imageContainer}>
         <img
           src={url + imageSrc || defaultProfileImage}
@@ -94,9 +74,10 @@ const ProfilePicture = ({ imageSrc, description }) => {
         />
       </div>
       <label className={styles.uploadLabel}>
-        Change Photo
+        Change Photo 
         <input type="file" onChange={handleImageChange} accept="image/*" />
       </label>
+      <span className={styles.attention} >The image must be 2MB or smaller</span>
       {selectedFile && (
         <button
           ref={updateButtonRef}

@@ -215,7 +215,20 @@ FiEdit {
   border-radius: 5px;
   cursor: pointer;
  opacity:0.78;
-  
+}
+
+.attention{
+  background-color:rgb(64, 64, 173);
+  color:white;
+  font-size:11px;
+  padding: 6px;
+  box-sizing: border-box;
+  position:absolute;
+  opacity:0;
+  border-radius: 5px;
+}
+.uploadLabel:hover + .attention{
+  opacity:1;
 }
 
 .profileImageContainer .uploadLabel:hover {
@@ -237,3 +250,4 @@ FiEdit {
 .bumpAnimation {
   animation: bump 0.3s ease-in-out;
 }
+
