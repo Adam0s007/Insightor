@@ -4,17 +4,18 @@ import { formatShortMonthDate } from "../../../utils/date-conventer";
 import { useMutation } from "@tanstack/react-query";
 import { updateUser, queryClient } from "../../../utils/http";
 import LoadingOverlay from "../../../ui/LoadingOverlay/LoadingOverlay.jsx";
-import ProfilePicture from './ProfilePicture.jsx';
-import NameSurnameEdit from './NameSurnameEdit.jsx';
-import DescriptionEdit from './DescriptionEdit.jsx';
+import ProfilePicture from "./ProfilePicture.jsx";
+import NameSurnameEdit from "./NameSurnameEdit.jsx";
+import DescriptionEdit from "./DescriptionEdit.jsx";
 
 const ProfileDetails = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("");
-  
-  const { created, email, name, surname, profilePicture, description } = props.user;
-  
+
+  const { created, email, name, surname, profilePicture, description } =
+    props.user;
+
   const { mutate, isPending } = useMutation({
     mutationFn: updateUser,
     onMutate: async (data) => {
@@ -107,25 +108,25 @@ const ProfileDetails = (props) => {
       >
         {modalMessage}
       </div>
-      
+
       {isPending && <LoadingOverlay />}
-      
+
       <div className={styles.containerInfo}>
         <ProfilePicture
           imageSrc={profilePicture}
           description={"User profile"}
         />
-        
+
         <div className={styles.profileDetails}>
-          <NameSurnameEdit 
+          <NameSurnameEdit
             isEditing={isEditing}
             editedFields={editedFields}
             handleEditToggle={handleEditToggle}
             handleFieldChange={handleFieldChange}
             handleFieldSave={handleFieldSave}
           />
-          
-          <DescriptionEdit 
+          <p className={styles.email}>{email}</p>
+          <DescriptionEdit
             isEditing={isEditing}
             editedFields={editedFields}
             handleEditToggle={handleEditToggle}
@@ -133,7 +134,6 @@ const ProfileDetails = (props) => {
             handleFieldSave={handleFieldSave}
           />
 
-          <p className={styles.email}>{email}</p>
           <p className={styles.creationDate}>
             created {formatShortMonthDate(created)}
           </p>

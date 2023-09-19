@@ -150,14 +150,12 @@ export class UserService {
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
     if (user.profilePicture) {
-      // Delete the old profile picture
+
       const oldFilePath = `${process.env.Upload_TEMP_DIR}/${user.profilePicture}`;
       if (fs.existsSync(oldFilePath)) {
         fs.unlinkSync(oldFilePath);
       }
     }
-
-    // Save the new profile picture path to the user record
     user.profilePicture = filename;
     await this.userRepository.save(user);
     return user.toResponseObject();

@@ -253,3 +253,21 @@ export async function updateUser({ updatedFields }) {
   const user = await response.json();
   return user;
 }
+
+export async function updateProfilePicture({ formData }) {
+  const response = await fetch(`${defaultUrl}/profilePicture`, {
+    method: "PUT",
+    body: formData,
+    headers: {
+      Authorization: "Bearer " + getAuthToken(),
+    
+    },
+  });
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    throw new Error(err.message);
+  }
+  const user = await response.json();
+  return user;
+}

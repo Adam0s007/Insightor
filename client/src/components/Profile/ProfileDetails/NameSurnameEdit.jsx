@@ -1,8 +1,14 @@
-import React from 'react';
+import React from "react";
 import styles from "./ProfileDetails.module.css";
 import { FiEdit } from "react-icons/fi";
 
-const NameSurnameEdit = ({ isEditing, editedFields, handleEditToggle, handleFieldChange, handleFieldSave }) => {
+const NameSurnameEdit = ({
+  isEditing,
+  editedFields,
+  handleEditToggle,
+  handleFieldChange,
+  handleFieldSave,
+}) => {
   return (
     <div className={styles.editContainer}>
       {isEditing.name || isEditing.surname ? (
@@ -42,13 +48,15 @@ const NameSurnameEdit = ({ isEditing, editedFields, handleEditToggle, handleFiel
         <>
           <p className={styles.fullName}>{editedFields.name}</p>
           <p className={styles.fullName}>{editedFields.surname}</p>
-          <FiEdit
-            onClick={() => {
-              handleEditToggle("surname");
-              handleEditToggle("name");
-            }}
-            style={{ cursor: "pointer", marginLeft: "5px" }}
-          />
+          <p className={styles.fullName}>
+            <FiEdit
+              onClick={() => {
+                handleEditToggle("surname");
+                handleEditToggle("name");
+              }}
+              style={{ cursor: "pointer", marginLeft: "5px" }}
+            />
+          </p>
         </>
       )}
     </div>
