@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import ProfileDetails from "./ProfileDetails"; // Zaimportuj ProfileDetails
+import ProfileDetails from "./ProfileDetails/ProfileDetails"; // Zaimportuj ProfileDetails
 import ProfileArticles from "./ProfileArticles"; // Zaimportuj ProfileArticles
 import styles from "./Profile.module.css";
 import { CSSTransition } from "react-transition-group";
