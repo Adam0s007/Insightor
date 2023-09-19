@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;1,500;1,600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;1,500;1,600&display=swap");
 :root {
   --main-color: rgb(39, 39, 39);
-  --color-white:rgb(234, 234, 234);
+  --color-white: rgb(234, 234, 234);
   --description-color: rgb(93, 93, 93);
   --person-info-color: rgb(93, 93, 93);
-  --color:#6262ff;
+  --color: #6262ff;
   --read-more-button: rgb(57, 57, 57);
-  --logo-color:rgb(123, 123, 254);
-  --logo-color-opacity:rgba(123, 123, 254, 0.681);;
-  --font-family: /*'Arial', 'sans-serif'*/ 'Lora', serif;
+  --logo-color: rgb(123, 123, 254);
+  --logo-color-opacity: rgba(123, 123, 254, 0.681);
+  --font-family: /*'Arial', 'sans-serif'*/ "Lora", serif;
   --max-width: 100vw;
   --header-margin: 50px;
   --body-background: rgb(241, 241, 241);
@@ -16,40 +16,44 @@
   --scale-transition-duration: 0.2s;
   --clip-path-transition-duration: 0.3s;
   --filter-transition-duration: 0.3s;
+  --success-color: #007d04;
+  --success-bg-color: rgba(146, 246, 146, 0.921);
+  --error-color: #650000;
+  --error-bg-color: rgba(255, 119, 119, 0.934);
+  --box-shadow-size: 1px 1px 15px 1px;
 }
 
 body {
   color: var(--main-color);
   font-family: var(--font-family);
   background: var(--body-background);
-  margin:0;
-  padding:0;
-  min-height:100vh;
-  overflow-x:hidden;
-  width:100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
 }
 
-.bg-image{
-  width:100%;
-  height:100%;
-  position:fixed;
-  z-index:-1;
+.bg-image {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: -1;
   object-fit: cover;
 }
 
-
-.container{
-  min-height:100vh;
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+.container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.max_container{
-  max-width:1000px;
-  width:100%;
-  margin:0 auto;
-  padding:0 50px;
-  min-height:100vh;
+.max_container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 50px;
+  min-height: 100vh;
 }

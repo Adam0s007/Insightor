@@ -22,15 +22,15 @@
 }
 
 .successModal .modalContent {
-    color:#007d04;
-    box-shadow: 1px 1px 15px 1px #007d04;
-    background-color: rgba(146, 246, 146, 0.921);
+    color: var(--success-color);
+    box-shadow: var(--box-shadow-size) var(--success-color);
+    background-color: var(--success-bg-color);
 }
 
 .errorModal .modalContent {
-    color: #650000;
-    box-shadow: 1px 1px 15px 1px #650000;
-    background-color: rgba(255, 119, 119, 0.934);
+    color: var(--error-color);
+    box-shadow: var(--box-shadow-size) var(--error-color);
+    background-color: var(--error-bg-color);
 }
 
 
