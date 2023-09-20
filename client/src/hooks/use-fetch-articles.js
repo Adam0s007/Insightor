@@ -6,7 +6,7 @@ import axios from "axios";
 import {defaultUrl} from '../utils/http'
 
 
-export function useFetchArticles({ pageNumber, filters }) {
+export function useFetchArticles({ pageNumber, filters,user="" }) {
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(false);
   const [articles, setArticles] = useState([]);
@@ -29,7 +29,7 @@ export function useFetchArticles({ pageNumber, filters }) {
     let cancel;
     axios({
       method: "GET",
-      url: defaultUrl + "/articles",
+      url: defaultUrl + "/articles"+user,
       params: queryObject,
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })

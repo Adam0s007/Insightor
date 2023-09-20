@@ -38,6 +38,9 @@ const Articles = () => {
     setPageNumber(1);
   };
 
+  const isFiltersEmpty = () => {
+    return Object.values(filters).every((value) => value === "");
+  };
   return (
     <section className={classes.posts}>
       <SearchBar
@@ -45,6 +48,9 @@ const Articles = () => {
         isPending={isPending}
         token={token}
       />
+      <h2 className={classes.filterStatus}>
+        {isFiltersEmpty() ? "Our recommendations" : "Search results"}
+      </h2>
       {articles &&
         articles.map((post, index) => {
           const isLastElement = articles.length === index + 1;

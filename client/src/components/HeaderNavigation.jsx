@@ -1,6 +1,6 @@
 import { NavLink, useRouteLoaderData, Form } from "react-router-dom";
 import { decodeToken } from "react-jwt";
-import { Fragment, useState } from "react";
+import { Fragment, useState,useEffect } from "react";
 import {
   FaHome,
   FaNewspaper,
@@ -21,6 +21,9 @@ const HeaderNavigation = (props) => {
   if (token) {
     name = decodeToken(token).name;
   }
+
+ 
+
 
   return (
     <Fragment>
@@ -91,16 +94,6 @@ const HeaderNavigation = (props) => {
                 </NavLink>
               </li>
             )}
-            {/* {token && (
-              <li>
-                <Form action="/logout" method="post">
-                  <button className={classes.link}>
-                    <FaSignOutAlt />
-                    Logout
-                  </button>
-                </Form>
-              </li>
-            )} */}
           </ul>
         </nav>
         <label htmlFor="nav-toggle" className={classes["nav-toggle-label"]}>

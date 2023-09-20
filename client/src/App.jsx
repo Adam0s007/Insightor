@@ -18,11 +18,12 @@ import AuthenticationPage from "./pages/AuthenticationPage";
 import AuthErrorPage from "./pages/AuthErrorPage";
 import ErrorPage from "./pages/ErrorPage";
 import EditArticlePage from "./pages/EditArticlePage";
+import ProfileArticlesPage from './pages/ProfileArticlesPage.jsx'
+
 import { queryClient, authAction } from "./utils/http.js";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { action as logoutAction } from "./pages/Logout";
 import { tokenLoader, checkAuthLoader } from "./utils/auth.js";
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -65,6 +66,7 @@ function App() {
         },
 
         { path: "contact", element: <ContactLayout />, id: "contact" },
+        { path: "user/:userId", element: <ProfileArticlesPage />, id: "account" },
         
         {
           path: "auth",

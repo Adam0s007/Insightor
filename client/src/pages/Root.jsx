@@ -61,7 +61,7 @@ const RootLayout = (props) => {
 
   return (
     <>
-      <img src={backgroundImage} alt="background" className="bg-image" />
+      <img src={backgroundImage} alt="background" className="bg-image" loading="lazy"/>
       {showModal && (
         <MessageModal message={modalMessage} type={type} onClose={closeModal} />
       )}

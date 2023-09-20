@@ -44,3 +44,33 @@
         background-color: #0056b3;
     }
 }
+
+
+.filterStatus{
+    flex-basis:100%;
+    color:black;
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:baseline;
+    background-color:rgba(255, 255, 255, 0.758);
+    padding:0.5em 0.4em 0.5em 4em;
+    margin-top:-15px;
+    font-size:24px;
+
+}
+.filterStatus:after{
+    content:'';
+    height:3px;
+    width:min(60vw,400px);
+    background-color:black;
+}
+
+@media only screen and (max-width:450px){
+    .filterStatus{
+        font-size:16px;
+    }
+    .filterStatus:after{
+        display:none;
+    }
+}

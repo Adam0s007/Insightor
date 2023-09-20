@@ -1,6 +1,6 @@
 import classes from './Start.module.css'
 import animations from './Animations.module.css'
-
+import {Link} from 'react-router-dom'
 
 const Start = ({joinToUsRef,joinToUsIsVisible}) => {
     return (
@@ -11,7 +11,7 @@ const Start = ({joinToUsRef,joinToUsIsVisible}) => {
         }`}>
           <h1>"Comment, Rate, Publish!"</h1>
           <p>Join a vibrant community where your voice matters. Share your thoughts, learn from others, and discover content that inspires.</p>
-          <button type="button" className={classes.button} onClick={() => {}}>Get Started</button>
+          <Link type="button" className={classes.button} to="/auth/login">Get Started</Link>
         </div>
          
       </div>

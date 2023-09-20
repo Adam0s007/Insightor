@@ -126,6 +126,40 @@ export class ArticleService {
     return articles.map((article) => article.toResponseObject());
   }
 
+  async findArticlesByUser(
+    userId: string,
+    page: number = 1,
+    sortBy?: 'date' | 'rating' | 'reviews',
+    sortOrder: 'ASC' | 'DESC' = 'DESC',
+  ): Promise<ArticleEntity[]> {
+    const query = this.articleRepository
+      .createQueryBuilder('article')
+      .leftJoinAndSelect('article.user', 'user')
+      .where('user.id = :userId', { userId });
+
+    if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
+      sortOrder = 'DESC';
+    }
+    switch (sortBy) {
+      case 'date':
+        query.orderBy('article.date', sortOrder);
+        break;
+      case 'rating':
+        query.orderBy('article.rating', sortOrder);
+        break;
+      case 'reviews':
+        query.orderBy('article.reviewsCount', sortOrder);
+      default:
+        query.orderBy('article.date', 'DESC'); // Default sort by date
+        break;
+    }
+    query.take(6).skip(6 * (page - 1));
+    const articles = await query.getMany();
+    return articles.map((article) => article.toResponseObject(false));
+  }
+
+
+
   async findOne(id: string, userId?: string) {
     const article = await this.articleRepository.findOne({
       where: { id },

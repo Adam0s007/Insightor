@@ -5,7 +5,7 @@ const ArticleLayout = (props)=>{
     return(
         <>
         <Outlet /> 
-        {/* <Articles/> */}
+        
         </>
     )
 }

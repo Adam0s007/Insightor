@@ -6,8 +6,6 @@ import {
   Delete,
   Body,
   Param,
-  HttpCode,
-  HttpStatus,
   UsePipes,
   Query,
   UseGuards,
@@ -56,6 +54,23 @@ export class ArticleController {
       sortOrder,
     );
   }
+
+  @Get('user/:id')
+  async ShowArticlesByUser(
+    @Param('id') id: string,
+    @Query('page') page?: number,
+    @Query('sort') sortBy?: 'date' | 'rating' | 'reviews',
+    @Query('order') sortOrder?: 'ASC' | 'DESC',
+  ) {
+    return await this.articleService.findArticlesByUser(
+      id,
+      page,
+      sortBy,
+      sortOrder,
+    );
+
+  }
+
 
   @Get(':id')
   @UseGuards(new WeakAuthGuard())

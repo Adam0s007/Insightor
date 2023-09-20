@@ -49,8 +49,8 @@ export class ArticleEntity {
   
 
 
-  toResponseObject() {
-    const { id, date, title, description, rating,content,imgUrl,user,reviews,reviewsCount } = this;
+  toResponseObject(all=true) {
+    const { id, date, title, description, rating,imgUrl,user,reviewsCount } = this;
     const responseObject: any = {
       id,
       date,
@@ -58,12 +58,15 @@ export class ArticleEntity {
       description,
       rating,
       imgUrl,
-      content,
       reviewsCount,
       user: user.toResponseObject(),
-      reviews: reviews.map(review => review.toResponseObject()),
     };
-    
+    if(all){
+      responseObject.content= this.content
+      responseObject.reviews = this.reviews.map(review => review.toResponseObject())
+    }
+
+
     return responseObject;
   }
     

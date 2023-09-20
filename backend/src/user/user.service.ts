@@ -28,14 +28,15 @@ export class UserService {
 
   async showUser(userId: string): Promise<UserRO> {
     const user = await this.userRepository.findOne({
-      where: { id: userId },
-      relations: ['articles', 'articles.content'],
+      where: { id: userId }
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     return user.toResponseObject(true);
   }
+
+  
 
   async login(data: LoginUserDTO): Promise<UserRO> {
     const { email, password } = data;
