@@ -26,34 +26,33 @@
     font-size:12px;
 }
 
-.imageContainer{
-    width: 48px;
-    height: 48px;
+.reviewContainer .imageContainer{
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     overflow: hidden;
     margin-right: 16px;
-}
-.authorImage {
     
+}
+.reviewContainer .authorImage {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
-    margin-right: 16px;
-    object-fit: cover;
+    object-fit:cover;
     object-position: center;
+    background-image:url('../../../../assets/images/profilePicture.png')
 }
 
-.authorName {
+.reviewContainer .authorName {
     font-weight: bold;
     margin-right: 8px;
 }
 
-.reviewDate {
+.reviewContainer .reviewDate {
     color: #888;
     
 }
 
-.content {
+.reviewContainer .content {
     flex: 1;
     margin-bottom: 16px;
     color: #333;
@@ -63,7 +62,7 @@
     font-weight: bold;
 }
 
-.reviewFooter {
+.reviewContainer .reviewFooter {
     display: flex;
     justify-content: space-between;
     flex-direction:column;
@@ -71,12 +70,12 @@
 }
 
 
-.ratingLabel{
+.reviewContainer .ratingLabel{
     padding: 0.3em 0.5em;
     border-radius: 8px;
     font-size:12px;
 }
-.thumbs {
+.reviewContainer .thumbs {
     color: #555;
     display: flex;
     align-items: center;
@@ -84,11 +83,11 @@
     margin-right:1em;
     font-size:12px;
 }
-.thumbsItem{
+.reviewContainer .thumbsItem{
     padding:5px;
     cursor:pointer;
 }
-.ratingContainer{
+.reviewContainer .ratingContainer{
     display: flex;
     align-items: center;
     gap: 8px;
@@ -97,16 +96,16 @@
 
 /* Media Query dla zmniejszonego widoku */
 @media screen and (max-width: 508px) {
-    .authorName {
+    .reviewContainer .authorName {
         font-size:11px;
     }
     
-    .reviewDate {
+    .reviewContainer .reviewDate {
         
         font-size: 9px;
     }
     
-    .content {
+    .reviewContainer .content {
         font-size: 11px;
     }
     

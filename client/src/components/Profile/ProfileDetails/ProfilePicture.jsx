@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import defaultProfileImage from "../../../assets/images/profilePicture.png";
 import styles from "./ProfileDetails.module.css";
 import { url } from "../../../utils/pictures";
-import { useMutation } from "@tanstack/react-query";
-import { updateProfilePicture, queryClient } from "../../../utils/http";
+
+import { updateProfilePicture } from "../../../utils/http";
 import LoadingOverlay from "../../../ui/LoadingOverlay/LoadingOverlay.jsx";
 
 import useModal from '../../../hooks/use-profile-modal'
@@ -69,7 +69,7 @@ const ProfilePicture = ({ imageSrc, description }) => {
         {mutation.isPending && <LoadingOverlay />}
       <div className={styles.imageContainer}>
         <img
-          src={url + imageSrc || defaultProfileImage}
+          src={ imageSrc ? url + imageSrc : defaultProfileImage}
           alt={description || "User profile"}
         />
       </div>

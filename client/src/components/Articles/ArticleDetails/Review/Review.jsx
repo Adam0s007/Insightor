@@ -7,11 +7,13 @@ import { getRatingLabel } from "../../../../utils/rating";
 import { hexToRgba } from "../../../../utils/color-converter";
 import {useMutation} from '@tanstack/react-query'
 import { voteAction,queryClient } from "../../../../utils/http";
+import defaultProfileImage from "../../../../assets/images/profilePicture.png"
+import { url } from "../../../../utils/pictures";
 const Review = (props) => {
   const ratingLabel = getRatingLabel(props.rating);
   const color = hexToRgba(ratingLabel.color, 0.2);
   const bgColor = hexToRgba(ratingLabel.color, 0.08);
-
+  console.log(defaultProfileImage)
   const {mutate} = useMutation({
     mutationFn: voteAction,
     onMutate: async (data) => {
@@ -44,7 +46,7 @@ const Review = (props) => {
         <div className={classes.imageContainer}>
           <img
             className={classes.authorImage}
-            src={props.imgUrl ?? "https://picsum.photos/200/200?random=1"}
+            src={props.imgUrl ? url +props.imgUrl : defaultProfileImage}
             alt={props.author}
           />
         </div>

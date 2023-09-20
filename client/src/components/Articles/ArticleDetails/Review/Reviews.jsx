@@ -67,6 +67,7 @@ const Reviews = (props) => {
                         author={review.user.name + " " + review.user.surname}
                         date={review.created}
                         token={token}
+                        imgUrl={review.user.profilePicture}
                     />
                 ))}
             </div>
