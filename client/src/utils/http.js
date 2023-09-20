@@ -83,7 +83,7 @@ export async function updateArticle({ article, id }) {
       delete content.id;
     });
   }
-  console.log(JSON.stringify(article));
+  
 
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
     method: "PUT",
@@ -105,6 +105,25 @@ export async function updateArticle({ article, id }) {
 
   return articleRO;
 }
+
+export async function deleteArticle({ id }) {
+  const response = await fetch(`${defaultUrl}/articles/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
+  const article = await response.json();
+  return article;
+}
+
 
 export async function authAction({ request, params }) {
   //console.log(request);
@@ -271,4 +290,5 @@ export async function updateProfilePicture({ formData }) {
   const user = await response.json();
   return user;
 }
+
 

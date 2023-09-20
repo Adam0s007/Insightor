@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import FilterModal from "./FilterModal";
 import styles from "./SearchBar.module.css";
@@ -9,10 +8,8 @@ import { updateFilters } from "../../store/filters-slice";
 const SearchBar = (props) => {
   const dispach = useDispatch();
   const [textFilter, setTextFilter] = useState("");
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const token = props.token;
-
+  
   const handleTextChange = (e) => {
     setTextFilter(e.target.value);
   };
@@ -53,14 +50,6 @@ const SearchBar = (props) => {
           <FilterModal isOpen={isModalOpen} onClose={closeModal} />
         )}
       </form>
-
-      {token && (
-        <div className={`${styles.searchContainer} ${styles.new}`}>
-          <Link to="/articles/new" className={styles.searchInput}>
-            Create new article
-          </Link>
-        </div>
-      )}
     </div>
   );
 };

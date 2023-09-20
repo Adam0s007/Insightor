@@ -1,5 +1,5 @@
 import { getSimpleToken } from "../../../utils/auth.js";
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useState, useRef,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchArticles } from "../../../hooks/use-fetch-articles";
 import styles from "./ProfileArticles.module.css";
@@ -7,12 +7,15 @@ import ProfileArticle from "../ProfileArticle/ProfileArticle";
 import LoadingIndicator from '../../../ui/LoadingIndicator/LoadingIndicator.jsx'
 import LoadingOverlay from '../../../ui/LoadingOverlay/LoadingOverlay.jsx'
 import { decodeToken } from "react-jwt";
-
+import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer.jsx";
+import { deleteArticle,queryClient } from "../../../utils/http";
+import { useMutation } from "@tanstack/react-query";
 const ProfileArticles = () => {
   let token = getSimpleToken();
   const params = useParams();
   const [activeButton, setActiveButton] = useState("date-DESC");
- 
+  const [localArticles, setLocalArticles] = useState([]);
+
   const [pageNumber, setPageNumber] = useState(1);
   const [filters, setFilters] = useState({
     sort: "date",
@@ -27,12 +30,13 @@ const ProfileArticles = () => {
   if (userId === params.userId) {
     isOwner = true;
   }
-  console.log(isOwner)
+  
   const { isPending, error, articles, hasMore } = useFetchArticles({
     pageNumber,
     filters,
-    user: endPoint,
+    user: endPoint
   });
+
 
   const observer = useRef();
   const lastArticleElementRef = useCallback(
@@ -60,6 +64,28 @@ const ProfileArticles = () => {
     setPageNumber(1); // Reset page number on sort change
   };
 
+  useEffect(() => {
+    setLocalArticles(articles);
+  }, [articles]);
+  
+  
+    
+  
+  const { mutate } = useMutation({
+    mutationFn: deleteArticle,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["articles"],
+      });
+    },
+  });
+
+  const handleDeleteArticle = (articleId) => {
+    mutate({ id:articleId });
+    setLocalArticles(prevArticles => prevArticles.filter(article => article.id !== articleId));
+  };
+  
+  
   return (
     <section className={styles.articlesContainer}>
       
@@ -92,19 +118,21 @@ const ProfileArticles = () => {
       </div>
 
       <div className={styles.articles}>
-        {articles &&
-          articles.map((article, index) => {
-            const isLastElement = articles.length === index + 1;
+        {localArticles  &&
+          localArticles.map((article, index) => {
+            const isLastElement = localArticles.length === index + 1;
             return (
               <ProfileArticle
                 article={article}
                 isOwner={isOwner}
                 key={article.id}
+                onDelete={handleDeleteArticle}
                 ref={isLastElement ? lastArticleElementRef : null}
               />
             );
           })}
         {isPending && <LoadingIndicator />}
+        {error && <ErrorContainer message={error.message} />}
       </div>
     </section>
   );

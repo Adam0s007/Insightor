@@ -60,26 +60,58 @@
 }
 
 .settingsButton {
-  background-color: var(--button-bg, #f2f2f2); /* Default background to a light grey, but you can adjust this with your own color */
-  border: 1px solid var(--button-border, #ccc); /* Add a border for visibility. Adjust with your own color if necessary. */
+  background-color: var(--button-bg, #f2f2f2); 
+  border: 1px solid var(--button-border, #ccc);
   cursor: pointer;
-  font-size: 1rem; /* Adjust the font size to fit the new text */
+  font-size: 1rem; 
   color: var(--logo-color);
  margin-right:auto;
-  transition: color 0.3s ease, background-color 0.3s ease; /* Add a transition for background-color for a smoother hover effect */
-  padding: 0.5rem 1rem; /* Add padding for a better visual appearance */
-  display: flex; /* Align the icon and text nicely */
-  align-items: center; /* Vertical alignment */
-  gap: 0.5rem; /* Space between the icon and text */
+  transition: color 0.3s ease, background-color 0.3s ease;
+  padding: 0.5rem 1rem; 
+  display: flex; 
+  align-items: center; 
+  gap: 0.5rem; 
 
   &:hover {
     color: var(--hover-color);
-    background-color: var(--button-hover-bg, #e6e6e6); /* A slightly darker grey for hover. Adjust as necessary. */
+    background-color: var(--button-hover-bg, #e6e6e6); 
   }
 
   &:focus {
     outline: none;
   }
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--logo-color);
+  border-radius: 25px;
+  padding: 0.7rem 1.3rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  flex-grow: 1;
+  text-decoration:none;
+  max-width:fit-content;
+}
+
+.linkContainer:hover {
+  background-color: var(--color);
+}
+
+.new{
+  font-weight:bold;
+}
+.new a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color:white;
 }
 
 

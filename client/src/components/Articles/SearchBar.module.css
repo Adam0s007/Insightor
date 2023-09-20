@@ -68,11 +68,7 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   flex-grow:1;
 }
-.new{
-  flex-grow:0;
-  font-weight:bold;
-  font-family:  Helvetica, Arial, sans-serif;
-}
+
 .sortSection select, .new a {
   width: 100%;
   border: none;
@@ -81,12 +77,3 @@
   font-size: 1rem;
 }
 
-.new a {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.3s;
-}
-
-.new a:hover {
-  color: #333;
-}
