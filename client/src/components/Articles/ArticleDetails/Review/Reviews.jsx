@@ -64,6 +64,7 @@ const Reviews = (props) => {
                         rating={review.rating}
                         upvotes={review.upvotes}
                         downvotes={review.downvotes}
+                        userId={review.user.id}
                         author={review.user.name + " " + review.user.surname}
                         date={review.created}
                         token={token}

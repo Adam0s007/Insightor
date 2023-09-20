@@ -39,7 +39,8 @@ const RootLayout = (props) => {
     if (
       location.pathname === "/articles" ||
       location.pathname === "/contact" ||
-      location.pathname === "/" 
+      location.pathname === "/" ||
+      location.pathname.startsWith("/user")
      
     )
       return <HeaderNavigation />;

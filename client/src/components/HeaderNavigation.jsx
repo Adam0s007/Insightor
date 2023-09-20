@@ -1,6 +1,6 @@
 import { NavLink, useRouteLoaderData, Form } from "react-router-dom";
 import { decodeToken } from "react-jwt";
-import { Fragment, useState,useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import {
   FaHome,
   FaNewspaper,
@@ -10,20 +10,15 @@ import {
 } from "react-icons/fa";
 
 import Logo from "../ui/Logo";
-import ModalWithMenu from "./Profile/ManageProfileDetails/ModalWithMenu";
 import classes from "./HeaderNavigation.module.css";
 const HeaderNavigation = (props) => {
-  const [isModalVisible, setModalVisible] = useState(false);
-
   let token = useRouteLoaderData("root");
   token = token === "EXPIRED" ? null : token;
-  let name = "";
+  let userId = "";
   if (token) {
-    name = decodeToken(token).name;
+    userId = decodeToken(token).id;
   }
-
- 
-
+  console.log(userId);
 
   return (
     <Fragment>
@@ -67,13 +62,12 @@ const HeaderNavigation = (props) => {
             {token && (
               <li>
                 <NavLink
-                  to="#my-profile"
-                  className={
-                    isModalVisible
+                  to={"user/" + userId}
+                  className={({ isActive }) =>
+                    (isActive = isActive
                       ? `${classes.link}  ${classes.active}`
-                      : `${classes.link}`
+                      : `${classes.link}`)
                   }
-                  onClick={() => setModalVisible(true)}
                 >
                   <FaUser />
                   My Profile
@@ -94,16 +88,22 @@ const HeaderNavigation = (props) => {
                 </NavLink>
               </li>
             )}
+            {token && (
+              <li>
+              <Form  action="/logout" method="post">
+                <button className={classes.link}>  
+                 <FaSignOutAlt />
+                  Logout
+                </button>
+              </Form>
+              </li>
+            )}
           </ul>
         </nav>
         <label htmlFor="nav-toggle" className={classes["nav-toggle-label"]}>
           <span></span>
         </label>
       </header>
-      <ModalWithMenu
-        isModalVisible={isModalVisible}
-        closeModal={() => setModalVisible(false)}
-      />
     </Fragment>
   );
 };

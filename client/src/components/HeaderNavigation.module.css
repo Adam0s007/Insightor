@@ -16,12 +16,12 @@
   z-index:5;
   display:flex;
   align-items:center;
-  padding: 0 0.6em;
+  padding: 0 ;
   color:rgba(255, 255, 255, 0.9);
   transition: margin-bottom 200ms ease-in-out;
 }
 .header h1{
-  padding:0.4em;
+  padding:0;
 }
 .nav-toggle{
   display:none;
@@ -117,6 +117,7 @@ transition:all 200ms ease-in-out;
   outline:none;
   cursor:pointer;
 }
+
 
 .nav li{
   margin-bottom:1em;

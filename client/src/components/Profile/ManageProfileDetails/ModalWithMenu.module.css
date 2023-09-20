@@ -1,6 +1,6 @@
 .newContent {
   position: fixed;
-  z-index: 10;
+  z-index: 20;
   width: min(30em, 90vw);
   transform: translateX(-100%);
   left: 100%;
@@ -17,6 +17,11 @@
 
 .backdropActive {
   opacity: 1;
+  background-color:rgba(0, 0, 0, 0.608);
+  position: fixed;
+  z-index: 19;
+  width: 100vw;
+  height: 100vh;
 }
 
 

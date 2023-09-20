@@ -2,22 +2,20 @@
   display: flex;
   flex-direction: column;
   padding: 2rem;
-
   background-color: rgba(249, 249, 249, 0.9);
-
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  margin:0;
+  margin-bottom:-10px;
 }
 
 .header {
   display: flex;
   align-items: center;
   gap: 2rem;
-  margin-bottom: 1.5rem;
-  margin-top:18px;
+  margin-bottom: 1.3rem;
 }
 
 .profileImage {
@@ -60,6 +58,31 @@
   border-radius: 15px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
+
+.settingsButton {
+  background-color: var(--button-bg, #f2f2f2); /* Default background to a light grey, but you can adjust this with your own color */
+  border: 1px solid var(--button-border, #ccc); /* Add a border for visibility. Adjust with your own color if necessary. */
+  cursor: pointer;
+  font-size: 1rem; /* Adjust the font size to fit the new text */
+  color: var(--logo-color);
+ margin-right:auto;
+  transition: color 0.3s ease, background-color 0.3s ease; /* Add a transition for background-color for a smoother hover effect */
+  padding: 0.5rem 1rem; /* Add padding for a better visual appearance */
+  display: flex; /* Align the icon and text nicely */
+  align-items: center; /* Vertical alignment */
+  gap: 0.5rem; /* Space between the icon and text */
+
+  &:hover {
+    color: var(--hover-color);
+    background-color: var(--button-hover-bg, #e6e6e6); /* A slightly darker grey for hover. Adjust as necessary. */
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+
 
 @media (max-width: 500px) {
   .profileImage {

@@ -9,11 +9,12 @@ import {useMutation} from '@tanstack/react-query'
 import { voteAction,queryClient } from "../../../../utils/http";
 import defaultProfileImage from "../../../../assets/images/profilePicture.png"
 import { url } from "../../../../utils/pictures";
+import { Link } from "react-router-dom";
 const Review = (props) => {
   const ratingLabel = getRatingLabel(props.rating);
   const color = hexToRgba(ratingLabel.color, 0.2);
   const bgColor = hexToRgba(ratingLabel.color, 0.08);
-  console.log(defaultProfileImage)
+  
   const {mutate} = useMutation({
     mutationFn: voteAction,
     onMutate: async (data) => {
@@ -43,13 +44,14 @@ const Review = (props) => {
   return (
     <div className={classes.reviewContainer} style={{ background: bgColor }}>
       <div className={classes.authorInfo}>
-        <div className={classes.imageContainer}>
+        
+        <Link to={"/user/"+props.userId} className={classes.imageContainer}>
           <img
             className={classes.authorImage}
             src={props.imgUrl ? url +props.imgUrl : defaultProfileImage}
             alt={props.author}
           />
-        </div>
+        </Link>
 
         <span className={classes.authorName}>{props.author}</span>
         <span className={classes.reviewDate}>
