@@ -152,9 +152,9 @@ export async function authAction({ request, params }) {
   );
 }
 
-export async function fetchUser({ signal }) {
+export async function fetchUser({ signal,restPoint="myProfile" }) {
   // fetching from /localhost:4002/myProfile, needed application-type and Authorization Bearer token
-  const response = await fetch(`${defaultUrl}/myProfile`, {
+  const response = await fetch(`${defaultUrl}/`+restPoint, {
     signal,
     headers: {
       "Content-Type": "application/json",
@@ -271,3 +271,4 @@ export async function updateProfilePicture({ formData }) {
   const user = await response.json();
   return user;
 }
+

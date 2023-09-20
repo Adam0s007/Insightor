@@ -40,6 +40,7 @@ const RootLayout = (props) => {
       location.pathname === "/articles" ||
       location.pathname === "/contact" ||
       location.pathname === "/" 
+     
     )
       return <HeaderNavigation />;
     return element;

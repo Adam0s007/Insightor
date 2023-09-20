@@ -28,6 +28,11 @@ export class UserController {
     return this.userService.showAll();
   }
 
+  @Get('user/:id')
+  showUserById(@Param('id') userId: string) {
+    return this.userService.showUser(userId);
+  }
+
   @Get('myProfile')
   @UseGuards(new AuthGuard())
   showUser(@User('id') userId: string) {

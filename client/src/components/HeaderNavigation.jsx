@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 
 import Logo from "../ui/Logo";
-import ModalWithMenu from "./Profile/ModalWithMenu";
+import ModalWithMenu from "./Profile/ManageProfileDetails/ModalWithMenu";
 import classes from "./HeaderNavigation.module.css";
 const HeaderNavigation = (props) => {
   const [isModalVisible, setModalVisible] = useState(false);

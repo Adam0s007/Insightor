@@ -14,7 +14,7 @@
     border-radius: 12px;
     background: linear-gradient(135deg, #f5a623, #ff7675);
     font-family: 'Arial';
-    
+    z-index:15;
     
 }
 

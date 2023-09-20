@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import ProfileDetails from "./ManageProfileDetails/ProfileDetails"; // Zaimportuj ProfileDetails
+import ProfileDetails from "./ProfileDetails"; // Zaimportuj ProfileDetails
 import styles from "./Profile.module.css";
 import { CSSTransition } from "react-transition-group";
 import { FaSignOutAlt } from "react-icons/fa";

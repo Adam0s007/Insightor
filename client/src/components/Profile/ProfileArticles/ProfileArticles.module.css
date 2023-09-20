@@ -1,0 +1,65 @@
+.articlesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:0.5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    
+}
+
+
+.articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+
+.menu {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color:rgba(0, 0, 0, 0.732);
+    width:100vw;
+    padding:1em;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+
+
+.menu button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px; /* Zaokrąglone rogi dla lepszego wyglądu */
+    background: linear-gradient(45deg, var(--color), var(--logo-color));
+    color: white;
+    font-weight: 600; /* Grubsza czcionka */
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s; /* Dodane animacje */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Cień dla głębokości */
+}
+
+.menu button:hover {
+    transform: translateY(-2px); /* Efekt unoszenia się przycisku */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.menu button:active {
+    transform: translateY(0);
+}
+
+
+.menu button.active {
+    background:  #4444aa; /* Ciemniejszy gradient */
+    outline:2px solid white;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3); /* Cień wewnętrzny dla głębokości */
+}

@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import { Link } from "react-router-dom";
 import styles from "./ModalWithMenu.module.css";
-import Exit from "../../ui/Exit/Exit";
+import Exit from "../../../ui/Exit/Exit";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUser } from "../../utils/http";
+import { fetchUser } from "../../../utils/http";
 import Profile from "./Profile";
 
 const animationTiming = {
