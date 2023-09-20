@@ -65,7 +65,7 @@ const RootLayout = (props) => {
     <>
       <img src={backgroundImage} alt="background" className="bg-image" loading="lazy"/>
       {showModal && (
-        <MessageModal message={modalMessage} type={type} onClose={closeModal} />
+        <MessageModal message={modalMessage} type={type} onClose={closeModal}/>
       )}
       {HeaderNavigationHandler()}
       <Outlet />

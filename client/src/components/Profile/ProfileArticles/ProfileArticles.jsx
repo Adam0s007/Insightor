@@ -10,11 +10,16 @@ import { decodeToken } from "react-jwt";
 import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer.jsx";
 import { deleteArticle,queryClient } from "../../../utils/http";
 import { useMutation } from "@tanstack/react-query";
+import MessageModal from '../../../ui/MessageModal/MessageModal.jsx'
+
 const ProfileArticles = () => {
   let token = getSimpleToken();
   const params = useParams();
   const [activeButton, setActiveButton] = useState("date-DESC");
   const [localArticles, setLocalArticles] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+const [modalMessage, setModalMessage] = useState('');
+const [modalType, setModalType] = useState('');
 
   const [pageNumber, setPageNumber] = useState(1);
   const [filters, setFilters] = useState({
@@ -81,14 +86,33 @@ const ProfileArticles = () => {
   });
 
   const handleDeleteArticle = (articleId) => {
-    mutate({ id:articleId });
-    setLocalArticles(prevArticles => prevArticles.filter(article => article.id !== articleId));
-  };
+    mutate({ id: articleId }, {
+      onSuccess: () => {
+        setModalMessage('Article deleted successfully.');
+        setModalType('success');
+        setShowModal(true);
+        setLocalArticles(prevArticles => prevArticles.filter(article => article.id !== articleId));
+      },
+      onError: () => {
+        setModalMessage('Error deleting article. Please try again.');
+        setModalType('error');
+        setShowModal(true);
+      },
+    });
+    
+};
+
   
   
   return (
     <section className={styles.articlesContainer}>
-      
+      {showModal && (
+        <MessageModal 
+          message={modalMessage} 
+          type={modalType} 
+          onClose={() => setShowModal(false)} 
+        />
+      )}
       <div className={styles.menu}>
         {isPending && <LoadingOverlay />}
         <button
