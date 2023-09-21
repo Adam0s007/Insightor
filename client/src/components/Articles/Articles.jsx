@@ -8,6 +8,7 @@ import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
 import SearchBar from "./SearchBar";
 import { useSelector } from "react-redux";
+
 const Articles = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,6 +40,7 @@ const Articles = () => {
   };
 
   const isFiltersEmpty = () => {
+    
     return Object.values(filters).every((value) => value === "");
   };
   return (
@@ -49,7 +51,9 @@ const Articles = () => {
         token={token}
       />
       <h2 className={classes.filterStatus}>
-        {isFiltersEmpty() ? "Our recommendations" : "Search results"}
+        {isFiltersEmpty() && !filters.category ? "Our recommendations" : ""}
+        {!isFiltersEmpty() && !filters.category  && "Search results"}
+        {filters.category && `#${filters.category}`}
       </h2>
       {articles &&
         articles.map((post, index) => {

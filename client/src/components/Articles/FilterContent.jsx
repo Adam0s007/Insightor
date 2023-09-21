@@ -1,6 +1,9 @@
 import React from "react";
 import classes from "./FilterContent.module.css";
 
+import {useQuery} from '@tanstack/react-query'
+import {fetchCategories} from '../../utils/http'
+
 const FilterContent = ({ filters, setFilters }) => { 
 
   const handleChange = (e) => {
@@ -8,8 +11,12 @@ const FilterContent = ({ filters, setFilters }) => {
     const newFilters = { ...filters, [name]: value };
     setFilters(newFilters);
   };
-
-
+ 
+  const {data:categories} = useQuery({
+    queryKey: ['categories'],
+    queryFn: ({signal}) => fetchCategories({signal}),
+  })
+  if(categories) console.log(categories)
   return (
     <div className={classes.container}>
       <div className={classes.group}>
@@ -120,6 +127,25 @@ const FilterContent = ({ filters, setFilters }) => {
           <option value="" disabled>None</option>
           <option value="ASC">Ascending</option>
           <option value="DESC">Descending</option>
+        </select>
+      </div>
+      <div className={classes.Item}>
+        <label htmlFor="category" className={classes.label}>
+          Category
+        </label>
+        <select
+          name="category"
+          id="category"
+          value={filters.category || ""}
+          onChange={handleChange}
+          className={classes.sortDropdown}
+        >
+          <option value="" >All</option>
+          {categories && categories.map((category, idx) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
     </div>

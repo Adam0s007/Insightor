@@ -13,4 +13,9 @@ export class CategoryController {
   async deleteCategory(@Param('id') id: string) {
     return await this.categoryService.deleteCategory(id);
   }
+
+  @Get('user/:id')
+  async findAllCategoriesByUser(@Param('id') id: string) {
+    return await this.categoryService.findAllCategoriesByUser(id);
+  }
 }

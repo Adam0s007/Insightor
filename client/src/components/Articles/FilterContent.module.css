@@ -77,6 +77,8 @@
     background-color: #f1f4f8; /* Same tint for hover to match focus */
 }
 
+
+
 @media only screen and (max-width: 500px) {
     .container {
         width: 100%;

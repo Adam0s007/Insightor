@@ -8,7 +8,8 @@ export const initialFilters = {
   // rating: 0,
   // sort: "",
   // order: ""
-  text: ""
+  text: "",
+  category:"",
 };
 
 const filtersSlice = createSlice({
@@ -21,9 +22,11 @@ const filtersSlice = createSlice({
     
     resetFilters: (state) => {
       const textValue = state.text; 
+      const categoryValue = state.category;
       return {
         ...initialFilters,
-        text: textValue
+        text: textValue,
+        category: categoryValue
       };
     }
   }

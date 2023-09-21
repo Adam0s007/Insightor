@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AutoExpandTextArea from "../../../ui/AutoExpandTextArea.jsx";
 import styles from "./ArticleForm.module.css";
+import { FaPlus } from "react-icons/fa";
 
 const ArticleForm = (props) => {
   const [article, setArticle] = useState({
@@ -9,8 +10,10 @@ const ArticleForm = (props) => {
     imgUrl: "",
     content: [],
     rating: 0,
+    categories: [],
     ...(props.data || {}),
   });
+  const [newCategory, setNewCategory] = useState("");
 
   const addItem = (type) => {
     setArticle({
@@ -32,6 +35,28 @@ const ArticleForm = (props) => {
     setArticle({ ...article, content: newContent });
   };
 
+  const handleAddCategory = () => {
+    if (
+      newCategory &&
+      !article.categories.some((cat) => cat.name === newCategory)
+    ) {
+      setArticle({
+        ...article,
+        categories: [...article.categories, { name: newCategory }],
+      });
+      setNewCategory("");
+    }
+  };
+
+  const handleRemoveCategory = (categoryValueToRemove) => {
+    setArticle({
+      ...article,
+      categories: article.categories.filter(
+        (cat) => cat.name !== categoryValueToRemove
+      ),
+    });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onSubmit(article);
@@ -42,8 +67,10 @@ const ArticleForm = (props) => {
     article.description.length === 0 ||
     article.imgUrl.length === 0 ||
     article.content.length === 0 ||
-    article.content.some((item) => item.value.length === 0);
+    article.content.some((item) => item.value.length === 0) ||
+    article.categories.length === 0;
 
+  console.log(props.data);
   return (
     <form onSubmit={handleSubmit} className={styles.container}>
       <h1 className={styles.heading}>
@@ -66,7 +93,6 @@ const ArticleForm = (props) => {
           className={styles.textarea}
           type="text"
           maxLength={300}
-          //defaultValue={article.description ?? ""}
           value={article.description ?? ""}
           onChange={(e) =>
             setArticle({ ...article, description: e.target.value })
@@ -83,6 +109,40 @@ const ArticleForm = (props) => {
           defaultValue={article.imgUrl ?? ""}
           onChange={(e) => setArticle({ ...article, imgUrl: e.target.value })}
         />
+      </div>
+
+      <div className={styles.inputWrapper}>
+        <div className={styles.categories}>
+          {article.categories.map((cat, idx) => (
+            <span key={idx} className={styles.categoryTag}>
+              {cat.name}
+              <button
+                type="button"
+                className={styles.removeCategoryButton}
+                onClick={() => handleRemoveCategory(cat.name)}
+              >
+                x
+              </button>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.inputWrapper}>
+        <input
+          className={`${styles.input} ${styles.newTag}`}
+          type="text"
+          placeholder="Add new tag..."
+          value={newCategory}
+          onChange={(e) => setNewCategory(e.target.value)}
+        />
+        <button
+          type="button"
+          onClick={handleAddCategory}
+          className={styles.addButton}
+        >
+          <FaPlus style={{marginTop:"2px" }} /> 
+        </button>
       </div>
 
       {article.content.map((item, idx) => (

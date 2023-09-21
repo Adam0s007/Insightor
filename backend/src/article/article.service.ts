@@ -84,10 +84,9 @@ export class ArticleService {
       .leftJoinAndSelect('article.content', 'content')
       .leftJoinAndSelect('article.user', 'user')
       .leftJoinAndSelect('article.reviews', 'reviews')
-    
+      .leftJoinAndSelect('article.categories', 'categoryFilter')
       if (category) {
-        query.leftJoin('article.categories', 'categoryFilter')
-             .andWhere('LOWER(categoryFilter.name) = LOWER(:category)', { category });
+        query.andWhere('LOWER(categoryFilter.name) = LOWER(:category)', { category });
       }
     
     if (rating) {
@@ -155,13 +154,20 @@ export class ArticleService {
   async findArticlesByUser(
     userId: string,
     page: number = 1,
+    category?:string,
     sortBy?: 'date' | 'rating' | 'reviews',
     sortOrder: 'ASC' | 'DESC' = 'DESC',
   ): Promise<ArticleEntity[]> {
     const query = this.articleRepository
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.user', 'user')
+      .leftJoinAndSelect('article.reviews', 'reviews')
+      .leftJoinAndSelect('article.categories', 'categoryFilter')
       .where('user.id = :userId', { userId });
+
+    if(category){
+      query.andWhere('LOWER(categoryFilter.name) = LOWER(:category)', { category });
+    }
 
     if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
       sortOrder = 'DESC';
@@ -181,7 +187,7 @@ export class ArticleService {
     }
     query.take(6).skip(6 * (page - 1));
     const articles = await query.getMany();
-    return articles.map((article) => article.toResponseObject(false));
+    return articles.map((article) => article.toResponseObject());
   }
 
   async findOne(id: string, userId?: string) {
@@ -213,6 +219,22 @@ export class ArticleService {
 
     const responseObject = article.toResponseObject();
     return { ...responseObject, isOwner };
+  }
+
+
+  async findAllCategoriesByUser(userId: string) {
+    const articles = await this.articleRepository.find({
+      where: { user: { id: userId } },
+      relations: ['categories'],
+    });
+    let categories = new Set();
+    articles.forEach((article) => {
+      article.categories.forEach((category) => {
+        categories.add(category.name);
+      });
+    });
+    
+    return [...categories];
   }
 
   async update(
@@ -265,7 +287,7 @@ export class ArticleService {
       await this.reviewRepository.remove(article.reviews.pop());
     }
     await this.articleRepository.delete({ id });
-
+    await this.categoryService.removeEmptyCategories();
     return article.toResponseObject();
   }
 

@@ -27,6 +27,8 @@ body {
   color: var(--main-color);
   font-family: var(--font-family);
   background: var(--body-background);
+  /* make a background-gradient with --color and --logo-color*/
+
   margin: 0;
   padding: 0;
   min-height: 100vh;

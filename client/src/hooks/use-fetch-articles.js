@@ -17,7 +17,7 @@ export function useFetchArticles({ pageNumber, filters,user="" }) {
       page: pageNumber,
       ...filters,
     };
-    //console.log(queryObject);
+    
     setIsPending(true);
     setError(false);
 

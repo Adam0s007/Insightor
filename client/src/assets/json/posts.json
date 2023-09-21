@@ -12,7 +12,8 @@
                 "type": "image",
                 "value": "https://picsum.photos/800/1200?random=1"
             }
-        ]
+        ],
+        "categories":[{"name":"tenis"},{"name":"nauka"},{"name":"Fajne cos"}]
     },
     {
         "title": "High Altitudes: The Power and Beauty of Mountains",
@@ -27,7 +28,8 @@
                 "type": "image",
                 "value": "https://picsum.photos/900/700?random=1"
             }
-        ]
+        ],
+        "categories":[{"name":"rozrywka"},{"name":"nauka"},{"name":"plywanie"}]
     },
     {
         "title": "The Heartbeat of the City: Uncovering Urban Life",
@@ -42,7 +44,8 @@
                 "type": "image",
                 "value": "https://picsum.photos/1200/800?random=1"
             }
-        ]
+        ],
+        "categories":[{"name":"nauka"}]
     },
     {
         "title": "The Endless Sands: A Visual Ode to Desert Beauty",
@@ -57,7 +60,8 @@
                 "type": "image",
                 "value": "https://picsum.photos/1100/700?random=1"
             }
-        ]
+        ],
+        "categories":[{"name":"muzyka"},{"name":"gry"}]
     },
     {
         "title": "Whispers of the Woods: Unraveling Forest Mysteries",
@@ -72,7 +76,8 @@
                 "type": "image",
                 "value": "https://picsum.photos/720/1280?random=1"
             }
-        ]
+        ],
+        "categories":[{"name":"rozrywka"},{"name":"gry"}]
     },
     {
         "title": "Echoes of the Past: A Journey Through Ancient Ruins",
@@ -87,7 +92,8 @@
                 "type": "image",
                 "value": "https://picsum.photos/1090/1200?random=1"
             }
-        ]
+        ],
+        "categories":[{"name":"sport"},{"name":"muzyka"}]
     },
     {
         "title": "Discovering the Beauty of Croatia",
@@ -150,7 +156,8 @@
                 "type": "paragraph",
                 "value": "To sum it up, Croatia is a blend of natural beauty, ancient history, and modern charm. Whether you're strolling along the ancient city walls or basking on a sun-kissed beach, Croatia promises memories that will last a lifetime."
             }
-        ]
+        ],
+        "categories":[{"name":"sport"},{"name":"muzyka"},{"name":"gry"},{"name":"nauka"},{"name":"rozrywka"}]
     }
     
 ]

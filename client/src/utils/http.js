@@ -83,6 +83,11 @@ export async function updateArticle({ article, id }) {
       delete content.id;
     });
   }
+  if (article.categories && article.categories.length > 0) {
+    article.categories.forEach((category) => {
+      delete category.id;
+    });
+  }
   
 
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
@@ -292,3 +297,42 @@ export async function updateProfilePicture({ formData }) {
 }
 
 
+export async function fetchCategories({signal}) {
+  const response = await fetch(`${defaultUrl}/categories`, {
+    signal,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
+
+  const categories = await response.json();
+  return categories;
+}
+
+export async function fetchCategoriesByUser({signal,userId}) {
+  const response = await fetch(`${defaultUrl}/categories/user/${userId}`, {
+    signal,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
+
+  const categories = await response.json();
+  return categories;
+}

@@ -63,12 +63,14 @@ export class ArticleController {
   async ShowArticlesByUser(
     @Param('id') id: string,
     @Query('page') page?: number,
+    @Query('category') category?: string,
     @Query('sort') sortBy?: 'date' | 'rating' | 'reviews',
     @Query('order') sortOrder?: 'ASC' | 'DESC',
   ) {
     return await this.articleService.findArticlesByUser(
       id,
       page,
+      category,
       sortBy,
       sortOrder,
     );
@@ -117,5 +119,8 @@ export class ArticleController {
       categories,
     );
   }
+
+  
+  
 
 }

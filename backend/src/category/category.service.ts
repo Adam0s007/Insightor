@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CategoryEntity } from './category.entity';
+import { ArticleEntity } from 'src/article/article.entity';
 
 @Injectable()
 export class CategoryService {
@@ -9,6 +10,8 @@ export class CategoryService {
     constructor(
         @InjectRepository(CategoryEntity)
         private readonly categoryRepository: Repository<CategoryEntity>,
+        @InjectRepository(ArticleEntity)
+        private readonly articleRepository: Repository<ArticleEntity>,
       ) {}
     
       async removeEmptyCategories(): Promise<void> {
@@ -27,4 +30,20 @@ export class CategoryService {
         await this.categoryRepository.delete(id);
         return this.showAllCategories();
     }
+
+    async findAllCategoriesByUser(userId: string) {
+      const articles = await this.articleRepository.find({
+        where: { user: { id: userId } },
+        relations: ['categories'],
+      });
+      let categories = new Set();
+      articles.forEach((article) => {
+        article.categories.forEach((category) => {
+          categories.add(category.name);
+        });
+      });
+      
+      return [...categories];
+    }
+
 }
