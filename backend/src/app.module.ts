@@ -14,6 +14,7 @@ import { DatabaseModule } from './database.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads/temp'),
     }),
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [

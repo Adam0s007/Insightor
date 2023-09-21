@@ -1,11 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { ContentEntity } from '../content/content.entity';
 import { ArticleDTO } from './article.dto';
 import { UserEntity } from 'src/user/user.entity';
 import { ReviewEntity } from 'src/review/review.entity';
+import { CategoryEntity } from 'src/category/category.entity';
+import { CategoryDTO } from 'src/category/category.dto';
+import { CategoryService } from 'src/category/category.service';
 
 @Injectable()
 export class ArticleService {
@@ -18,6 +21,9 @@ export class ArticleService {
     private userRepository: Repository<UserEntity>,
     @InjectRepository(ReviewEntity)
     private reviewRepository: Repository<ReviewEntity>,
+    @InjectRepository(CategoryEntity)
+    private categoryRepository: Repository<CategoryEntity>,
+    private categoryService: CategoryService,
   ) {}
 
   private ensureOwnership(article: ArticleEntity, userId: string) {
@@ -33,13 +39,24 @@ export class ArticleService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const user = await this.userRepository.findOne({
-      where: { id: userId },
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const existingCategories = await this.categoryRepository.find({
+      where: { name: In(articleDto.categories.map((cat) => cat.name)) },
     });
+    const existingCategoryNames = existingCategories.map((cat) => cat.name);
+    const newCategoryNames = articleDto.categories
+      .map((cat) => cat.name)
+      .filter((name) => !existingCategoryNames.includes(name));
+    const newCategories = this.categoryRepository.create(
+      newCategoryNames.map((name) => ({ name })),
+    );
+    await this.categoryRepository.save(newCategories);
+    const allCategories = [...existingCategories, ...newCategories];
     const article = await this.articleRepository.create({
       ...articleDto,
       user,
       reviews: [],
+      categories: allCategories,
     });
     await this.articleRepository.save(article);
     return article.toResponseObject();
@@ -54,6 +71,7 @@ export class ArticleService {
     authorName?: string,
     authorSurname?: string,
     text?: string,
+    category?: string,
     sortBy?: 'date' | 'rating' | 'reviews',
     sortOrder: 'ASC' | 'DESC' = 'DESC',
   ): Promise<ArticleEntity[]> {
@@ -65,8 +83,13 @@ export class ArticleService {
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.content', 'content')
       .leftJoinAndSelect('article.user', 'user')
-      .leftJoinAndSelect('article.reviews', 'reviews');
-
+      .leftJoinAndSelect('article.reviews', 'reviews')
+    
+      if (category) {
+        query.leftJoin('article.categories', 'categoryFilter')
+             .andWhere('LOWER(categoryFilter.name) = LOWER(:category)', { category });
+      }
+    
     if (rating) {
       query.andWhere('article.rating = :rating', { rating });
     }
@@ -96,10 +119,13 @@ export class ArticleService {
     }
     if (text) {
       query.andWhere(
-        'article.title ILIKE :text OR article.description ILIKE :text', // Use ILIKE here for PostgreSQL
+        'article.title ILIKE :text OR article.description ILIKE :text',
         { text: `%${text}%` },
       );
     }
+    
+    
+
     if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
       sortOrder = 'DESC';
     }
@@ -158,14 +184,13 @@ export class ArticleService {
     return articles.map((article) => article.toResponseObject(false));
   }
 
-
-
   async findOne(id: string, userId?: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
       relations: [
         'content',
         'user',
+        'categories',
         'reviews',
         'reviews.user',
         'reviews.upvotes',
@@ -197,22 +222,28 @@ export class ArticleService {
   ): Promise<ArticleEntity> {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content', 'user', 'reviews'],
+      relations: ['content', 'user', 'reviews', 'categories'],
     });
+
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     this.ensureOwnership(article, userId);
-
     if (newArticleData.content && newArticleData.content.length > 0) {
       while (article.content.length > 0) {
         await this.contentRepository.remove(article.content.pop());
       }
     }
-    // Aktualizacja głównych danych artykułu
+    let categories = null;
+    if (newArticleData.categories) {
+      categories = JSON.parse(JSON.stringify(newArticleData.categories));
+      delete newArticleData.categories;
+    }
     Object.assign(article, newArticleData);
     await this.articleRepository.save(article);
-
+    if (categories) {
+      await this.updateCategoriesByArticle(id, categories);
+    }
     return article.toResponseObject();
   }
 
@@ -236,5 +267,59 @@ export class ArticleService {
     await this.articleRepository.delete({ id });
 
     return article.toResponseObject();
+  }
+
+  async getArticlesByCategory(
+    categoryId: string,
+    page: number = 1,
+  ): Promise<ArticleEntity[]> {
+    const articles = await this.articleRepository
+      .createQueryBuilder('article')
+      .leftJoinAndSelect('article.categories', 'category')
+      .leftJoinAndSelect('article.content', 'content')
+      .leftJoinAndSelect('article.user', 'user')
+      .leftJoinAndSelect('article.reviews', 'reviews')
+      .where('category.id = :categoryId', { categoryId })
+      .take(6)
+      .skip(6 * (page - 1))
+      .getMany();
+
+    return articles.map((article) => article.toResponseObject());
+  }
+
+  async updateCategoriesByArticle(
+    articleId: string,
+    categoriesDTO: CategoryDTO[],
+  ): Promise<ArticleEntity> {
+    const article = await this.articleRepository.findOne({
+      where: { id: articleId },
+      relations: ['categories'],
+    });
+
+    if (!article) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    const categoryNames = categoriesDTO.map((category) => category.name);
+
+    const existingCategories = await this.categoryRepository.find({
+      where: { name: In(categoryNames) },
+    });
+
+    const existingNames = existingCategories.map((cat) => cat.name);
+    const newNames = categoryNames.filter(
+      (name) => !existingNames.includes(name),
+    );
+
+    let newCategories = [];
+    for (let name of newNames) {
+      const newCategory = this.categoryRepository.create({ name });
+      newCategories.push(await this.categoryRepository.save(newCategory));
+    }
+
+    article.categories = [...existingCategories, ...newCategories];
+    await this.articleRepository.save(article);
+    await this.categoryService.removeEmptyCategories();
+    return article.toResponseObject(false);
   }
 }

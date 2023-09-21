@@ -2,7 +2,6 @@
     {
         "title": "Golden Glory: The Art of Chasing SunsetsGolden Glory: The Art of Chasing Sunsetssttt",
         "description": "orem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel malesuada ex. Ut ac condimentum nisl. Sed feugiat risus tellus, quis feugiat metus sagittis volutpat. Praesent commodo convallis consequat. In vestibulum nisl urna, sed pharetra ligula pellentesque vel. Nunc vestibulum ac velit eu blandit. Aenean id consequat sem, pharetra suscipit nibh. Integer leo leo, vehicula sed bibendum quis, tincidunt sit amet enim. Aenean faucibus sollicitudin eros, vitae cursus lectus pulvinar aliquet. Suspendisse malesuada, nisl sit amet sollicitudin cursus, purus purus iaculis sapien, eget aliquet dolor arcu ut dolor. Aenean rutrum orci at erat bibendum, vel ullamcorper metus fringilla.",
-        "personName": "Alice Green",
         "imgUrl": "https://picsum.photos/800/1200",
         "content": [
             {
@@ -18,7 +17,6 @@
     {
         "title": "High Altitudes: The Power and Beauty of Mountains",
         "description": "Bob Smith showcases the majesty of mountain landscapes.",
-        "personName": "Bob Smith",
         "imgUrl": "https://picsum.photos/900/700",
         "content": [
             {
@@ -34,7 +32,6 @@
     {
         "title": "The Heartbeat of the City: Uncovering Urban Life",
         "description": "Charlie Johnson captures the vibrancy of urban life.",
-        "personName": "Charlie Johnson",
         "imgUrl": "https://picsum.photos/1200/800",
         "content": [
             {
@@ -50,7 +47,6 @@
     {
         "title": "The Endless Sands: A Visual Ode to Desert Beauty",
         "description": "Danielle White's captivating photos reveal desert landscapes.",
-        "personName": "Danielle White",
         "imgUrl": "https://picsum.photos/1100/700",
         "content": [
             {
@@ -66,7 +62,6 @@
     {
         "title": "Whispers of the Woods: Unraveling Forest Mysteries",
         "description": "Join Erik Brown on an exploration of the forest.",
-        "personName": "Erik Brown",
         "imgUrl": "https://picsum.photos/720/1280",
         "content": [
             {
@@ -82,7 +77,6 @@
     {
         "title": "Echoes of the Past: A Journey Through Ancient Ruins",
         "description": "Fiona Martin's images transport you back in time.",
-        "personName": "Fiona Martin",
         "imgUrl": "https://picsum.photos/1090/1200",
         "content": [
             {
@@ -98,7 +92,6 @@
     {
         "title": "Discovering the Beauty of Croatia",
         "description": "Croatia, nestled on the Adriatic Sea, is a blend of rich history, pristine beaches, and awe-inspiring natural wonders. Whether you're gazing at the majestic walls of Dubrovnik or sailing across its turquoise waters, every moment in Croatia is a chapter in a timeless tale.",
-        "personName": "Ivana Horvat",
         "imgUrl": "https://picsum.photos/800/1200?random=8",
         "content": [
             {

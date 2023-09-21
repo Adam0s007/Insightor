@@ -1,3 +1,4 @@
+import { CategoryEntity } from 'src/category/category.entity';
 import { ContentEntity } from 'src/content/content.entity';
 import { ReviewEntity } from 'src/review/review.entity';
 import { UserEntity } from 'src/user/user.entity';
@@ -9,6 +10,8 @@ import {
   CreateDateColumn,
   ManyToOne,
   AfterLoad,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity('article')
@@ -47,10 +50,15 @@ export class ArticleEntity {
   reviews: ReviewEntity[];
   
   
+  @ManyToMany(type => CategoryEntity, category => category.articles, {
+    cascade: true
+  })
+  @JoinTable() 
+  categories: CategoryEntity[];
 
 
   toResponseObject(all=true) {
-    const { id, date, title, description, rating,imgUrl,user,reviewsCount } = this;
+    const { id, date, title, description, rating,imgUrl,user,reviewsCount,categories } = this;
     const responseObject: any = {
       id,
       date,
@@ -58,9 +66,14 @@ export class ArticleEntity {
       description,
       rating,
       imgUrl,
-      reviewsCount,
-      user: user.toResponseObject(),
+      reviewsCount
     };
+    if(categories){
+      responseObject.categories = categories.map(category => category.toResponseObject())
+    }
+    if(user){
+      responseObject.user = user.toResponseObject()
+    }
     if(all){
       responseObject.content= this.content
       responseObject.reviews = this.reviews.map(review => review.toResponseObject())

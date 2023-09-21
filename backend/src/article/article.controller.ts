@@ -16,6 +16,8 @@ import { ValidationPipe } from '../shared/validation.pipe';
 import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from 'src/user/user.decorator';
 import { WeakAuthGuard } from 'src/shared/weak-auth.guard';
+import { CategoryEntity } from 'src/category/category.entity';
+import { CategoryDTO, UpdateArticleCategoriesDTO } from 'src/category/category.dto';
 
 @Controller('articles')
 export class ArticleController {
@@ -38,6 +40,7 @@ export class ArticleController {
     @Query('authorName') authorName?: string,
     @Query('authorSurname') authorSurname?: string,
     @Query('text') text?: string,
+    @Query('category') category?: string,
     @Query('sort') sortBy?: 'date' | 'rating' | 'reviews',
     @Query('order') sortOrder?: 'ASC' | 'DESC',
   ) {
@@ -50,6 +53,7 @@ export class ArticleController {
       authorName,
       authorSurname,
       text,
+      category,
       sortBy,
       sortOrder,
     );
@@ -68,9 +72,7 @@ export class ArticleController {
       sortBy,
       sortOrder,
     );
-
   }
-
 
   @Get(':id')
   @UseGuards(new WeakAuthGuard())
@@ -94,4 +96,26 @@ export class ArticleController {
   async remove(@Param('id') id: string, @User('id') user: string) {
     return await this.articleService.remove(id, user);
   }
+
+  @Get('/category/:categoryId')
+  async getByCategory(
+    @Param('categoryId') categoryId: string,
+    @Query('page') page?: number,
+  ) {
+    return await this.articleService.getArticlesByCategory(categoryId, page);
+  }
+
+  @Put(':id/categories')
+  @UseGuards(new AuthGuard())
+  @UsePipes(new ValidationPipe())
+  async updateCategories(
+    @Param('id') articleId: string,
+    @Body() categories: CategoryDTO[],
+  ) {
+    return await this.articleService.updateCategoriesByArticle(
+      articleId,
+      categories,
+    );
+  }
+
 }

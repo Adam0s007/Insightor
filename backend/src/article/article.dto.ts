@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsString, Max, Min, ValidateNested} from "class-validator";
+import { CategoryDTO } from "src/category/category.dto";
 import { ContentDTO } from "src/content/content.dto";
 
 export class ArticleDTO {
@@ -20,7 +21,14 @@ export class ArticleDTO {
     @ValidateNested({ each: true })
     @Type(() => ContentDTO)
     @IsNotEmpty()
-    content: ContentDTO[]; // dla tworzenia wielu treści razem z artykułem
+    content: ContentDTO[];
+    
+    @ValidateNested({ each: true })
+    @Type(() => CategoryDTO)
+    @IsNotEmpty()
+    categories: CategoryDTO[];
+
+
   }
   
 
