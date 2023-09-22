@@ -6,7 +6,7 @@ import { Header } from "./Header";
 import { Contact } from "./Contact";
 import  Start  from "./Start";
 import LatestPosts from "./LatestPosts";
-
+import backgroundImage from '../../assets/images/blog-background.jpg'
 
 
 function Home() {
@@ -17,6 +17,7 @@ function Home() {
 
   return (
     <div className={styles["home-page"]}>
+      <img src={backgroundImage}  alt="background" className={styles["bg-image"]} loading="lazy"/>
       <Header ref={headerRef} isVisible={headerIsVisible} />
       <Start  joinToUsRef={joinToUsRef} joinToUsIsVisible={joinToUsIsVisible}/>
       <LatestPosts />

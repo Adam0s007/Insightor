@@ -94,17 +94,15 @@ export class ArticleService {
     }
 
     if (dateFrom) {
-      const startDate = new Date(dateFrom);
-      startDate.setHours(0, 0, 0, 0); // set time to midnight
       query.andWhere('article.date >= :dateFrom', {
-        dateFrom: startDate.toISOString(),
+        dateFrom
       });
     }
     if (dateTo) {
       const endDate = new Date(dateTo);
-      endDate.setHours(23, 59, 59, 999); // set time to the end of the day
-      query.andWhere('article.date <= :dateTo', {
-        dateTo: endDate.toISOString(),
+      endDate.setHours(23, 59, 59, 999);
+      query.andWhere('article.date <= :endDate', {
+        endDate
       });
     }
 

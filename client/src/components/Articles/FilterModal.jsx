@@ -8,16 +8,23 @@ import { updateFilters, resetFilters,initialFilters } from '../../store/filters-
 const FilterModal = (props) => {
   const filters = useSelector(state => state.filters);
   const [localFilters, setLocalFilters] = useState(filters);
-  
+  const[afterReset,setAfterReset] = useState(false);
   const dispatch = useDispatch();
   const [filtersChanged, setFiltersChanged] = useState(false);
 
-  useEffect(() => {
-    if (JSON.stringify(localFilters) !== JSON.stringify(filters)) {
+  const changeHandler = () =>{
+    if(afterReset || JSON.stringify(localFilters) !== JSON.stringify(filters)){
       setFiltersChanged(true);
-    } else {
+    }else{
       setFiltersChanged(false);
     }
+
+    
+  }
+
+  useEffect(() => {
+    changeHandler()
+
   }, [localFilters, filters]);
 
   const anyFieldFilled = useMemo(() => {
@@ -30,14 +37,13 @@ const FilterModal = (props) => {
 
   const handleApply = (e) => {
     dispatch(updateFilters(localFilters));
-    setFiltersChanged(false);
     props.onClose(true);
   };
 
   const handleReset = () => {
     dispatch(resetFilters());
     setLocalFilters(initialFilters); 
-    setFiltersChanged(true);
+    setAfterReset(true);
   };
 
   return ReactDOM.createPortal(

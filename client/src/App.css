@@ -11,7 +11,7 @@
   --font-family: /*'Arial', 'sans-serif'*/ "Lora", serif;
   --max-width: 100vw;
   --header-margin: 50px;
-  --body-background: rgb(241, 241, 241);
+  --body-background: rgb(236, 240, 255);
   --box-shadow-color: rgb(242, 242, 242);
   --scale-transition-duration: 0.2s;
   --clip-path-transition-duration: 0.3s;

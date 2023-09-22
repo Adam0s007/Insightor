@@ -8,8 +8,8 @@ const MessageModal = ({ message, type, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsFading(true);
-      setTimeout(onClose, 1000);
-    }, 2000);
+      setTimeout(onClose, 500);
+    }, 1200);
 
     return () => {
       clearTimeout(timer);

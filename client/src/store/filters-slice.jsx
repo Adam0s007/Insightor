@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const initialFilters = {
-  // authorName: "",
-  // authorSurname: "",
-  // dateFrom: "",
-  // dateTo: "",
-  // rating: 0,
-  // sort: "",
-  // order: ""
+  authorName: "",
+  authorSurname: "",
+  dateFrom: "",
+  dateTo: "",
+  rating: 0,
+  sort: "",
+  order: "",
   text: "",
   category:"",
 };
@@ -22,12 +22,10 @@ const filtersSlice = createSlice({
     
     resetFilters: (state) => {
       const textValue = state.text; 
-      const categoryValue = state.category;
-      return {
-        ...initialFilters,
-        text: textValue,
-        category: categoryValue
-      };
+
+      Object.assign(state,  {...initialFilters});
+      console.log(textValue);
+      state.text = textValue;
     }
   }
 });

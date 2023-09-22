@@ -19,3 +19,14 @@ ul {
 ul > li {
   font-size: 16px;
 }
+
+
+.bg-image {
+  width: 100vw;
+  height: 100vh;
+  top:0;
+  left:0;
+  position: fixed;
+  z-index: -1;
+  object-fit: cover;
+}
