@@ -3,11 +3,16 @@ import Article from "./Article";
 import classes from "./Articles.module.css";
 import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer";
-import { Link } from "react-router-dom";
+import { initialFilters } from "../../store/filters-slice";
 import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
 import SearchBar from "./SearchBar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateFilters } from "../../store/filters-slice";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategories } from "../../utils/http";
+import SortingFilter from "./SortingFilter";
+import { CategoryTags } from "../../ui/Tag/Tag";
 
 const Articles = () => {
   useEffect(() => {
@@ -16,9 +21,15 @@ const Articles = () => {
   const token = getSimpleToken();
   const [pageNumber, setPageNumber] = useState(1);
   const filters = useSelector((state) => state.filters);
+  const dispatch = useDispatch();
   const { articles, isPending, error, hasMore } = useFetchArticles({
     pageNumber,
     filters,
+  });
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: ({ signal }) => fetchCategories({ signal }),
   });
   const observer = useRef();
   const lastArticleElementRef = useCallback(
@@ -34,14 +45,11 @@ const Articles = () => {
     },
     [isPending, hasMore]
   );
-
   const filtersSubmitHandler = () => {
     setPageNumber(1);
   };
-
   const isFiltersEmpty = () => {
-    
-    return Object.values(filters).every((value) => value === "");
+    return JSON.stringify(filters) === JSON.stringify(initialFilters);
   };
   return (
     <section className={classes.posts}>
@@ -50,11 +58,25 @@ const Articles = () => {
         isPending={isPending}
         token={token}
       />
+      <SortingFilter onFiltersSubmit={filtersSubmitHandler} />
       <h2 className={classes.filterStatus}>
-        {isFiltersEmpty() && !filters.category ? "Our recommendations" : ""}
-        {!isFiltersEmpty() && !filters.category  && "Search results"}
+        {isFiltersEmpty() && !filters.category ? "#All categories" : ""}
+        {!isFiltersEmpty() && !filters.category && "Search results"}
         {filters.category && `#${filters.category}`}
       </h2>
+      <div className={classes.categories}>
+        <CategoryTags
+          categories={categories?.map((cat) => cat.name)}
+          onCategoryClick={(category) => {
+            if (category === "All categories") {
+              dispatch(updateFilters({ category: "" }));
+            } else {
+              dispatch(updateFilters({ category}));
+            }
+            setPageNumber(1);
+          }}
+        />
+      </div>
       {articles &&
         articles.map((post, index) => {
           const isLastElement = articles.length === index + 1;

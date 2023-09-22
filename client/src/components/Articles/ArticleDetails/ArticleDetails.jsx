@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation,Link } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import styles from "./ArticleDetails.module.css";
-
 import Reviews from "./Review/Reviews";
-import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticle } from "../../../utils/http";
 import {
   calculateReadingTime,
   formatReadingTime,
 } from "../../../utils/reading-time";
-import { formatShortMonthDate } from "../../../utils/date-conventer";
 import LoadingIndicator from "../../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer";
 import MessageModal from "../../../ui/MessageModal/MessageModal";
-
+import ArticleInfo from "./ArticleInfo";
+import ArticleContent from "./ArticleContent";
 
 const ArticleDetails = () => {
   const params = useParams();
   const location = useLocation();
   const [showModal, setShowModal] = useState(false);
-  // Pobierz dane przekazane przez navigate
+
   const modalMessage = location.state?.message;
   const type = location.state?.type;
+
   useEffect(() => {
     if (modalMessage && type) {
       setShowModal(true);
     }
   }, [modalMessage, type]);
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -36,102 +36,33 @@ const ArticleDetails = () => {
     queryKey: ["article", params.articleId],
     queryFn: ({ signal }) => fetchArticle({ signal, id: params.articleId }),
   });
-  console.log(data);
-  const categories = data?.categories ?? [];
-  let imageGroup = [];
 
   let mainContent = null;
 
   if (isPending) {
     mainContent = <LoadingIndicator />;
-  }
-  if (isError) {
+  } else if (isError) {
     mainContent = <ErrorContainer title="Error" message={error?.message} />;
-  }
-  if (data) {
-    const personName =
-      data?.user?.name + " " + data?.user?.surname ?? "Unknown Person";
+  } else if (data) {
     const title = data?.title ?? "Unknown Title";
     const img = data?.imgUrl ?? "";
     const description = data?.description ?? "";
     const content = data?.content ?? [];
     const readingTime = formatReadingTime(calculateReadingTime(content));
-    const formattedDate = formatShortMonthDate(data?.date ?? "");
 
-    const reviews = data?.reviews ?? [];
-    const isOwner = data?.isOwner ?? false;
     mainContent = (
       <article className={styles.section}>
-        <div className={styles.postInfo}>
-          <Link to={`/user/${data.user.id}`}>
-          <span>
-            <FaUser className={styles.icon} /> {personName}
-          </span>
-          </Link>
-          <span>
-            <FaCalendarAlt className={styles.icon} /> {formattedDate}
-          </span>
-          <span>
-            <FaClock className={styles.icon} /> {readingTime} of reading
-          </span>
-          <div className={styles.categoriesContainer}>
-            {categories.map((category) => (
-              <span key={category.id} className={styles.categoryTag}>
-                {category.name}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <h1>{title}</h1>
-        <img
-          src={img}
-          alt={title}
-          loading="lazy"
-          className={styles.mainImage}
+        <ArticleInfo
+          user={data.user}
+          date={data?.date}
+          readingTime={readingTime}
+          categories={data?.categories ?? []}
         />
+        <h1>{title}</h1>
+        <img src={img} alt={title} loading="lazy" className={styles.mainImage} />
         <p className={styles.description}>{description}</p>
-
-        <div className={styles.article}>
-          {content.map((item, index) => {
-            if (item.type === "paragraph") {
-              if (imageGroup.length > 0) {
-                const images = (
-                  <div className={styles.imageGroup} key={`img-group-${index}`}>
-                    {imageGroup}
-                  </div>
-                );
-                imageGroup = []; 
-                return (
-                  <div key={`wrapper-${index}`}>
-                    {images}
-                    <p className={styles.paragraph}>{item.value}</p>
-                  </div>
-                );
-              }
-              return (
-                <p className={styles.paragraph} key={index}>
-                  {item.value}
-                </p>
-              );
-            } else {
-              imageGroup.push(
-                <img
-                  className={styles.image}
-                  key={index}
-                  src={item.value}
-                  loading="lazy"
-                  alt={`content-${index}-${title}`}
-                />
-              );
-              return null;
-            }
-          })}
-          {imageGroup.length > 0 && (
-            <div className={styles.imageGroup}>{imageGroup}</div>
-          )}
-        </div>
-        <Reviews reviews={reviews} isOwner={isOwner} />
+        <ArticleContent content={content} title={title} />
+        <Reviews reviews={data?.reviews ?? []} isOwner={data?.isOwner ?? false} />
       </article>
     );
   }

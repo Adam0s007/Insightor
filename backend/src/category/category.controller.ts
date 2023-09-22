@@ -18,4 +18,5 @@ export class CategoryController {
   async findAllCategoriesByUser(@Param('id') id: string) {
     return await this.categoryService.findAllCategoriesByUser(id);
   }
+
 }
