@@ -85,6 +85,7 @@
     background-position: right 0.5em center; /* Pozycjonowanie ikony wewnątrz rozwijanego menu */
     background-size: 16px 16px; /* Rozmiar ikony */
     padding-right: 2.5em; 
+    
 }
 
 .categoryDropdown:hover {

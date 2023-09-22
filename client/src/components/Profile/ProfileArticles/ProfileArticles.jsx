@@ -3,17 +3,14 @@ import { useCallback, useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchArticles } from "../../../hooks/use-fetch-articles";
 import styles from "./ProfileArticles.module.css";
-import ProfileArticle from "../ProfileArticle/ProfileArticle";
-import LoadingIndicator from "../../../ui/LoadingIndicator/LoadingIndicator.jsx";
-import LoadingOverlay from "../../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import { decodeToken } from "react-jwt";
-import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer.jsx";
 import { deleteArticle, queryClient } from "../../../utils/http";
 import { useMutation } from "@tanstack/react-query";
 import MessageModal from "../../../ui/MessageModal/MessageModal.jsx";
-
+import SortMenu from "./SortMenu";
 import { fetchCategoriesByUser } from "../../../utils/http";
 import { useQuery } from "@tanstack/react-query";
+import ArticleList from "./ArticleList";
 const ProfileArticles = () => {
   let token = getSimpleToken();
   const params = useParams();
@@ -22,7 +19,7 @@ const ProfileArticles = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("");
-
+  const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [filters, setFilters] = useState({
     sort: "date",
@@ -74,8 +71,9 @@ const ProfileArticles = () => {
     setPageNumber(1); // Reset page number on sort change
   };
 
-  const handleCategoryChange = (event) => {
-    const selectedCategory = event.target.value;
+  const handleCategoryChange = (label) => {
+    if (label === "All categories") label = "";
+    const selectedCategory = label;
     setFilters((prev) => ({
       ...prev,
       category: selectedCategory,
@@ -117,6 +115,9 @@ const ProfileArticles = () => {
     );
   };
 
+  const handleDropdownClick = () => {
+    setIsDropdownExpanded(!isDropdownExpanded);
+  };
   return (
     <section className={styles.articlesContainer}>
       {showModal && (
@@ -126,63 +127,21 @@ const ProfileArticles = () => {
           onClose={() => setShowModal(false)}
         />
       )}
-      <div className={styles.menu}>
-        {isPending && <LoadingOverlay />}
-        <button
-          onClick={() => handleSortChange("date")}
-          className={activeButton === "date-DESC" ? styles.active : ""}
-        >
-          Newest
-        </button>
-        <button
-          onClick={() => handleSortChange("reviews")}
-          className={activeButton === "reviews-DESC" ? styles.active : ""}
-        >
-          Popular
-        </button>
-        <button
-          onClick={() => handleSortChange("date", "ASC")}
-          className={activeButton === "date-ASC" ? styles.active : ""}
-        >
-          Oldest
-        </button>
-        <button
-          onClick={() => handleSortChange("rating")}
-          className={activeButton === "rating-DESC" ? styles.active : ""}
-        >
-          Highest-rated
-        </button>
-        <select
-          className={styles.categoryDropdown}
-          onChange={handleCategoryChange}
-        >
-          <option value="">All categories</option>
-          {categories &&
-            categories.map((category, idx) => (
-              <option key={`categ-${idx}`} value={category}>
-                {category}
-              </option>
-            ))}
-        </select>
-      </div>
+      <SortMenu
+        activeButton={activeButton}
+        handleSortChange={handleSortChange}
+        categories={categories}
+        handleCategoryChange={handleCategoryChange}
+      />
 
-      <div className={styles.articles}>
-        {localArticles &&
-          localArticles.map((article, index) => {
-            const isLastElement = localArticles.length === index + 1;
-            return (
-              <ProfileArticle
-                article={article}
-                isOwner={isOwner}
-                key={article.id}
-                onDelete={handleDeleteArticle}
-                ref={isLastElement ? lastArticleElementRef : null}
-              />
-            );
-          })}
-        {isPending && <LoadingIndicator />}
-        {error && <ErrorContainer message={error.message} />}
-      </div>
+      <ArticleList
+        localArticles={localArticles}
+        isPending={isPending}
+        error={error}
+        isOwner={isOwner}
+        handleDeleteArticle={handleDeleteArticle}
+        lastArticleElementRef={lastArticleElementRef}
+      />
     </section>
   );
 };

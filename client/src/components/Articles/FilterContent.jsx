@@ -1,22 +1,26 @@
-import React from "react";
+import React,{useState} from "react";
 import classes from "./FilterContent.module.css";
 
-import {useQuery} from '@tanstack/react-query'
-import {fetchCategories} from '../../utils/http'
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategories } from "../../utils/http";
 
-const FilterContent = ({ filters, setFilters }) => { 
-
+const FilterContent = ({ filters, setFilters }) => {
+  const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     const newFilters = { ...filters, [name]: value };
     setFilters(newFilters);
   };
- 
-  const {data:categories} = useQuery({
-    queryKey: ['categories'],
-    queryFn: ({signal}) => fetchCategories({signal}),
-  })
-  if(categories) console.log(categories)
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: ({ signal }) => fetchCategories({ signal }),
+  });
+  
+  const handleDropdownClick = () => {
+    setIsDropdownExpanded(!isDropdownExpanded);
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.group}>
@@ -29,7 +33,7 @@ const FilterContent = ({ filters, setFilters }) => {
         <input
           name="authorSurname"
           placeholder="Enter author surname"
-          value={filters.authorSurname  || ""}
+          value={filters.authorSurname || ""}
           onChange={handleChange}
         />
       </div>
@@ -47,7 +51,7 @@ const FilterContent = ({ filters, setFilters }) => {
             onChange={handleChange}
           />
         </div>
-        <div className={classes.dateItem}> 
+        <div className={classes.dateItem}>
           <label htmlFor="dateTo" className={classes.label}>
             To
           </label>
@@ -55,7 +59,7 @@ const FilterContent = ({ filters, setFilters }) => {
             id="dateTo"
             type="date"
             name="dateTo"
-            value={filters.dateTo  || ""}
+            value={filters.dateTo || ""}
             onChange={handleChange}
           />
         </div>
@@ -98,14 +102,16 @@ const FilterContent = ({ filters, setFilters }) => {
         <label htmlFor="sort" className={classes.label}>
           Sort
         </label>
-        <select 
+        <select
           name="sort"
-          id="sort" 
-          value={filters.sort || ""} 
+          id="sort"
+          value={filters.sort || ""}
           onChange={handleChange}
           className={classes.sortDropdown}
         >
-          <option value="" disabled>None</option>
+          <option value="" disabled>
+            None
+          </option>
           <option value="date">Date</option>
           <option value="reviews">Popularity</option>
           <option value="rating">Rating</option>
@@ -116,15 +122,17 @@ const FilterContent = ({ filters, setFilters }) => {
         <label htmlFor="order" className={classes.label}>
           Order
         </label>
-        <select 
-          name="order" 
+        <select
+          name="order"
           id="order"
           disabled={!filters.sort}
-          value={filters.order || ""} 
+          value={filters.order || ""}
           onChange={handleChange}
-          className={classes.sortDropdown}
+          className={classes.dropdown}
         >
-          <option value="" disabled>None</option>
+          <option value="" disabled>
+            None
+          </option>
           <option value="ASC">Ascending</option>
           <option value="DESC">Descending</option>
         </select>
@@ -138,14 +146,17 @@ const FilterContent = ({ filters, setFilters }) => {
           id="category"
           value={filters.category || ""}
           onChange={handleChange}
-          className={classes.sortDropdown}
+          onClick={handleDropdownClick}
+          size={isDropdownExpanded ? "5" : "1"}
+          className={classes.dropdown}
         >
-          <option value="" >All</option>
-          {categories && categories.map((category, idx) => (
-            <option key={category.id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
+          <option value="">All</option>
+          {categories &&
+            categories.map((category, idx) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
         </select>
       </div>
     </div>

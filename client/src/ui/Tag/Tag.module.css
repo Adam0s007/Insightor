@@ -1,0 +1,44 @@
+/* Styl dla kontenera tagów kategorii */
+.categoryTagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 5px 3px;
+    align-items: center;
+    -ms-overflow-style: none;
+    scrollbar-width: thin;   
+}
+
+.categoryTagsContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.categoryTag {
+    padding: 6px 12px; /* Mniejsze paddingi */
+    border-radius: 15px; /* Mniejsze zaokrąglenie rogu */
+    background: linear-gradient(45deg, var(--color), var(--logo-color));
+    color: white;
+    font-weight: 550; /* Nieco lżejsza czcionka */
+    font-size: 0.9rem; /* Mniejsza czcionka */
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Lżejszy cień */
+    user-select: none;
+}
+
+.categoryTag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15); /* Lżejszy cień */
+}
+
+.categoryTag:active {
+    transform: translateY(0);
+}
+
+.categoryTag.active {
+    background: #4444aa; /* Po kliknięciu w tag */
+    outline: 2px solid white;
+    
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* Delikatny cień wewnętrzny */
+}

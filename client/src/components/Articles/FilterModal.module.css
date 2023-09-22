@@ -19,7 +19,8 @@
     width: 80%;
     max-width: 500px;
     z-index:10;
-   
+    max-height:92vh;
+    overflow-y:scroll;
   }
 
   .group{
