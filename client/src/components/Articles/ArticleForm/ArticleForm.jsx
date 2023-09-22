@@ -70,7 +70,7 @@ const ArticleForm = (props) => {
     article.content.some((item) => item.value.length === 0) ||
     article.categories.length === 0;
 
-  console.log(props.data);
+  
   return (
     <form onSubmit={handleSubmit} className={styles.container}>
       <h1 className={styles.heading}>

@@ -25,6 +25,7 @@ export function useFetchArticles({ pageNumber, filters,user="" }) {
     if (pageNumber === 1) {
       setArticles([]);
     }
+    console.log(queryObject);
 
     let cancel;
     axios({

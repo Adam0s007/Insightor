@@ -9,7 +9,7 @@ import { ReviewEntity } from 'src/review/review.entity';
 import { CategoryEntity } from 'src/category/category.entity';
 import { CategoryDTO } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
-
+import {Logger} from '@nestjs/common';
 @Injectable()
 export class ArticleService {
   constructor(
@@ -122,8 +122,6 @@ export class ArticleService {
         { text: `%${text}%` },
       );
     }
-    
-    
 
     if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
       sortOrder = 'DESC';
@@ -133,10 +131,12 @@ export class ArticleService {
         query.orderBy('article.date', sortOrder);
         break;
       case 'rating':
-        query.orderBy('article.rating', sortOrder);
+      query.orderBy('article.rating', sortOrder);
         break;
       case 'reviews':
+        
         query.orderBy('article.reviewsCount', sortOrder);
+        break;
       default:
         query.orderBy('article.date', 'DESC'); // Default sort by date
         break;
@@ -181,6 +181,7 @@ export class ArticleService {
         break;
       case 'reviews':
         query.orderBy('article.reviewsCount', sortOrder);
+        break;
       default:
         query.orderBy('article.date', 'DESC'); // Default sort by date
         break;

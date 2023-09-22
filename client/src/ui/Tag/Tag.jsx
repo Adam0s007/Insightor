@@ -1,27 +1,29 @@
 import styles from './Tag.module.css'
 import React, { useState } from 'react';
 
-export const CategoryTag = ({ label, onClick, isActive }) => (
+export const CategoryTag = (props) => (
   <div
-    className={`${styles.categoryTag} ${isActive ? styles.active : ''}`}
-    onClick={() => onClick(label)}
+    className={`${styles.categoryTag} ${props.isActive ? styles.active : ''}`}
+    onClick={() => props.onClick(props.label)}
   >
-    {label}
+    {props.label}
   </div>
 );
 
-export const CategoryTags = ({ categories, onCategoryClick }) => {
+export const CategoryTags = (props) => {
   const [activeTag, setActiveTag] = useState(null);
 
   const handleTagClick = (category) => {
     setActiveTag(category);  // ustawienie aktywnego tagu
-    onCategoryClick(category);
+    if(props.onCategoryClick){
+      props.onCategoryClick(category);
+    }
   };
 
   return (
     <div className={styles.categoryTagsContainer}>
       <CategoryTag label="All categories" onClick={handleTagClick} isActive={activeTag === "All categories"} />
-      {categories && categories.map((category) => (
+      {props.categories && props.categories.map((category) => (
         <CategoryTag key={category} label={category} onClick={handleTagClick} isActive={activeTag === category} />
       ))}
     </div>

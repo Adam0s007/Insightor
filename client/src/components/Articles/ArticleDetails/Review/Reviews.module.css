@@ -10,7 +10,7 @@
 
 .content{
    background-color: #fefefe;
-   width:min(95vw, 55em);
+   width:min(100%, 55em);
 }
 
 .title{

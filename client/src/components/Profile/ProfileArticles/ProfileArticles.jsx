@@ -19,7 +19,6 @@ const ProfileArticles = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("");
-  const [isDropdownExpanded, setIsDropdownExpanded] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [filters, setFilters] = useState({
     sort: "date",
@@ -63,6 +62,7 @@ const ProfileArticles = () => {
   const handleSortChange = (sortBy, type = "DESC") => {
     const sortValue = `${sortBy}-${type}`;
     setActiveButton(sortValue);
+    if(sortBy === 'Popularity') sortBy = 'reviews';
     setFilters({
       ...filters,
       sort: sortBy,
@@ -113,10 +113,6 @@ const ProfileArticles = () => {
         },
       }
     );
-  };
-
-  const handleDropdownClick = () => {
-    setIsDropdownExpanded(!isDropdownExpanded);
   };
   return (
     <section className={styles.articlesContainer}>

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation,Link } from "react-router-dom";
 import styles from "./ArticleDetails.module.css";
 
 import Reviews from "./Review/Reviews";
-
 import { FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticle } from "../../../utils/http";
-
 import {
   calculateReadingTime,
   formatReadingTime,
@@ -16,7 +14,7 @@ import { formatShortMonthDate } from "../../../utils/date-conventer";
 import LoadingIndicator from "../../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer";
 import MessageModal from "../../../ui/MessageModal/MessageModal";
-import Exit from "../../../ui/Exit/Exit";
+
 
 const ArticleDetails = () => {
   const params = useParams();
@@ -38,7 +36,8 @@ const ArticleDetails = () => {
     queryKey: ["article", params.articleId],
     queryFn: ({ signal }) => fetchArticle({ signal, id: params.articleId }),
   });
-
+  console.log(data);
+  const categories = data?.categories ?? [];
   let imageGroup = [];
 
   let mainContent = null;
@@ -50,7 +49,6 @@ const ArticleDetails = () => {
     mainContent = <ErrorContainer title="Error" message={error?.message} />;
   }
   if (data) {
-   
     const personName =
       data?.user?.name + " " + data?.user?.surname ?? "Unknown Person";
     const title = data?.title ?? "Unknown Title";
@@ -63,79 +61,78 @@ const ArticleDetails = () => {
     const reviews = data?.reviews ?? [];
     const isOwner = data?.isOwner ?? false;
     mainContent = (
-      
-        <div className={styles.section}>
-          <Exit path=".." />
-          <div className={styles.postInfo}>
-            <span>
-              <FaUser className={styles.icon} /> {personName}
-            </span>
-            <span>
-              <FaCalendarAlt className={styles.icon} /> {formattedDate}
-            </span>
-            <span>
-              <FaClock className={styles.icon} /> {readingTime} of reading
-            </span>
+      <article className={styles.section}>
+        <div className={styles.postInfo}>
+          <Link to={`/user/${data.user.id}`}>
+          <span>
+            <FaUser className={styles.icon} /> {personName}
+          </span>
+          </Link>
+          <span>
+            <FaCalendarAlt className={styles.icon} /> {formattedDate}
+          </span>
+          <span>
+            <FaClock className={styles.icon} /> {readingTime} of reading
+          </span>
+          <div className={styles.categoriesContainer}>
+            {categories.map((category) => (
+              <span key={category.id} className={styles.categoryTag}>
+                {category.name}
+              </span>
+            ))}
           </div>
-
-          <h1>{title}</h1>
-          <img
-            src={img}
-            alt={title}
-            loading="lazy"
-            className={styles.mainImage}
-          />
-          <p className={styles.description}>{description}</p>
-
-          <div className={styles.article}>
-            {content.map((item, index) => {
-              if (item.type === "paragraph") {
-                // Jeżeli mamy obrazy w grupie, renderujemy je przed akapitem
-                if (imageGroup.length > 0) {
-                  const images = (
-                    <div
-                      className={styles.imageGroup}
-                      key={`img-group-${index}`}
-                    >
-                      {imageGroup}
-                    </div>
-                  );
-                  imageGroup = []; // Resetujemy grupę
-                  return (
-                    <div key={`wrapper-${index}`}>
-                      {images}
-                      <p className={styles.paragraph}>{item.value}</p>
-                    </div>
-                  );
-                }
-                return (
-                  <p className={styles.paragraph} key={index}>
-                    {item.value}
-                  </p>
-                );
-              } else {
-                // Dodajemy obraz do grupy
-                imageGroup.push(
-                  <img
-                    className={styles.image}
-                    key={index}
-                    src={item.value}
-                    loading="lazy"
-                    alt={`content-${index}-${title}`}
-                  />
-                );
-                return null;
-              }
-            })}
-            {/* Jeżeli po ostatnim akapicie są jeszcze obrazy */}
-            {imageGroup.length > 0 && (
-              <div className={styles.imageGroup}>{imageGroup}</div>
-            )}
-          </div>
-          <Reviews reviews={reviews} isOwner={isOwner} />
         </div>
-        
-      
+
+        <h1>{title}</h1>
+        <img
+          src={img}
+          alt={title}
+          loading="lazy"
+          className={styles.mainImage}
+        />
+        <p className={styles.description}>{description}</p>
+
+        <div className={styles.article}>
+          {content.map((item, index) => {
+            if (item.type === "paragraph") {
+              if (imageGroup.length > 0) {
+                const images = (
+                  <div className={styles.imageGroup} key={`img-group-${index}`}>
+                    {imageGroup}
+                  </div>
+                );
+                imageGroup = []; 
+                return (
+                  <div key={`wrapper-${index}`}>
+                    {images}
+                    <p className={styles.paragraph}>{item.value}</p>
+                  </div>
+                );
+              }
+              return (
+                <p className={styles.paragraph} key={index}>
+                  {item.value}
+                </p>
+              );
+            } else {
+              imageGroup.push(
+                <img
+                  className={styles.image}
+                  key={index}
+                  src={item.value}
+                  loading="lazy"
+                  alt={`content-${index}-${title}`}
+                />
+              );
+              return null;
+            }
+          })}
+          {imageGroup.length > 0 && (
+            <div className={styles.imageGroup}>{imageGroup}</div>
+          )}
+        </div>
+        <Reviews reviews={reviews} isOwner={isOwner} />
+      </article>
     );
   }
 

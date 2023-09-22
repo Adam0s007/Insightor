@@ -169,10 +169,10 @@ export async function authAction({ request, params }) {
 
   const resData = await response.json();
   const token = resData.token;
-
+  const userId = resData.id;
   localStorage.setItem("token", token);
   return redirect(
-    `/?status=${dataType === "login" ? "logged-in" : "signed-up"}`
+    `/user/${userId}`
   );
 }
 
