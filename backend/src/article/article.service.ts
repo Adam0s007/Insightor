@@ -9,7 +9,7 @@ import { ReviewEntity } from 'src/review/review.entity';
 import { CategoryEntity } from 'src/category/category.entity';
 import { CategoryDTO } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
-import {Logger} from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 @Injectable()
 export class ArticleService {
   constructor(
@@ -65,11 +65,6 @@ export class ArticleService {
   async findAll(
     max = undefined,
     page: number = 1,
-    rating?: number,
-    dateFrom?: Date,
-    dateTo?: Date,
-    authorName?: string,
-    authorSurname?: string,
     text?: string,
     category?: string,
     sortBy?: 'date' | 'rating' | 'reviews',
@@ -78,49 +73,23 @@ export class ArticleService {
     if (max && (max < 1 || isNaN(max))) {
       throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
     }
-
     const query = this.articleRepository
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.content', 'content')
       .leftJoinAndSelect('article.user', 'user')
       .leftJoinAndSelect('article.reviews', 'reviews')
-      .leftJoinAndSelect('article.categories', 'categoryFilter')
-      if (category) {
-        query.andWhere('LOWER(categoryFilter.name) = LOWER(:category)', { category });
-      }
-    
-    if (rating) {
-      query.andWhere('article.rating = :rating', { rating });
-    }
-
-    if (dateFrom) {
-      query.andWhere('article.date >= :dateFrom', {
-        dateFrom
-      });
-    }
-    if (dateTo) {
-      const endDate = new Date(dateTo);
-      endDate.setHours(23, 59, 59, 999);
-      query.andWhere('article.date <= :endDate', {
-        endDate
-      });
-    }
-
-    if (authorName) {
-      query.andWhere('LOWER(user.name) = LOWER(:name)', { name: authorName });
-    }
-    if (authorSurname) {
-      query.andWhere('LOWER(user.surname) = LOWER(:surname)', {
-        surname: authorSurname,
+      .leftJoinAndSelect('article.categories', 'categoryFilter');
+    if (category) {
+      query.andWhere('LOWER(categoryFilter.name) = LOWER(:category)', {
+        category,
       });
     }
     if (text) {
       query.andWhere(
-        'article.title ILIKE :text OR article.description ILIKE :text',
+        'article.title ILIKE :text OR article.description ILIKE :text OR user.name ILIKE :text OR user.surname ILIKE :text',
         { text: `%${text}%` },
       );
     }
-
     if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
       sortOrder = 'DESC';
     }
@@ -129,10 +98,9 @@ export class ArticleService {
         query.orderBy('article.date', sortOrder);
         break;
       case 'rating':
-      query.orderBy('article.rating', sortOrder);
+        query.orderBy('article.rating', sortOrder);
         break;
       case 'reviews':
-        
         query.orderBy('article.reviewsCount', sortOrder);
         break;
       default:
@@ -144,7 +112,6 @@ export class ArticleService {
     } else {
       query.take(3).skip(3 * (page - 1));
     }
-
     const articles = await query.getMany();
     return articles.map((article) => article.toResponseObject());
   }
@@ -152,7 +119,7 @@ export class ArticleService {
   async findArticlesByUser(
     userId: string,
     page: number = 1,
-    category?:string,
+    category?: string,
     sortBy?: 'date' | 'rating' | 'reviews',
     sortOrder: 'ASC' | 'DESC' = 'DESC',
   ): Promise<ArticleEntity[]> {
@@ -163,8 +130,10 @@ export class ArticleService {
       .leftJoinAndSelect('article.categories', 'categoryFilter')
       .where('user.id = :userId', { userId });
 
-    if(category){
-      query.andWhere('LOWER(categoryFilter.name) = LOWER(:category)', { category });
+    if (category) {
+      query.andWhere('LOWER(categoryFilter.name) = LOWER(:category)', {
+        category,
+      });
     }
 
     if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
@@ -220,7 +189,6 @@ export class ArticleService {
     return { ...responseObject, isOwner };
   }
 
-
   async findAllCategoriesByUser(userId: string) {
     const articles = await this.articleRepository.find({
       where: { user: { id: userId } },
@@ -232,7 +200,7 @@ export class ArticleService {
         categories.add(category.name);
       });
     });
-    
+
     return [...categories];
   }
 

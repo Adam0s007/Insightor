@@ -21,7 +21,7 @@
 
 .filterStatus{
     flex-basis:100%;
-    color:black;
+    color:white;
     display:flex;
     flex-direction: column;
     justify-content:center;
@@ -36,7 +36,7 @@
     content:'';
     height:3px;
     width:min(60vw,400px);
-    background-color:black;
+    background-color:white;
 }
 .categories{
     display:flex;

@@ -9,6 +9,9 @@
     align-items: center;
     -ms-overflow-style: none;
     scrollbar-width: thin;
+    
+    padding: 1em 1.4em 0.8em 1.4em;
+
   }
   
   .container::-webkit-scrollbar {

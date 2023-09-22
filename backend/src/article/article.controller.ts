@@ -47,11 +47,6 @@ export class ArticleController {
     return await this.articleService.findAll(
       max,
       page,
-      rating,
-      dateFrom,
-      dateTo,
-      authorName,
-      authorSurname,
       text,
       category,
       sortBy,
