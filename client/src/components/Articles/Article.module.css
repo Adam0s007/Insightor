@@ -103,6 +103,19 @@
   position:relative;
   top:-5px;
 }
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.reviews-count {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--person-info-color);
+}
+
+
 
 @media (max-width: 640px) {
   .post {

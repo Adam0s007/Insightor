@@ -29,6 +29,7 @@ const AutoExpandTextArea = (props) => {
     <textarea 
       ref={textareaRef}
       value={props.value}
+      id={props.id}
       onChange={props.onChange}
       maxLength={props.maxLength}
       type={props.type}

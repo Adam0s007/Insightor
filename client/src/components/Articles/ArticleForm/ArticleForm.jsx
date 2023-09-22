@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import AutoExpandTextArea from "../../../ui/AutoExpandTextArea.jsx";
 import styles from "./ArticleForm.module.css";
-import { FaPlus } from "react-icons/fa";
+import ArticleInfoInput from "./ArticleInfoInput.jsx";
+import ArticleInfoTextarea from "./ArticleInfoTextarea.jsx";
+import Content from "./Content.jsx";
+import Categories from "./Categories.jsx";
+
 
 const ArticleForm = (props) => {
   const [article, setArticle] = useState({
@@ -13,7 +16,7 @@ const ArticleForm = (props) => {
     categories: [],
     ...(props.data || {}),
   });
-  const [newCategory, setNewCategory] = useState("");
+ 
 
   const addItem = (type) => {
     setArticle({
@@ -35,7 +38,7 @@ const ArticleForm = (props) => {
     setArticle({ ...article, content: newContent });
   };
 
-  const handleAddCategory = () => {
+  const handleAddCategory = (newCategory) => {
     if (
       newCategory &&
       !article.categories.some((cat) => cat.name === newCategory)
@@ -44,7 +47,7 @@ const ArticleForm = (props) => {
         ...article,
         categories: [...article.categories, { name: newCategory }],
       });
-      setNewCategory("");
+     
     }
   };
 
@@ -70,142 +73,53 @@ const ArticleForm = (props) => {
     article.content.some((item) => item.value.length === 0) ||
     article.categories.length === 0;
 
-  
-  return (
-    <form onSubmit={handleSubmit} className={styles.container}>
-      <h1 className={styles.heading}>
-        {props.type === "new" ? "Create an article!" : "Edit an article!"}
-      </h1>
-
-      <div className={styles.inputWrapper}>
-        <label className={styles.label}>Title </label>
-        <input
-          className={styles.input}
-          type="text"
+    return (
+      <form onSubmit={handleSubmit} className={styles.container}>
+        <h1 className={styles.heading}>
+          {props.type === "new" ? "Create an article!" : "Edit an article!"}
+        </h1>
+        <ArticleInfoInput 
+          id="title"
+          label="Title"
           maxLength={80}
-          defaultValue={article.title ?? ""}
-          onChange={(e) => setArticle({ ...article, title: e.target.value })}
+          value={article.title}
+          onChange={(value) => setArticle({ ...article, title: value })}
         />
-      </div>
-      <div className={styles.inputWrapper}>
-        <label className={styles.label}>short description </label>
-        <AutoExpandTextArea
-          className={styles.textarea}
-          type="text"
-          maxLength={300}
-          value={article.description ?? ""}
-          onChange={(e) =>
-            setArticle({ ...article, description: e.target.value })
-          }
+        <ArticleInfoTextarea 
+          id="description"
+          label="Short description"
+          maxLength={1000}
+          value={article.description}
+          onChange={(value) => setArticle({ ...article, description: value })}
         />
-      </div>
-      <div className={styles.inputWrapper}>
-        <label className={styles.label}>thumbnail </label>
-        <input
-          className={styles.input}
-          type="text"
+        <ArticleInfoInput 
+          id="thumbnail"
+          label="Thumbnail"
           maxLength={200}
           placeholder="Image URL"
-          defaultValue={article.imgUrl ?? ""}
-          onChange={(e) => setArticle({ ...article, imgUrl: e.target.value })}
+          value={article.imgUrl}
+          onChange={(value) => setArticle({ ...article, imgUrl: value })}
         />
-      </div>
-
-      <div className={styles.inputWrapper}>
-        <div className={styles.categories}>
-          {article.categories.map((cat, idx) => (
-            <span key={idx} className={styles.categoryTag}>
-              {cat.name}
-              <button
-                type="button"
-                className={styles.removeCategoryButton}
-                onClick={() => handleRemoveCategory(cat.name)}
-              >
-                x
-              </button>
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.inputWrapper}>
-        <input
-          className={`${styles.input} ${styles.newTag}`}
-          type="text"
-          placeholder="Add new tag..."
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
+        <Categories 
+          categories={article.categories}
+          onAddCategory={handleAddCategory}
+          onRemoveCategory={handleRemoveCategory}
+        />
+        <Content 
+          content={article.content}
+          onAddItem={addItem}
+          onDeleteItem={deleteItem}
+          onUpdateItem={updateItem}
         />
         <button
-          type="button"
-          onClick={handleAddCategory}
-          className={styles.addButton}
+          className={styles.submitButton}
+          disabled={isNotValidForm}
+          type="submit"
         >
-          <FaPlus style={{marginTop:"2px" }} /> 
+          {props.type === "new" ? "Create!" : "Update!"}
         </button>
-      </div>
-
-      {article.content.map((item, idx) => (
-        <div key={idx} className={styles.inputWrapper}>
-          {item.type === "paragraph" ? (
-            <>
-              <AutoExpandTextArea
-                className={styles.textarea}
-                maxLength={1000}
-                onChange={(e) => updateItem(idx, e.target.value)}
-                //defaultValue={item.value ?? ""}
-                value={item.value ?? ""}
-              />
-
-              <label className={styles.counter}>
-                {1000 - item.value.length} characters left
-              </label>
-            </>
-          ) : (
-            <>
-              <input
-                className={styles.input}
-                type="text"
-                maxLength={200}
-                placeholder="Image URL"
-                defaultValue={item.value ?? ""}
-                onChange={(e) => updateItem(idx, e.target.value)}
-              />
-            </>
-          )}
-          <button
-            type="button"
-            className={styles.buttonDelete}
-            onClick={() => deleteItem(idx)}
-          >
-            Delete
-          </button>
-        </div>
-      ))}
-      <button
-        type="button"
-        className={styles.button}
-        onClick={() => addItem("paragraph")}
-      >
-        Add Paragraph
-      </button>
-      <button
-        type="button"
-        className={styles.button}
-        onClick={() => addItem("image")}
-      >
-        Add Image
-      </button>
-
-      <button
-        className={styles.submitButton}
-        disabled={isNotValidForm}
-        type="submit"
-      >
-        {props.type === "new" ? "Create!" : "Update!"}
-      </button>
-    </form>
-  );
+      </form>
+    );
 };
 
 export default ArticleForm;

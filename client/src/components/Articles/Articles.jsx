@@ -60,8 +60,7 @@ const Articles = () => {
       />
       <SortingFilter onFiltersSubmit={filtersSubmitHandler} />
       <h2 className={classes.filterStatus}>
-        {isFiltersEmpty() && !filters.category ? "#All categories" : ""}
-        {!isFiltersEmpty() && !filters.category && "Search results"}
+        {!filters.category ? "#All categories" : ""}
         {filters.category && `#${filters.category}`}
       </h2>
       <div className={classes.categories}>
@@ -91,6 +90,7 @@ const Articles = () => {
               personName={`${post.user?.name} ${post.user?.surname}`}
               img={post.imgUrl}
               rating={post.rating}
+              reviewsCount={post.reviewsCount}
             />
           );
         })}

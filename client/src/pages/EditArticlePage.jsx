@@ -73,7 +73,7 @@ const EditArticlePage = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.articleForm}>
       {showModal && (
         <MessageModal type={modalType} message={message} onClose={closeModal} />
       )}

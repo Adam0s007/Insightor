@@ -31,7 +31,7 @@ const NewArticlePage = () => {
   };
   
   return (
-    <div className={styles.container}>
+    <div className={styles.articleForm}>
       {isPending && <LoadingOverlay />}
       {(isError && openErrorModal)  && (
         <ErrorContainer
