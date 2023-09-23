@@ -5,18 +5,18 @@ import ArticleInfoTextarea from "./ArticleInfoTextarea.jsx";
 import Content from "./Content.jsx";
 import Categories from "./Categories.jsx";
 import useDebounce from "../../../hooks/use-debounce";
-
+import ImageUpload from "./ImageUpload.jsx";
 const ArticleForm = (props) => {
   const [article, setArticle] = useState({
     title: "",
     description: "",
-    imgUrl: "",
+    imgUrl: null,
     content: [],
     rating: 0,
     categories: [],
     ...(props.data || {}),
   });
- 
+ console.log(article)
 
   const addItem = (type) => {
     setArticle({
@@ -69,7 +69,6 @@ const ArticleForm = (props) => {
   const isNotValidForm =
     article.title.length === 0 ||
     article.description.length === 0 ||
-    article.imgUrl.length === 0 ||
     article.content.length === 0 ||
     article.content.some((item) => item.value.length === 0) ||
     article.categories.length === 0;
@@ -93,13 +92,9 @@ const ArticleForm = (props) => {
           value={article.description}
           onChange={(value) => setArticle({ ...article, description: value })}
         />
-        <ArticleInfoInput 
-          id="thumbnail"
-          label="Thumbnail"
-          maxLength={200}
-          placeholder="Image URL"
+        <ImageUpload
+          onImageSelected={(imgUrl) => setArticle({ ...article, imgUrl })}
           value={article.imgUrl}
-          onChange={(value) => setArticle({ ...article, imgUrl: value })}
         />
         <Categories 
           categories={article.categories}
@@ -121,6 +116,6 @@ const ArticleForm = (props) => {
         </button>
       </form>
     );
-};
+  };
 
 export default ArticleForm;

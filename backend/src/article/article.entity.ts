@@ -29,7 +29,7 @@ export class ArticleEntity {
   @Column()
   description: string;
   
-  @Column()
+  @Column({ type: 'text', nullable: true })
   imgUrl: string;
 
   @ManyToOne(type => UserEntity, user => user.articles)

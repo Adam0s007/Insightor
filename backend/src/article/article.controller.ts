@@ -9,6 +9,8 @@ import {
   UsePipes,
   Query,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { ArticleDTO } from './article.dto';
@@ -18,7 +20,8 @@ import { User } from 'src/user/user.decorator';
 import { WeakAuthGuard } from 'src/shared/weak-auth.guard';
 import { CategoryEntity } from 'src/category/category.entity';
 import { CategoryDTO, UpdateArticleCategoriesDTO } from 'src/category/category.dto';
-
+import { multerOptions } from 'src/config/multer.config';
+import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('articles')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
@@ -30,15 +33,18 @@ export class ArticleController {
     return await this.articleService.create(user, articleDto);
   }
 
+  @Put(':id/imgUrl')
+  @UseGuards(new AuthGuard())
+  @UseInterceptors(FileInterceptor('imgUrl', multerOptions))
+  async uploadProfilePicture(@UploadedFile() file, @Param('id') artcleId: string) {
+    console.log(file)
+    return this.articleService.updatePicture(artcleId, file.filename);
+  }
+
   @Get()
   async findAll(
     @Query('max') max?: number,
     @Query('page') page?: number,
-    @Query('rating') rating?: number,
-    @Query('dateFrom') dateFrom?: Date,
-    @Query('dateTo') dateTo?: Date,
-    @Query('authorName') authorName?: string,
-    @Query('authorSurname') authorSurname?: string,
     @Query('text') text?: string,
     @Query('category') category?: string,
     @Query('sort') sortBy?: 'date' | 'rating' | 'reviews',

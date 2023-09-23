@@ -3,7 +3,7 @@ import classes from "./Article.module.css";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 import { formatDate } from '../../utils/date-conventer';
-
+import {getPicture} from '../../utils/pictures'
 const Article = React.forwardRef((props, ref) => {
   const ratingChanged = (newRating) => {
     console.log(newRating);
@@ -23,7 +23,7 @@ const Article = React.forwardRef((props, ref) => {
   return (
     <div ref={ref} className={classes.post}>
       <picture className={classes["img-wrapper"]}>
-        <img className={classes.img} src={props.img} loading="lazy"></img>
+        <img className={classes.img} src={getPicture(props.img)} loading="lazy"></img>
       </picture>
       
       <div className={classes["post-details"]}>

@@ -10,6 +10,7 @@ import { CategoryEntity } from 'src/category/category.entity';
 import { CategoryDTO } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
 import { Logger } from '@nestjs/common';
+import * as fs from 'fs';
 @Injectable()
 export class ArticleService {
   constructor(
@@ -58,6 +59,26 @@ export class ArticleService {
       reviews: [],
       categories: allCategories,
     });
+    await this.articleRepository.save(article);
+    return article.toResponseObject();
+  }
+
+  async updatePicture(articleId: string, imgUrl: string) {
+    const article = await this.articleRepository.findOne({
+      where: { id: articleId },
+      relations: ['content', 'user', 'reviews'],
+    });
+    if (!article) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    if (article.imgUrl) {
+
+      const oldFilePath = `${process.env.Upload_TEMP_DIR}/${article.imgUrl}`;
+      if (fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath);
+      }
+    }
+    article.imgUrl = imgUrl;
     await this.articleRepository.save(article);
     return article.toResponseObject();
   }
@@ -246,7 +267,13 @@ export class ArticleService {
     }
     this.ensureOwnership(article, userId);
     console.log(article.content);
+    if (article.imgUrl) {
 
+      const oldFilePath = `${process.env.Upload_TEMP_DIR}/${article.imgUrl}`;
+      if (fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath);
+      }
+    }
     while (article.content.length > 0) {
       await this.contentRepository.remove(article.content.pop());
     }

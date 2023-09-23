@@ -13,7 +13,7 @@ import ErrorContainer from "../../../ui/ErrorContainer/ErrorContainer";
 import MessageModal from "../../../ui/MessageModal/MessageModal";
 import ArticleInfo from "./ArticleInfo";
 import ArticleContent from "./ArticleContent";
-
+import {getPicture} from '../../../utils/pictures'
 const ArticleDetails = () => {
   const params = useParams();
   const location = useLocation();
@@ -45,7 +45,7 @@ const ArticleDetails = () => {
     mainContent = <ErrorContainer title="Error" message={error?.message} />;
   } else if (data) {
     const title = data?.title ?? "Unknown Title";
-    const img = data?.imgUrl ?? "";
+    const img = getPicture(data?.imgUrl)
     const description = data?.description ?? "";
     const content = data?.content ?? [];
     const readingTime = formatReadingTime(calculateReadingTime(content));

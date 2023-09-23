@@ -3,7 +3,7 @@ import styles from "./ProfileArticle.module.css";
 import { useNavigate } from "react-router-dom";
 import { formatShortMonthDate } from "../../../utils/date-conventer";
 import { FaEdit, FaTrash } from "react-icons/fa"; // Import icons
-
+import {getPicture} from '../../../utils/pictures'
 const ProfileArticle = React.forwardRef(
   ({ article, isOwner, onDelete }, ref) => {
     const navigate = useNavigate();
@@ -52,7 +52,7 @@ const ProfileArticle = React.forwardRef(
           </div>
         )}
         <img
-          src={article.imgUrl}
+          src={getPicture(article.imgUrl)}
           alt={article.title}
           className={styles.articleImage}
         />

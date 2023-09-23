@@ -50,7 +50,10 @@ export async function fetchArticle({ signal, id }) {
 }
 
 export async function createNewArticle({ articleData }) {
-  console.log(JSON.stringify(articleData));
+  
+  const imgUrl = articleData.imgUrl;
+  delete articleData.imgUrl;
+  
   const response = await fetch(`${defaultUrl}/articles`, {
     method: "POST",
     body: JSON.stringify(articleData),
@@ -68,7 +71,11 @@ export async function createNewArticle({ articleData }) {
   }
 
   const article = await response.json();
+  if(imgUrl){
 
+    console.log(imgUrl)
+    await updateArticlePicture({formData:imgUrl,articleId:article.id});
+  }
   return article;
 }
 
@@ -78,6 +85,8 @@ export async function updateArticle({ article, id }) {
   delete article.reviews;
   delete article.date;
   delete article.user;
+  const imgUrl = article.imgUrl;
+  delete article.imgUrl;
   if (article.content && article.content.length > 0) {
     article.content.forEach((content) => {
       delete content.id;
@@ -89,7 +98,6 @@ export async function updateArticle({ article, id }) {
     });
   }
   
-
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
     method: "PUT",
     body: JSON.stringify(article),
@@ -107,7 +115,9 @@ export async function updateArticle({ article, id }) {
   }
 
   const articleRO = await response.json();
-
+  if(imgUrl){
+    await updateArticlePicture({formData:imgUrl,articleId:id});
+  }
   return articleRO;
 }
 
@@ -217,7 +227,6 @@ export async function fetchReviews({ signal, articleId }) {
   return reviews;
 }
 
-// one function with arg method: POST,PUT,DELETE
 export async function reviewAction({ reviewData, articleId, method }) {
   const formattedReviewData = {
     content: reviewData.content,
@@ -294,6 +303,23 @@ export async function updateProfilePicture({ formData }) {
   }
   const user = await response.json();
   return user;
+}
+
+export async function updateArticlePicture({formData,articleId}){
+  const response = await fetch(`${defaultUrl}/articles/${articleId}/imgUrl`,{
+    method:'PUT',
+    body:formData,
+    headers:{
+      Authorization: "Bearer " + getAuthToken(),
+    }
+  })
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    throw new Error(err.message);
+  }
+  const article = await response.json();
+  return article;
 }
 
 

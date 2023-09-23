@@ -40,14 +40,14 @@ const Content = ({ content, onAddItem, onDeleteItem, onUpdateItem }) => {
           className={`${styles.button} ${styles.buttonImage}`}
           onClick={() => onAddItem("image")}
         >
-          <FaPlus /> Image
+          <FaPlus /> Image from URL
         </button>
         <button
           type="button"
           className={`${styles.button} ${styles.buttonQuillEditor}`} // Nowy styl do dodania
           onClick={() => onAddItem("editor")}
         >
-          <FaPlus /> Quill Editor
+          <FaPlus /> Editor
         </button>
       </div>
     </>

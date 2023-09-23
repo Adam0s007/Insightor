@@ -14,10 +14,6 @@ export class ArticleDTO {
     description: string;
     
 
-    @IsString()
-    @IsNotEmpty()
-    imgUrl: string;
-
     @ValidateNested({ each: true })
     @Type(() => ContentDTO)
     @IsNotEmpty()

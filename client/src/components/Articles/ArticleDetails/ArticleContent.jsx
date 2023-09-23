@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ArticleDetails.module.css';
+import DOMPurify from 'dompurify';
 
 const ArticleContent = ({ content, title }) => {
   let imageGroup = [];
@@ -37,14 +38,13 @@ const ArticleContent = ({ content, title }) => {
           <div 
             className={styles.editorContent} 
             key={index} 
-            dangerouslySetInnerHTML={{ __html: item.value }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.value) }}
           />
         );
       }
     }
   });
 
-  // Jeżeli na końcu tablicy są jeszcze jakieś obrazy, dodajemy je do wyrenderowanej zawartości
   if (imageGroup.length > 0) {
     renderedContent.push(
       <div className={styles.imageGroup} key={`img-group-${renderedContent.length}`}>
