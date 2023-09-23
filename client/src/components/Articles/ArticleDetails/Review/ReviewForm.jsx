@@ -53,6 +53,7 @@ const ReviewForm = (props) => {
         <ReactStars
           count={5}
           size={22}
+          key={props.rating}
           value={review.rating ?? 0} 
           edit={true}
           isHalf={true}

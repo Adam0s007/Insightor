@@ -94,6 +94,24 @@
     flex-wrap:wrap;
 }
 
+.thumbsUpSelected {
+    color: #4CAF50;
+    cursor: pointer;
+}
+
+.thumbsDownSelected {
+    color: #F44336;
+    cursor: pointer;
+}
+
+.thumbsItem {
+    padding: 5px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+
+
 /* Media Query dla zmniejszonego widoku */
 @media screen and (max-width: 508px) {
     .reviewContainer .authorName {

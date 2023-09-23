@@ -48,9 +48,7 @@ const Articles = () => {
   const filtersSubmitHandler = () => {
     setPageNumber(1);
   };
-  const isFiltersEmpty = () => {
-    return JSON.stringify(filters) === JSON.stringify(initialFilters);
-  };
+  
   return (
     <section className={classes.posts}>
       <SearchBar

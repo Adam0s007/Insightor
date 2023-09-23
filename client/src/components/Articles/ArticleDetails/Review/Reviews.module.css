@@ -1,4 +1,6 @@
 
+
+
 .container > * {
     box-sizing:border-box;
     margin-bottom: 16px;
@@ -11,6 +13,7 @@
 .content{
    background-color: #fefefe;
    width:min(100%, 55em);
+   
 }
 
 .title{

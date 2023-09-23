@@ -195,20 +195,30 @@ export class ArticleService {
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-
     let isOwner = false;
     if (userId) {
       isOwner = article.user.id === userId;
     }
-    let user = undefined;
-    if (userId)
-      user = await this.userRepository.findOne({
-        where: { id: userId },
-      });
-
     const responseObject = article.toResponseObject();
+    if (userId) {
+      const reviews =  article.reviews.map(review => {
+        const isUpvoted = review.upvotes.some(user => user.id === userId);
+        const isDownvoted = review.downvotes.some(user => user.id === userId);
+        const upvotes = review.upvotes.length;
+        const downvotes = review.downvotes.length;
+        return {
+          ...review,
+          upvotes,
+          downvotes,
+         isUpvoted,
+         isDownvoted
+        };
+      });
+      responseObject.reviews = reviews;
+    }
     return { ...responseObject, isOwner };
   }
+  
 
   async findAllCategoriesByUser(userId: string) {
     const articles = await this.articleRepository.find({

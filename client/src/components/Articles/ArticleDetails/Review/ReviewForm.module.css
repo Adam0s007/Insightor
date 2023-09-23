@@ -5,9 +5,7 @@
   --transition-speed: 0.1s;
   --shadow-color: rgba(0, 0, 0, 0.08);
 }
-.container{
-  position: relative;
-}
+
 .form {
   display: flex;
   flex-direction: column;

@@ -62,7 +62,7 @@ const Review = (props) => {
       <div className={classes.reviewFooter}>
         <div className={classes.ratingContainer}>
           <ReactStars
-            key={props.starsKey}
+            key={props.rating}
             count={5}
             value={props.rating ? props.rating : 0}
             edit={false}
@@ -82,13 +82,19 @@ const Review = (props) => {
           </span>
         </div>
         <div className={classes.thumbs}>
-          <span className={classes.thumbsItem} onClick={()=>thumbsHandler("upvote")}>
-            <FaThumbsUp color="#4CAF50" /> {props.upvotes}
-          </span>
-          <span className={classes.thumbsItem} onClick={()=>thumbsHandler("downvote")}>
-            <FaThumbsDown color="#F44336" /> {props.downvotes}
-          </span>
-        </div>
+        <span 
+          className={`${classes.thumbsItem} ${props.isUpvoted ? classes.thumbsUpSelected : ""}`} 
+          onClick={() => thumbsHandler("upvote")}
+        >
+          <FaThumbsUp /> {props.upvotes}
+        </span>
+        <span 
+          className={`${classes.thumbsItem} ${props.isDownvoted ? classes.thumbsDownSelected : ""}`} 
+          onClick={() => thumbsHandler("downvote")}
+        >
+          <FaThumbsDown /> {props.downvotes}
+        </span>
+      </div>
       </div>
     </div>
   );
