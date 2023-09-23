@@ -40,6 +40,7 @@ const LatestPosts = () => {
               personName={`${post.user?.name} ${post.user?.surname}`}
               img={post.imgUrl}
               rating={post.rating}
+              reviewsCount={post.reviewsCount}
             />
           ))}
         </section>

@@ -3,44 +3,57 @@ import styles from './ArticleDetails.module.css';
 
 const ArticleContent = ({ content, title }) => {
   let imageGroup = [];
+  const renderedContent = [];
 
-  return (
-    <div className={styles.article}>
-      {content.map((item, index) => {
-        if (item.type === "paragraph") {
-          if (imageGroup.length > 0) {
-            const images = (
-              <div className={styles.imageGroup} key={`img-group-${index}`}>
-                {imageGroup}
-              </div>
-            );
-            imageGroup = [];
-            return (
-              <div key={`wrapper-${index}`}>
-                {images}
-                <p className={styles.paragraph}>{item.value}</p>
-              </div>
-            );
-          }
-          return <p className={styles.paragraph} key={index}>{item.value}</p>;
-        } else {
-          imageGroup.push(
-            <img
-              className={styles.image}
-              key={index}
-              src={item.value}
-              loading="lazy"
-              alt={`content-${index}-${title}`}
-            />
-          );
-          return null;
-        }
-      })}
-      {imageGroup.length > 0 && (
-        <div className={styles.imageGroup}>{imageGroup}</div>
-      )}
-    </div>
-  );
+  content.forEach((item, index) => {
+    if (item.type === "image") {
+      imageGroup.push(
+        <img
+          className={styles.image}
+          key={index}
+          src={item.value}
+          loading="lazy"
+          alt={`content-${index}-${title}`}
+        />
+      );
+    } else {
+      if (imageGroup.length > 0) {
+        renderedContent.push(
+          <div className={styles.imageGroup} key={`img-group-${renderedContent.length}`}>
+            {imageGroup}
+          </div>
+        );
+        imageGroup = [];
+      }
+
+      if (item.type === "paragraph") {
+        renderedContent.push(
+          <p className={styles.paragraph} key={index}>
+            {item.value}
+          </p>
+        );
+      } else if (item.type === "editor") {
+        renderedContent.push(
+          <div 
+            className={styles.editorContent} 
+            key={index} 
+            dangerouslySetInnerHTML={{ __html: item.value }}
+          />
+        );
+      }
+    }
+  });
+
+  // Jeżeli na końcu tablicy są jeszcze jakieś obrazy, dodajemy je do wyrenderowanej zawartości
+  if (imageGroup.length > 0) {
+    renderedContent.push(
+      <div className={styles.imageGroup} key={`img-group-${renderedContent.length}`}>
+        {imageGroup}
+      </div>
+    );
+  }
+
+  return <div className={styles.article}>{renderedContent}</div>;
 }
 
 export default ArticleContent;

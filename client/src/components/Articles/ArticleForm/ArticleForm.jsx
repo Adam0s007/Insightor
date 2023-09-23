@@ -4,7 +4,7 @@ import ArticleInfoInput from "./ArticleInfoInput.jsx";
 import ArticleInfoTextarea from "./ArticleInfoTextarea.jsx";
 import Content from "./Content.jsx";
 import Categories from "./Categories.jsx";
-
+import useDebounce from "../../../hooks/use-debounce";
 
 const ArticleForm = (props) => {
   const [article, setArticle] = useState({
@@ -36,6 +36,7 @@ const ArticleForm = (props) => {
     const newContent = [...article.content];
     newContent[index].value = value;
     setArticle({ ...article, content: newContent });
+    console.log(article)
   };
 
   const handleAddCategory = (newCategory) => {

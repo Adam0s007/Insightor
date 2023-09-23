@@ -23,6 +23,7 @@
     "react-intersection-observer": "^9.5.2",
     "react-jwt": "^1.2.0",
     "react-query": "^3.39.3",
+    "react-quill": "^2.0.0",
     "react-rating-stars-component": "^2.2.0",
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.15.0",

@@ -16,8 +16,8 @@ const ArticleInfo = ({ user, date, readingTime, categories }) => {
       <span><FaCalendarAlt className={styles.icon} /> {formattedDate}</span>
       <span><FaClock className={styles.icon} /> {readingTime} of reading</span>
       <div className={styles.categoriesContainer}>
-        {categories.map((category) => (
-          <span key={category.id} className={styles.categoryTag}>
+        {categories.map((category,idx) => (
+          <span key={idx} className={styles.categoryTag}>
             {category.name}
           </span>
         ))}

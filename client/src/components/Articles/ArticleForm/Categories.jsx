@@ -6,7 +6,7 @@ const Categories = ({ categories, onAddCategory, onRemoveCategory }) => {
   const [newCategory, setNewCategory] = useState("");
 
   return (
-    <div className={styles.inputWrapper}>
+    <>
       <div className={styles.categories}>
         {categories.map((cat, idx) => (
           <span key={idx} className={styles.categoryTag}>
@@ -37,7 +37,7 @@ const Categories = ({ categories, onAddCategory, onRemoveCategory }) => {
           <FaPlus style={{ marginTop: "2px" }} />
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

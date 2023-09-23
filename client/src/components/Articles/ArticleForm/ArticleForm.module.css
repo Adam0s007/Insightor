@@ -206,3 +206,30 @@ order:2;
   transform: translateY(-3px);
 }
 
+
+.quill-editor-container {
+  background-color: white; /* Ustawienie tła edytora na białe */
+  border: 1px solid #ccc; /* Dodanie cienkiej ramki wokół edytora */
+  border-radius: 5px; /* Zaokrąglenie rogów edytora */
+  width:100%;
+  color:black;
+}
+.quill-editor-container *{
+  color: black;
+  text-align:left;
+}
+.quill-editor .ql-container {
+  font-family: 'Arial', sans-serif; /* Ustawienie czcionki dla tekstu w edytorze */
+  color: black; /* Ustawienie koloru tekstu na czarny */
+  
+}
+
+.quill-editor .ql-toolbar {
+  border-top-left-radius: 5px; /* Zaokrąglenie górnego lewego rogu paska narzędzi */
+  border-top-right-radius: 5px; /* Zaokrąglenie górnego prawego rogu paska narzędzi */
+}
+
+.quill-editor .ql-container {
+  border-bottom-left-radius: 5px; /* Zaokrąglenie dolnego lewego rogu edytora */
+  border-bottom-right-radius: 5px; /* Zaokrąglenie dolnego prawego rogu edytora */
+}
