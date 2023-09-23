@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import ProfileDetails from "./ProfileDetails"; // Zaimportuj ProfileDetails
+import ProfileDetails from "./ProfileDetails";
+import ChangePassword from "./ChangePassword";
 import styles from "./Profile.module.css";
 import { CSSTransition } from "react-transition-group";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -12,8 +13,8 @@ const animationTiming = {
 
 const Profile = ({ user, onExit }) => {
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
-
-  const profileDetailsRef = useRef(null); // Utwórz referencję
+  const profileDetailsRef = useRef(null);
+  const changePasswordRef = useRef(null);
 
   if (!user || !user.data) return <div>Oh God its empty, wait a sec...</div>;
 
@@ -26,16 +27,12 @@ const Profile = ({ user, onExit }) => {
   };
 
   const menuClickHandler = (e) => {
-    if (
-      e.target.innerText === "Profile details" &&
-      selectedMenuItem === "ProfileDetails"
-    ) {
-      setSelectedMenuItem(null);
-    }
-
     switch (e.target.innerText) {
       case "Profile details":
         changeDisplayedItem("ProfileDetails");
+        break;
+      case "Change Password":
+        changeDisplayedItem("ChangePassword");
         break;
       default:
         break;
@@ -49,7 +46,7 @@ const Profile = ({ user, onExit }) => {
       </li>
 
       <CSSTransition
-        nodeRef={profileDetailsRef} // Dodaj nodeRef
+        nodeRef={profileDetailsRef}
         in={selectedMenuItem === "ProfileDetails"}
         mountOnEnter
         unmountOnExit
@@ -66,8 +63,30 @@ const Profile = ({ user, onExit }) => {
         </div>
       </CSSTransition>
       
-      <li className={styles.menuItem}>Achievements</li>
+      <li className={styles.menuItem} onClick={menuClickHandler}>
+        Change Password
+      </li>
+      
+      <CSSTransition
+        nodeRef={changePasswordRef}
+        in={selectedMenuItem === "ChangePassword"}
+        mountOnEnter
+        unmountOnExit
+        timeout={animationTiming}
+        classNames={{
+          enter: "",
+          enterActive: styles.MenuOpen,
+          exit: "",
+          exitActive: styles.MenuClosed,
+        }}
+      >
+        <div className={styles.newContent} ref={changePasswordRef}>
+          <ChangePassword />
+        </div>
+      </CSSTransition>
+      
       <li className={styles.menuItem}>Settings</li>
+      
       <Form className={styles.menuItem} action="/logout" method="post">
         <button onClick={onExit}>
           <div className={styles.icon}>

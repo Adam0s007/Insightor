@@ -61,3 +61,14 @@ export class UserUpdateDTO {
   description?: string;
   profilePicture?: string;
 }
+
+export class UserChangePasswordDTO {
+  @IsNotEmpty()
+  currentPassword: string;
+
+  @IsNotEmpty()
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/, {
+    message: 'The password must contain at least one uppercase letter, one lowercase letter, and one special character.',
+  })
+  newPassword: string;
+}

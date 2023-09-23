@@ -2,10 +2,11 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
-import { LoginUserDTO, UserDTO, UserRO, UserUpdateDTO } from './user.dto';
+import { LoginUserDTO, UserChangePasswordDTO, UserDTO, UserRO, UserUpdateDTO } from './user.dto';
 import { UnverifiedUserEntity } from './unverified-user.entity';
 import { EmailService } from 'src/email/email.service';
 import * as fs from 'fs';
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(
@@ -161,4 +162,20 @@ export class UserService {
     await this.userRepository.save(user);
     return user.toResponseObject();
   }
+
+  async changePassword(userId: string, data: UserChangePasswordDTO): Promise<UserRO> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    const isPasswordMatch = await user.comparePassword(data.currentPassword);
+    if (!isPasswordMatch) {
+      throw new HttpException('Current password is incorrect', HttpStatus.BAD_REQUEST);
+    }
+    user.password = await bcrypt.hash(data.newPassword, 10);
+    await this.userRepository.save(user);
+    return user.toResponseObject();
+  }
+  
+  
 }

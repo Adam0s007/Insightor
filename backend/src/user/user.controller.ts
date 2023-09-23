@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ValidationPipe } from '../shared/validation.pipe';
 import { UserService } from './user.service';
-import { LoginUserDTO, UserDTO, UserUpdateDTO } from './user.dto';
+import { LoginUserDTO, UserChangePasswordDTO, UserDTO, UserUpdateDTO } from './user.dto';
 import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from './user.decorator';
 import { multerOptions } from 'src/config/multer.config';
@@ -84,5 +84,15 @@ export class UserController {
   @UseInterceptors(FileInterceptor('profilePicture', multerOptions))
   async uploadProfilePicture(@UploadedFile() file, @User('id') userId: string) {
     return this.userService.updateProfilePicture(userId, file.filename);
+  }
+
+  @Put('change-password')
+  @UseGuards(new AuthGuard())
+  @UsePipes(new ValidationPipe())
+  async changePassword(
+    @User('id') userId: string,
+    @Body() data: UserChangePasswordDTO,
+  ) {
+    return this.userService.changePassword(userId, data);
   }
 }
