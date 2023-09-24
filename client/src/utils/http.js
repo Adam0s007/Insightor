@@ -4,7 +4,7 @@ import { getAuthToken } from "./auth";
 
 export const queryClient = new QueryClient();
 
-export const defaultUrl = "http://localhost:3000";
+export const defaultUrl = "http://localhost:8080";
 
 const authHeaders = () => { 
   return {
@@ -124,7 +124,7 @@ export async function authAction({ request, params }) {
   }
 
   const response = await fetch(
-    "http://localhost:4002/" + authData.get("authType"),
+    defaultUrl+"/" + authData.get("authType"),
     {
       method: "POST",
       headers: {

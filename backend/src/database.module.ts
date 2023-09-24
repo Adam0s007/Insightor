@@ -9,6 +9,7 @@ import { join } from 'path';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
+      url:process.env.DATABASE_URL,
       password: '1910008',
       username: 'postgres',
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
