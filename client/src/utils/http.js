@@ -201,7 +201,7 @@ export async function updateUser({ updatedFields }) {
   const response = await fetch(`${defaultUrl}/myProfile`, {
     method: "PUT",
     body: JSON.stringify(updatedFields),
-    headers: authActions(),
+    headers: authHeaders(),
   });
   await checkErrors(response)
   const user = await response.json();
