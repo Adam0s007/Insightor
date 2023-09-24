@@ -362,3 +362,22 @@ export async function fetchCategoriesByUser({signal,userId}) {
   const categories = await response.json();
   return categories;
 }
+
+export async function changePassword({sendObj}){
+  console.log(sendObj)
+  const response = await fetch(`${defaultUrl}/change-password`,{
+    method:'PUT',
+    body:JSON.stringify(sendObj),
+    headers:{
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getAuthToken(),
+    }
+  })
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    throw new Error(err.message);
+  }
+  const user = await response.json();
+  return user;
+}
