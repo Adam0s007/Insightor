@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ArticleEntity } from 'src/Article/Article.entity';
+import { ArticleEntity } from 'src/article/article.entity';
 import { UserEntity } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
-import { ReviewEntity } from './Review.entity';
+import { ReviewEntity } from './review.entity';
 
-import { ReviewDTO } from './Review.dto';
+import { ReviewDTO } from './review.dto';
 import { Votes } from 'src/shared/votes.enum';
 
 @Injectable()

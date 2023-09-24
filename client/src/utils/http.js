@@ -4,7 +4,7 @@ import { getAuthToken } from "./auth";
 
 export const queryClient = new QueryClient();
 
-export const defaultUrl = "http://localhost:4002";
+export const defaultUrl = "http://localhost:3000";
 
 const authHeaders = () => { 
   return {

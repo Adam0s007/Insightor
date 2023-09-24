@@ -1,6 +1,8 @@
-export const url = `http://localhost:4002/`
 
+import {defaultUrl} from "./http.js"
+
+export const url = defaultUrl
 
 export const getPicture = (imgUrl) =>(
-    imgUrl ? url + imgUrl : ""
+    imgUrl ? defaultUrl +"/"+ imgUrl : ""
 )

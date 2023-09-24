@@ -8,7 +8,7 @@ import { hexToRgba } from "../../../../utils/color-converter";
 import {useMutation} from '@tanstack/react-query'
 import { voteAction,queryClient } from "../../../../utils/http";
 import defaultProfileImage from "../../../../assets/images/profilePicture.png"
-import { url } from "../../../../utils/pictures";
+import { defaultUrl } from "../../../../utils/http";
 import { Link } from "react-router-dom";
 const Review = (props) => {
   const ratingLabel = getRatingLabel(props.rating);
@@ -48,7 +48,7 @@ const Review = (props) => {
         <Link to={"/user/"+props.userId} className={classes.imageContainer}>
           <img
             className={classes.authorImage}
-            src={props.imgUrl ? url +props.imgUrl : defaultProfileImage}
+            src={props.imgUrl ? defaultUrl +props.imgUrl : defaultProfileImage}
             alt={props.author}
           />
         </Link>

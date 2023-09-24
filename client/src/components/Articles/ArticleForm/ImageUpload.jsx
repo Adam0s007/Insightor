@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import styles from "./ImageUpload.module.css";
-import {url} from '../../../utils/pictures'
+import {defaultUrl} from '../../../utils/http'
 const ImageUpload = (props) => {
   const [error, setError] = useState(null);
-  const [preview, setPreview] = useState(props.value ? url+props.value : null);
+  const [preview, setPreview] = useState(props.value ? defaultUrl+props.value : null);
   const fileInputRef = useRef();
 
   const handleImageChange = (e) => {
