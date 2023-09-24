@@ -9,7 +9,7 @@ import { join } from 'path';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      password: '1910008', // Uwaga: Zastanów się nad przechowywaniem hasła w bezpiecznym miejscu
+      password: '1910008',
       username: 'postgres',
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       //dropSchema: true,

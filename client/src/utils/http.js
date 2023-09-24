@@ -6,8 +6,23 @@ export const queryClient = new QueryClient();
 
 export const defaultUrl = "http://localhost:4002";
 
+const authHeaders = () => { 
+  return {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + getAuthToken(),
+  };
+};
+
+const checkErrors = async (response) => {
+  if (!response.ok) {
+    const err = await response.json();
+    console.log(err);
+    const message = `status: ${err.statusCode} - ${err.message}`;
+    throw new Error(message);
+  }
+}
+
 export const fetchArticles = async ({ signal, max,page }) => {
-  console.log("Page: "+page)
   let url = `${defaultUrl}/articles`;
   if (page) {
     url = `${url}?page=${page}`;
@@ -16,71 +31,38 @@ export const fetchArticles = async ({ signal, max,page }) => {
     url = `${url}?max=${max}`;
   }
   const response = await fetch(url, { signal });
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
-
+  await checkErrors(response)
   const articles = await response.json();
-  console.log(articles);
   return articles;
 };
 
 export async function fetchArticle({ signal, id }) {
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
     signal,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
-
+  await checkErrors(response)
   const article = await response.json();
-  console.log(article);
   return article;
 }
 
 export async function createNewArticle({ articleData }) {
-  
   const imgUrl = articleData.imgUrl;
   delete articleData.imgUrl;
-  
   const response = await fetch(`${defaultUrl}/articles`, {
     method: "POST",
     body: JSON.stringify(articleData),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
-
+  await checkErrors(response)
   const article = await response.json();
   if(imgUrl){
-
-    console.log(imgUrl)
     await updateArticlePicture({formData:imgUrl,articleId:article.id});
   }
   return article;
 }
 
 export async function updateArticle({ article, id }) {
-  //remove id from article and also remove id from article.content array (if exists and has length > 0)
   delete article.id;
   delete article.reviews;
   delete article.date;
@@ -97,23 +79,12 @@ export async function updateArticle({ article, id }) {
       delete category.id;
     });
   }
-  
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
     method: "PUT",
     body: JSON.stringify(article),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
-
+  await checkErrors(response)
   const articleRO = await response.json();
   if(imgUrl){
     await updateArticlePicture({formData:imgUrl,articleId:id});
@@ -124,17 +95,9 @@ export async function updateArticle({ article, id }) {
 export async function deleteArticle({ id }) {
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
     method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
+  await checkErrors(response)
   const article = await response.json();
   return article;
 }
@@ -190,19 +153,9 @@ export async function fetchUser({ signal,restPoint="myProfile" }) {
   // fetching from /localhost:4002/myProfile, needed application-type and Authorization Bearer token
   const response = await fetch(`${defaultUrl}/`+restPoint, {
     signal,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
-
+  await checkErrors(response)
   const user = await response.json();
   return user;
 }
@@ -210,19 +163,9 @@ export async function fetchUser({ signal,restPoint="myProfile" }) {
 export async function fetchReviews({ signal, articleId }) {
   const response = await fetch(`${defaultUrl}/reviews/article/${articleId}`, {
     signal,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
-
+  await checkErrors(response)
   const reviews = await response.json();
   return reviews;
 }
@@ -235,17 +178,9 @@ export async function reviewAction({ reviewData, articleId, method }) {
   const response = await fetch(`${defaultUrl}/reviews/article/${articleId}`, {
     method: method,
     body: JSON.stringify(formattedReviewData),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `${err.message}`;
-    throw new Error(message);
-  }
+  await checkErrors(response)
   const review = await response.json();
   return review;
 }
@@ -254,16 +189,9 @@ export async function voteAction({ reviewId, action}){
   //action -> downvote, upvote, rest point: /localhost:4002/reviews/:reviewId/:action
   const response = await fetch(`${defaultUrl}/reviews/${reviewId}/${action}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    throw new Error(err.message);
-  }
+  await checkErrors(response)
   const review = await response.json();
   return review;
 }
@@ -273,16 +201,9 @@ export async function updateUser({ updatedFields }) {
   const response = await fetch(`${defaultUrl}/myProfile`, {
     method: "PUT",
     body: JSON.stringify(updatedFields),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authActions(),
   });
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    throw new Error(err.message);
-  }
+  await checkErrors(response)
   const user = await response.json();
   return user;
 }
@@ -293,14 +214,9 @@ export async function updateProfilePicture({ formData }) {
     body: formData,
     headers: {
       Authorization: "Bearer " + getAuthToken(),
-    
     },
   });
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    throw new Error(err.message);
-  }
+  await checkErrors(response)
   const user = await response.json();
   return user;
 }
@@ -313,11 +229,7 @@ export async function updateArticlePicture({formData,articleId}){
       Authorization: "Bearer " + getAuthToken(),
     }
   })
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    throw new Error(err.message);
-  }
+  await checkErrors(response)
   const article = await response.json();
   return article;
 }
@@ -326,19 +238,9 @@ export async function updateArticlePicture({formData,articleId}){
 export async function fetchCategories({signal}) {
   const response = await fetch(`${defaultUrl}/categories`, {
     signal,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
-
+  await checkErrors(response)
   const categories = await response.json();
   return categories;
 }
@@ -346,19 +248,9 @@ export async function fetchCategories({signal}) {
 export async function fetchCategoriesByUser({signal,userId}) {
   const response = await fetch(`${defaultUrl}/categories/user/${userId}`, {
     signal,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    },
+    headers: authHeaders(),
   });
-
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    const message = `status: ${err.statusCode} - ${err.message}`;
-    throw new Error(message);
-  }
-
+  await checkErrors(response)
   const categories = await response.json();
   return categories;
 }
@@ -368,16 +260,9 @@ export async function changePassword({sendObj}){
   const response = await fetch(`${defaultUrl}/change-password`,{
     method:'PUT',
     body:JSON.stringify(sendObj),
-    headers:{
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getAuthToken(),
-    }
+    headers:authHeaders()
   })
-  if (!response.ok) {
-    const err = await response.json();
-    console.log(err);
-    throw new Error(err.message);
-  }
+  await checkErrors(response)
   const user = await response.json();
   return user;
 }

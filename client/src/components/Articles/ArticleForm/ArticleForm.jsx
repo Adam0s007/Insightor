@@ -4,7 +4,7 @@ import ArticleInfoInput from "./ArticleInfoInput.jsx";
 import ArticleInfoTextarea from "./ArticleInfoTextarea.jsx";
 import Content from "./Content.jsx";
 import Categories from "./Categories.jsx";
-import useDebounce from "../../../hooks/use-debounce";
+
 import ImageUpload from "./ImageUpload.jsx";
 const ArticleForm = (props) => {
   const [article, setArticle] = useState({
@@ -16,7 +16,7 @@ const ArticleForm = (props) => {
     categories: [],
     ...(props.data || {}),
   });
- console.log(article)
+ //console.log(article)
 
   const addItem = (type) => {
     setArticle({
@@ -36,7 +36,7 @@ const ArticleForm = (props) => {
     const newContent = [...article.content];
     newContent[index].value = value;
     setArticle({ ...article, content: newContent });
-    console.log(article)
+    //console.log(article)
   };
 
   const handleAddCategory = (newCategory) => {
@@ -81,14 +81,12 @@ const ArticleForm = (props) => {
         <ArticleInfoInput 
           id="title"
           label="Title"
-          maxLength={80}
           value={article.title}
           onChange={(value) => setArticle({ ...article, title: value })}
         />
         <ArticleInfoTextarea 
           id="description"
           label="Short description"
-          maxLength={1000}
           value={article.description}
           onChange={(value) => setArticle({ ...article, description: value })}
         />

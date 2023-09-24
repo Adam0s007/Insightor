@@ -13,7 +13,6 @@ const DescriptionEdit = ({ isEditing, editedFields, handleEditToggle, handleFiel
             onChange={(e) =>
               handleFieldChange("description", e.target.value)
             }
-            maxLength={300}
             className={styles.textArea}
           />
           <button
@@ -27,13 +26,13 @@ const DescriptionEdit = ({ isEditing, editedFields, handleEditToggle, handleFiel
           </button>
         </>
       ) : (
-        <p className={styles.description}>
+        <div className={styles.description} style={{ whiteSpace: "pre-wrap" }}>
           {editedFields.description || "Describe yourself"}
           <FiEdit
             onClick={() => handleEditToggle("description")}
             style={{ cursor: "pointer", marginLeft: "5px" }}
           />
-        </p>
+        </div>
       )}
     </>
   );

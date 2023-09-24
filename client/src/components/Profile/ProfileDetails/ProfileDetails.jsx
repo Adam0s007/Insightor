@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./ProfileDetails.module.css";
 import { useQuery } from "@tanstack/react-query";
-import { useParams,Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { fetchUser } from "../../../utils/http";
 import ModalWithMenu from "../ManageProfileDetails/ModalWithMenu";
 import { FiSettings } from "react-icons/fi"; // Importowanie ikony
@@ -66,14 +66,16 @@ const ProfileDetails = () => {
             Manage My Account
           </button>
         )}
-        <p className={styles.description}>{description}</p>
-        {isOwner && (
-        <div className={`${styles.linkContainer} ${styles.new}`}>
-          <Link to="/articles/new" className={styles.searchInput}>
-            Create new article
-          </Link>
+        <div className={styles.description} style={{ whiteSpace: "pre-wrap" }}>
+          {description}
         </div>
-      )}
+        {isOwner && (
+          <div className={`${styles.linkContainer} ${styles.new}`}>
+            <Link to="/articles/new" className={styles.searchInput}>
+              Create new article
+            </Link>
+          </div>
+        )}
       </>
     );
   }

@@ -7,7 +7,6 @@ const ImageItem = ({ item, idx, onUpdateItem, onDeleteItem }) => (
     <input
       className={styles.input}
       type="text"
-      maxLength={200}
       placeholder="Image URL"
       value={item.value ?? ""}
       onChange={(e) => onUpdateItem(idx, e.target.value)}

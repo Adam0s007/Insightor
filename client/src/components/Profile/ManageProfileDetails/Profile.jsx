@@ -85,7 +85,7 @@ const Profile = ({ user, onExit }) => {
         </div>
       </CSSTransition>
       
-      <li className={styles.menuItem}>Settings</li>
+      {/* <li className={styles.menuItem}>Settings</li> */}
       
       <Form className={styles.menuItem} action="/logout" method="post">
         <button onClick={onExit}>

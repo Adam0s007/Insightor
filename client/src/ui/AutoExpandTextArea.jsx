@@ -1,6 +1,6 @@
-// AutoExpandTextArea.js
-import React, { useRef, useEffect } from "react";
 
+import React, { useRef, useEffect } from "react";
+import styles from './AutoExpandTextArea.module.css'
 const AutoExpandTextArea = (props) => {
   const textareaRef = useRef(null);
 
@@ -34,7 +34,7 @@ const AutoExpandTextArea = (props) => {
       maxLength={props.maxLength}
       type={props.type}
       placeholder={props.placeholder}
-      className={props.className}
+      className={`${styles.textArea} ${props.className}`}
       defaultValue={props.defaultValue}
       style={{ overflow: "hidden", resize: "none" }}
     ></textarea>
