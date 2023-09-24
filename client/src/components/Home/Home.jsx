@@ -22,12 +22,12 @@ function Home() {
       <Start  joinToUsRef={joinToUsRef} joinToUsIsVisible={joinToUsIsVisible}/>
       <LatestPosts />
       
-      <Contact 
+      {/* <Contact 
         paragraphRef={paragraphRef} 
         howItWorksRef={howItWorksRef} 
         paragraphIsVisible={pIsVisible}
         howItWorksIsVisible={howItWorksIsVisible}
-      />
+      /> */}
     
       
     </div>
