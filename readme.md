@@ -11,6 +11,10 @@ Insightor is a user-friendly platform that allows users to create, rate, and com
 - **Database**: PostgreSQL
 - **Containerization**: Docker
 
+## Preview
+   To give you a taste of what to expect, here's a preview of Insightor:
+   ![InsightorPreview](https://raw.githubusercontent.com/Adam0s007/Blog/main/assets/109285249/156e3a95-91f9-4fef-a1a8-b2da34a119a0.gif)
+
 ## Features
 
 1. **Article Creation & Management**
