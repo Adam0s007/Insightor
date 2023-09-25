@@ -18,10 +18,11 @@ import { ValidationPipe } from '../shared/validation.pipe';
 import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from 'src/user/user.decorator';
 import { WeakAuthGuard } from 'src/shared/weak-auth.guard';
-import { CategoryEntity } from 'src/category/category.entity';
-import { CategoryDTO, UpdateArticleCategoriesDTO } from 'src/category/category.dto';
+
+import { CategoryDTO,  } from 'src/category/category.dto';
 import { multerOptions } from 'src/config/multer.config';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { FindOptions } from './FindOptions';
 @Controller('articles')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
@@ -51,12 +52,7 @@ export class ArticleController {
     @Query('order') sortOrder?: 'ASC' | 'DESC',
   ) {
     return await this.articleService.findAll(
-      max,
-      page,
-      text,
-      category,
-      sortBy,
-      sortOrder,
+      new FindOptions(max, page, text, category, sortBy, sortOrder)
     );
   }
 
@@ -70,10 +66,7 @@ export class ArticleController {
   ) {
     return await this.articleService.findArticlesByUser(
       id,
-      page,
-      category,
-      sortBy,
-      sortOrder,
+      new FindOptions(undefined, page, undefined, category, sortBy, sortOrder)
     );
   }
 

@@ -11,6 +11,8 @@ import { CategoryDTO } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
 import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
+import { FindOptions } from './FindOptions';
+import { ArticleQueryBuilder } from './ArticleQueryBuilder';
 @Injectable()
 export class ArticleService {
   constructor(
@@ -25,6 +27,7 @@ export class ArticleService {
     @InjectRepository(CategoryEntity)
     private categoryRepository: Repository<CategoryEntity>,
     private categoryService: CategoryService,
+    private readonly articleQueryBuilder: ArticleQueryBuilder,
   ) {}
 
   private ensureOwnership(article: ArticleEntity, userId: string) {
@@ -83,102 +86,18 @@ export class ArticleService {
     return article.toResponseObject();
   }
 
-  async findAll(
-    max = undefined,
-    page: number = 1,
-    text?: string,
-    category?: string,
-    sortBy?: 'date' | 'rating' | 'reviews',
-    sortOrder: 'ASC' | 'DESC' = 'DESC',
-  ): Promise<ArticleEntity[]> {
-    if (max && (max < 1 || isNaN(max))) {
-      throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-    }
-    const query = this.articleRepository
-      .createQueryBuilder('article')
-      .leftJoinAndSelect('article.content', 'content')
-      .leftJoinAndSelect('article.user', 'user')
-      .leftJoinAndSelect('article.reviews', 'reviews')
-      .leftJoinAndSelect('article.categories', 'categoryFilter');
-    if (category) {
-      query.andWhere('LOWER(categoryFilter.name) = LOWER(:category)', {
-        category,
-      });
-    }
-    if (text) {
-      query.andWhere(
-        'article.title ILIKE :text OR article.description ILIKE :text OR user.name ILIKE :text OR user.surname ILIKE :text',
-        { text: `%${text}%` },
-      );
-    }
-    if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
-      sortOrder = 'DESC';
-    }
-    switch (sortBy) {
-      case 'date':
-        query.orderBy('article.date', sortOrder);
-        break;
-      case 'rating':
-        query.orderBy('article.rating', sortOrder);
-        break;
-      case 'reviews':
-        query.orderBy('article.reviewsCount', sortOrder);
-        break;
-      default:
-        query.orderBy('article.date', 'DESC'); // Default sort by date
-        break;
-    }
-    if (max) {
-      query.take(max);
-    } else {
-      query.take(3).skip(3 * (page - 1));
-    }
+  async findAll(options: FindOptions): Promise<ArticleEntity[]> {
+    const query = this.articleQueryBuilder.createQuery(options);
     const articles = await query.getMany();
     return articles.map((article) => article.toResponseObject());
   }
-
-  async findArticlesByUser(
-    userId: string,
-    page: number = 1,
-    category?: string,
-    sortBy?: 'date' | 'rating' | 'reviews',
-    sortOrder: 'ASC' | 'DESC' = 'DESC',
-  ): Promise<ArticleEntity[]> {
-    const query = this.articleRepository
-      .createQueryBuilder('article')
-      .leftJoinAndSelect('article.user', 'user')
-      .leftJoinAndSelect('article.reviews', 'reviews')
-      .leftJoinAndSelect('article.categories', 'categoryFilter')
-      .where('user.id = :userId', { userId });
-
-    if (category) {
-      query.andWhere('LOWER(categoryFilter.name) = LOWER(:category)', {
-        category,
-      });
-    }
-
-    if (sortOrder !== 'ASC' && sortOrder !== 'DESC') {
-      sortOrder = 'DESC';
-    }
-    switch (sortBy) {
-      case 'date':
-        query.orderBy('article.date', sortOrder);
-        break;
-      case 'rating':
-        query.orderBy('article.rating', sortOrder);
-        break;
-      case 'reviews':
-        query.orderBy('article.reviewsCount', sortOrder);
-        break;
-      default:
-        query.orderBy('article.date', 'DESC'); // Default sort by date
-        break;
-    }
-    query.take(6).skip(6 * (page - 1));
+  
+  async findArticlesByUser(userId: string, options: FindOptions): Promise<ArticleEntity[]> {
+    const query = this.articleQueryBuilder.createQuery(options, userId);
     const articles = await query.getMany();
     return articles.map((article) => article.toResponseObject());
   }
-
+  
   async findOne(id: string, userId?: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
