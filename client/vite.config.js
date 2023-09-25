@@ -7,6 +7,6 @@ export default defineConfig({
   server:{
     host:true,
     strictPort:true,
-    port:4002
+    port:4000
   }
 })
