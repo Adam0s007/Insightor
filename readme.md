@@ -1,4 +1,4 @@
-# ArticleHub
+# Insightor
 
 ## Description
 

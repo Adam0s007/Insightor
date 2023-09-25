@@ -79,6 +79,7 @@ export async function updateArticle({ article, id }) {
       delete category.id;
     });
   }
+  console.log(article)
   const response = await fetch(`${defaultUrl}/articles/${id}`, {
     method: "PUT",
     body: JSON.stringify(article),
@@ -86,9 +87,11 @@ export async function updateArticle({ article, id }) {
   });
   await checkErrors(response)
   const articleRO = await response.json();
-  if(imgUrl){
-    await updateArticlePicture({formData:imgUrl,articleId:id});
+  console.log(imgUrl)
+  if (imgUrl && typeof imgUrl !== 'string') {
+    await updateArticlePicture({ formData: imgUrl, articleId: id });
   }
+  
   return articleRO;
 }
 
