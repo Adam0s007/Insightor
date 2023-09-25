@@ -58,7 +58,7 @@ Insightor is a user-friendly platform that allows users to create, rate, and com
    Once the Docker containers are up and running, open your web browser and navigate to:
 
    ```sh
-   http://localhost:4000
+   http://127.0.0.1:4000/
    ```
 
 ## Usage
