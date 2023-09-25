@@ -2,7 +2,7 @@
 
 ## Description
 
-ArticleHub is a user-friendly platform that allows users to create, rate, and comment on articles. With features such as creating tags for articles, searching articles based on these tags, basic CRUD operations for articles and reviews, user authentication, and user profile editing, ArticleHub offers a comprehensive environment for sharing and evaluating content.
+Insightor is a user-friendly platform that allows users to create, rate, and comment on articles. With features such as creating tags for articles, searching articles based on these tags, basic CRUD operations for articles and reviews, user authentication, and user profile editing, ArticleHub offers a comprehensive environment for sharing and evaluating content.
 
 ## Technologies Used
 
@@ -71,5 +71,5 @@ ArticleHub is a user-friendly platform that allows users to create, rate, and co
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/Adam0s007/Blog/blob/master/LICENSE) file for details.
 
