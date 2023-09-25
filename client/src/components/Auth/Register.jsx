@@ -15,7 +15,7 @@ import {
 } from "../../utils/input-validators";
 
 import InputField from "./InputField";
-import Container from "../../ui/SimpleContainer/container";
+import Container from "../../ui/SimpleContainer/Container";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import Logo from '../../ui/Logo'
 

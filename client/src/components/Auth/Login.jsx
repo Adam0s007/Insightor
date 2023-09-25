@@ -4,7 +4,7 @@ import styles from "./Auth.module.css";
 import { Link,useNavigate,useNavigation,Form } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../utils/input-validators";
 import InputField from "./InputField";
-import Container from '../../ui/SimpleContainer/container.jsx'
+import Container from '../../ui/SimpleContainer/Container'
 import Logo from '../../ui/Logo'
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 const Login = (props) => {

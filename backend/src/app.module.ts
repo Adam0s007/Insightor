@@ -28,7 +28,8 @@ import { ContactModule } from './contact/contact.module';
     EmailModule,
     ReviewModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads/temp'),
+      rootPath: join(__dirname, '..', 'uploads', 'temp'), // Ścieżka do katalogu z obrazami
+      serveRoot: '/', // Serwuj pliki bezpośrednio z głównego URL
     }),
     CategoryModule,
     ContactModule,
