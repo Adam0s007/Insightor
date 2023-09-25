@@ -1,6 +1,6 @@
 # Insightor
 
-Insightor is a user-friendly platform that allows users to create, rate, and comment on articles. With features such as creating tags for articles, searching articles based on these tags, basic CRUD operations for articles and reviews, user authentication, and user profile editing, ArticleHub offers a comprehensive environment for sharing and evaluating content.
+Insightor is a user-friendly platform that allows users to create, rate, and comment on articles. With features such as creating tags for articles, searching articles based on these tags, basic CRUD operations for articles and reviews, user authentication, and user profile editing, Insightor offers a comprehensive environment for sharing and evaluating content.
 
 ## Technologies Used
 
