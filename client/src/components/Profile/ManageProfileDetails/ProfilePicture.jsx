@@ -8,7 +8,7 @@ import LoadingOverlay from "../../../ui/LoadingOverlay/LoadingOverlay.jsx";
 
 import useModal from '../../../hooks/use-profile-modal'
 import useProfileMutation from "../../../hooks/use-profile-mutation";
-
+import {getPicture} from '../../../utils/pictures'
 const ProfilePicture = ({ imageSrc, description }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const updateButtonRef = useRef(null);
@@ -69,7 +69,7 @@ const ProfilePicture = ({ imageSrc, description }) => {
         {mutation.isPending && <LoadingOverlay />}
       <div className={styles.imageContainer}>
         <img
-          src={ imageSrc ? defaultUrl + imageSrc : defaultProfileImage}
+          src={ imageSrc ? getPicture(imageSrc) : defaultProfileImage}
           alt={description || "User profile"}
         />
       </div>

@@ -10,6 +10,7 @@ import { voteAction,queryClient } from "../../../../utils/http";
 import defaultProfileImage from "../../../../assets/images/profilePicture.png"
 import { defaultUrl } from "../../../../utils/http";
 import { Link } from "react-router-dom";
+import {getPicture} from '../../../../utils/pictures'
 const Review = (props) => {
   const ratingLabel = getRatingLabel(props.rating);
   const color = hexToRgba(ratingLabel.color, 0.2);
@@ -48,7 +49,7 @@ const Review = (props) => {
         <Link to={"/user/"+props.userId} className={classes.imageContainer}>
           <img
             className={classes.authorImage}
-            src={props.imgUrl ? defaultUrl +props.imgUrl : defaultProfileImage}
+            src={props.imgUrl ? getPicture(props.imgUrl) : defaultProfileImage}
             alt={props.author}
           />
         </Link>

@@ -14,7 +14,7 @@ import { formatShortMonthDate } from "../../../utils/date-conventer";
 
 import { decodeToken } from "react-jwt";
 import { getSimpleToken } from "../../../utils/auth.js";
-
+import {getPicture} from '../../../utils/pictures'
 const ProfileDetails = () => {
   const params = useParams();
   const [isModalVisible, setModalVisible] = useState(false);
@@ -42,7 +42,7 @@ const ProfileDetails = () => {
   if (data) {
     const { name, surname, email, description, profilePicture, created } = data;
 
-    let imgSrc = profilePicture ? url + profilePicture : DefaultProfilePicture;
+    let imgSrc = profilePicture ? getPicture(profilePicture) : DefaultProfilePicture;
     content = (
       <>
         <div className={styles.header}>
