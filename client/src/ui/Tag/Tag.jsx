@@ -23,8 +23,8 @@ export const CategoryTags = (props) => {
   return (
     <div className={styles.categoryTagsContainer}>
       <CategoryTag label="All categories" onClick={handleTagClick} isActive={activeTag === "All categories"} />
-      {props.categories && props.categories.map((category) => (
-        <CategoryTag key={category} label={category} onClick={handleTagClick} isActive={activeTag === category} />
+      {props.categories && props.categories.map((category,idx) => (
+        <CategoryTag key={category+"-"+idx} label={category} onClick={handleTagClick} isActive={activeTag === category} />
       ))}
     </div>
   );

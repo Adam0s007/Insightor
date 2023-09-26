@@ -31,6 +31,7 @@ const Articles = () => {
     queryKey: ["categories"],
     queryFn: ({ signal }) => fetchCategories({ signal }),
   });
+  console.log(categories)
   const observer = useRef();
   const lastArticleElementRef = useCallback(
     (node) => {
@@ -63,7 +64,7 @@ const Articles = () => {
       </h2>
       <div className={classes.categories}>
         <CategoryTags
-          categories={categories?.map((cat) => cat.name)}
+          categories={categories?.map((cat) => cat.category_name)}
           onCategoryClick={(category) => {
             if (category === "All categories") {
               dispatch(updateFilters({ category: "" }));

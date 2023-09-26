@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CategoryEntity } from './category.entity';
@@ -21,10 +21,16 @@ export class CategoryService {
     }
     
     async showAllCategories() {
-        return  await this.categoryRepository.find({
-            relations: ['articles'],
-        }); 
-      }
+      const categories = await this.categoryRepository.createQueryBuilder("category")
+        .leftJoin("category.articles", "article")
+        .select("category")
+        .addSelect("COUNT(article.id) as articleCount")
+        .groupBy("category.id")
+        .orderBy("articleCount", "DESC")
+        .limit(10)
+        .getRawMany(); 
+      return categories;   
+    }
 
     async deleteCategory(id:string){
         await this.categoryRepository.delete(id);
