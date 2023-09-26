@@ -101,20 +101,6 @@ export class ArticleController {
     return await this.articleService.getArticlesByCategory(categoryId, page);
   }
 
-  @Put(':id/categories')
-  @UseGuards(new AuthGuard())
-  @UsePipes(new ValidationPipe())
-  async updateCategories(
-    @Param('id') articleId: string,
-    @Body() categories: CategoryDTO[],
-  ) {
-    return await this.articleService.updateCategoriesByArticle(
-      articleId,
-      categories,
-    );
-  }
-
-  
   
 
 }

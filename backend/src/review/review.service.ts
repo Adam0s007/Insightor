@@ -32,13 +32,14 @@ export class ReviewService {
   }
 
   private async updateArticleRating(id: string) {
-    const article = await this.articleRepository.findOne({ where: { id },  relations: ['reviews'] });
+    const article = await this.articleRepository.findOne({
+      where: { id },
+      relations: ['reviews'],
+    });
     article.reviewsCount = article.reviews.length;
     await this.computeAverageRating(article);
     await this.articleRepository.save(article);
   }
-  
-  
 
   private ensureOwnership(review: ReviewEntity, userId: string) {
     if (review.user.id !== userId) {
@@ -70,7 +71,7 @@ export class ReviewService {
   async show(id: string) {
     const review = await this.reviewRepository.findOne({
       where: { id },
-      relations: ['user', 'article','upvotes','downvotes'  ],
+      relations: ['user', 'article', 'upvotes', 'downvotes'],
     });
     return review.toResponseObject();
   }
@@ -78,7 +79,12 @@ export class ReviewService {
   async showByArticle(id: string) {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['reviews', 'reviews.user','reviews.upvotes','reviews.downvotes'],
+      relations: [
+        'reviews',
+        'reviews.user',
+        'reviews.upvotes',
+        'reviews.downvotes',
+      ],
     });
     return article.reviews.map((review) => review.toResponseObject());
   }
@@ -86,14 +92,14 @@ export class ReviewService {
   async showByUser(id: string) {
     const reviews = await this.reviewRepository.find({
       where: { user: { id } },
-      relations: ['user', 'article','upvotes','downvotes'],
+      relations: ['user', 'article', 'upvotes', 'downvotes'],
     });
     return reviews.map((review) => review.toResponseObject());
   }
 
   async showAll() {
     const reviews = await this.reviewRepository.find({
-      relations: ['user', 'article','upvotes','downvotes'],
+      relations: ['user', 'article', 'upvotes', 'downvotes'],
     });
     return reviews.map((review) => review.toResponseObject());
   }
@@ -104,7 +110,6 @@ export class ReviewService {
       relations: ['user'],
     });
 
-    
     await this.ensureUniqueReview(articleId, userId);
     const user = await this.userRepository.findOne({
       where: { id: userId },
@@ -124,7 +129,6 @@ export class ReviewService {
   }
 
   async update(articleId: string, userId: string, data: Partial<ReviewDTO>) {
-   
     let review = await this.reviewRepository.findOne({
       where: { article: { id: articleId }, user: { id: userId } },
       relations: ['user', 'article'],
@@ -134,7 +138,7 @@ export class ReviewService {
     }
     this.ensureOwnership(review, userId);
 
-    if(data.content.length < 1){
+    if (data.content.length < 1) {
       throw new HttpException('No Content!', HttpStatus.BAD_REQUEST);
     }
     await this.reviewRepository.update({ id: review.id }, data);
@@ -160,17 +164,17 @@ export class ReviewService {
     return review.toResponseObject();
   }
 
-
-
-  private async vote(review:ReviewEntity, user: UserEntity, vote: Votes) {
+  private async vote(review: ReviewEntity, user: UserEntity, vote: Votes) {
     const opposite = vote === Votes.UP ? Votes.DOWN : Votes.UP;
     if (
       review[opposite].filter((voter) => voter.id === user.id).length > 0 ||
       review[vote].filter((voter) => voter.id === user.id).length > 0
     ) {
-      let gaveOppositeVote = review[opposite].some((voter) => voter.id === user.id,);
+      let gaveOppositeVote = review[opposite].some(
+        (voter) => voter.id === user.id,
+      );
       let gaveSameVote = review[vote].some((voter) => voter.id === user.id);
-      
+
       if (gaveOppositeVote) {
         review[opposite] = review[opposite].filter(
           (voter) => voter.id !== user.id,
@@ -182,23 +186,21 @@ export class ReviewService {
       }
 
       await this.reviewRepository.save(review);
-    } else if (review[vote].filter((voter) => voter.id === user.id).length < 1) {
+    } else if (
+      review[vote].filter((voter) => voter.id === user.id).length < 1
+    ) {
       review[vote].push(user);
       await this.reviewRepository.save(review);
     } else {
-      throw new HttpException(
-        'Unable to cast vote',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('Unable to cast vote', HttpStatus.BAD_REQUEST);
     }
     return review;
-}
-
+  }
 
   async upvote(id: string, userId: string) {
     let review = await this.reviewRepository.findOne({
       where: { id },
-      relations: ['user', 'upvotes', 'downvotes','article'],
+      relations: ['user', 'upvotes', 'downvotes', 'article'],
     });
     const user = await this.userRepository.findOne({
       where: { id: userId },
@@ -210,12 +212,20 @@ export class ReviewService {
   async downvote(id: string, userId: string) {
     let review = await this.reviewRepository.findOne({
       where: { id },
-      relations: ['user', 'upvotes', 'downvotes','article'],
+      relations: ['user', 'upvotes', 'downvotes', 'article'],
     });
     const user = await this.userRepository.findOne({
       where: { id: userId },
     });
     review = await this.vote(review, user, Votes.DOWN);
     return review.toResponseObject();
+  }
+
+  async removeArticleReviews(article: ArticleEntity): Promise<void> {
+    if (article && article.reviews.length > 0) {
+      while (article.reviews.length > 0) {
+        await this.reviewRepository.remove(article.reviews.pop());
+      }
+    }
   }
 }

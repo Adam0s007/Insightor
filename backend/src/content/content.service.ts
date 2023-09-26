@@ -14,10 +14,13 @@ export class ContentService {
     private readonly articleRepository: Repository<ArticleEntity>,
   ) {}
 
-  validateType(contentData:Partial<ContentDTO>){
-    const allowedTypes = ["paragraph", "image"];
-    if(contentData.type && !allowedTypes.includes(contentData.type)){
-      throw new HttpException('Content type not allowed', HttpStatus.BAD_REQUEST);
+  validateType(contentData: Partial<ContentDTO>) {
+    const allowedTypes = ['paragraph', 'image'];
+    if (contentData.type && !allowedTypes.includes(contentData.type)) {
+      throw new HttpException(
+        'Content type not allowed',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
   async createContentByArticle(
@@ -32,17 +35,23 @@ export class ContentService {
       throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
     }
     this.validateType(contentData);
-    const content = await this.contentRepository.create({...contentData,article});
+    const content = await this.contentRepository.create({
+      ...contentData,
+      article,
+    });
     await this.contentRepository.save(content);
     return content;
   }
 
   async findAll(): Promise<ContentEntity[]> {
-    return await this.contentRepository.find({relations: ['article']});
+    return await this.contentRepository.find({ relations: ['article'] });
   }
 
   async findOne(id: string): Promise<ContentEntity> {
-    const content = await this.contentRepository.findOne({ where: { id } ,relations: ['article']});
+    const content = await this.contentRepository.findOne({
+      where: { id },
+      relations: ['article'],
+    });
     if (!content) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
@@ -65,7 +74,7 @@ export class ContentService {
     newContentData: Partial<ContentDTO>,
   ): Promise<ContentEntity> {
     const content = await this.contentRepository.findOne({
-      where: { id }
+      where: { id },
     });
     this.validateType(newContentData);
     Object.assign(content, newContentData);
@@ -83,21 +92,23 @@ export class ContentService {
     if (!article) {
       throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
     }
-   
-    if(
+
+    if (
       newContentData.length === article.content.length &&
       newContentData.every((content, index) => {
-        return content.type === article.content[index].type &&
-        content.value === article.content[index].value
-      })){
-        return article.content;
-      }
-    
-      while (article.content.length > 0) {
-        await this.contentRepository.remove(article.content.pop());
-      }
-    
-    
+        return (
+          content.type === article.content[index].type &&
+          content.value === article.content[index].value
+        );
+      })
+    ) {
+      return article.content;
+    }
+
+    while (article.content.length > 0) {
+      await this.contentRepository.remove(article.content.pop());
+    }
+
     for (const contentData of newContentData) {
       const content = await this.contentRepository.create(contentData);
       await this.contentRepository.save(content);
@@ -107,8 +118,6 @@ export class ContentService {
 
     return article.content;
   }
-
-  
 
   async remove(id: string): Promise<ContentEntity> {
     const content = await this.contentRepository.findOne({ where: { id } });
@@ -120,5 +129,13 @@ export class ContentService {
     const content = await this.contentRepository.find();
     await this.contentRepository.delete({});
     return content;
+  }
+
+  async removeArticleContent(article: ArticleEntity): Promise<void> {
+    if (article && article.content.length > 0) {
+      while (article.content.length > 0) {
+        await this.contentRepository.remove(article.content.pop());
+      }
+    }
   }
 }

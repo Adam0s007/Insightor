@@ -13,6 +13,9 @@ import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import { FindOptions } from './FindOptions';
 import { ArticleQueryBuilder } from './ArticleQueryBuilder';
+import { ContentService } from 'src/content/content.service';
+import { ReviewService } from 'src/review/review.service';
+
 @Injectable()
 export class ArticleService {
   constructor(
@@ -25,8 +28,11 @@ export class ArticleService {
     @InjectRepository(ReviewEntity)
     private reviewRepository: Repository<ReviewEntity>,
     @InjectRepository(CategoryEntity)
-    private categoryRepository: Repository<CategoryEntity>,
-    private categoryService: CategoryService,
+    private readonly categoryRepository: Repository<CategoryEntity>,
+    private readonly categoryService: CategoryService,
+    private readonly contentService:ContentService,
+    private readonly reviewService:ReviewService,
+   
     private readonly articleQueryBuilder: ArticleQueryBuilder,
   ) {}
 
@@ -44,18 +50,8 @@ export class ArticleService {
       );
     }
     const user = await this.userRepository.findOne({ where: { id: userId } });
-    const existingCategories = await this.categoryRepository.find({
-      where: { name: In(articleDto.categories.map((cat) => cat.name)) },
-    });
-    const existingCategoryNames = existingCategories.map((cat) => cat.name);
-    const newCategoryNames = articleDto.categories
-      .map((cat) => cat.name)
-      .filter((name) => !existingCategoryNames.includes(name));
-    const newCategories = this.categoryRepository.create(
-      newCategoryNames.map((name) => ({ name })),
-    );
-    await this.categoryRepository.save(newCategories);
-    const allCategories = [...existingCategories, ...newCategories];
+    const allCategories = await this.categoryService.updateCategoriesByArticle(articleDto);
+    
     const article = await this.articleRepository.create({
       ...articleDto,
       user,
@@ -67,13 +63,7 @@ export class ArticleService {
   }
 
   async updatePicture(articleId: string, imgUrl: string) {
-    const article = await this.articleRepository.findOne({
-      where: { id: articleId },
-      relations: ['content', 'user', 'reviews'],
-    });
-    if (!article) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
-    }
+    const article = await this.findArticleById(articleId,['content', 'user', 'reviews']);
     if (article.imgUrl) {
 
       const oldFilePath = `${process.env.Upload_TEMP_DIR}/${article.imgUrl}`;
@@ -139,76 +129,53 @@ export class ArticleService {
   }
   
 
-  async findAllCategoriesByUser(userId: string) {
-    const articles = await this.articleRepository.find({
-      where: { user: { id: userId } },
-      relations: ['categories'],
-    });
-    let categories = new Set();
-    articles.forEach((article) => {
-      article.categories.forEach((category) => {
-        categories.add(category.name);
-      });
-    });
-
-    return [...categories];
-  }
-
   async update(
     id: string,
     userId: string,
     newArticleData: Partial<ArticleDTO>,
   ): Promise<ArticleEntity> {
-    const article = await this.articleRepository.findOne({
-      where: { id },
-      relations: ['content', 'user', 'reviews', 'categories'],
-    });
-
-    if (!article) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
-    }
+    const article = await this.findArticleById(id);
     this.ensureOwnership(article, userId);
     if (newArticleData.content && newArticleData.content.length > 0) {
-      while (article.content.length > 0) {
-        await this.contentRepository.remove(article.content.pop());
-      }
+      await this.contentService.removeArticleContent(article);
     }
-    let categories = null;
-    if (newArticleData.categories) {
-      categories = JSON.parse(JSON.stringify(newArticleData.categories));
-      delete newArticleData.categories;
-    }
-    Object.assign(article, newArticleData);
-    await this.articleRepository.save(article);
+    const categories = this.categoryService.extractCategories(newArticleData);
+    await this.updateArticleData(article, newArticleData);
     if (categories) {
       await this.updateCategoriesByArticle(id, categories);
     }
     return article.toResponseObject();
   }
-
-  async remove(id: string, userId: string) {
+  
+  private async findArticleById(id: string, relations: string[] = ['content', 'user', 'reviews', 'categories']): Promise<ArticleEntity> {
     const article = await this.articleRepository.findOne({
       where: { id },
-      relations: ['content', 'user', 'reviews'],
+      relations: relations,
     });
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    this.ensureOwnership(article, userId);
-    console.log(article.content);
-    if (article.imgUrl) {
+    return article;
+  }
+  
+  
+  private async updateArticleData(article: ArticleEntity, newArticleData: Partial<ArticleDTO>): Promise<void> {
+    Object.assign(article, newArticleData);
+    await this.articleRepository.save(article);
+  }
+  
 
+  async remove(id: string, userId: string) {
+    const article = await this.findArticleById(id, ['content', 'user', 'reviews']);
+    this.ensureOwnership(article, userId);
+    if (article.imgUrl) {
       const oldFilePath = `${process.env.Upload_TEMP_DIR}/${article.imgUrl}`;
       if (fs.existsSync(oldFilePath)) {
         fs.unlinkSync(oldFilePath);
       }
     }
-    while (article.content.length > 0) {
-      await this.contentRepository.remove(article.content.pop());
-    }
-    while (article.reviews.length > 0) {
-      await this.reviewRepository.remove(article.reviews.pop());
-    }
+    await this.contentService.removeArticleContent(article);
+    await this.reviewService.removeArticleReviews(article);
     await this.articleRepository.delete({ id });
     await this.categoryService.removeEmptyCategories();
     return article.toResponseObject();
@@ -236,14 +203,7 @@ export class ArticleService {
     articleId: string,
     categoriesDTO: CategoryDTO[],
   ): Promise<ArticleEntity> {
-    const article = await this.articleRepository.findOne({
-      where: { id: articleId },
-      relations: ['categories'],
-    });
-
-    if (!article) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
-    }
+    const article =await this.findArticleById(articleId,['categories']);
 
     const categoryNames = categoriesDTO.map((category) => category.name);
 

@@ -10,12 +10,26 @@ import { ReviewEntity } from 'src/review/review.entity';
 import { CategoryEntity } from 'src/category/category.entity';
 import { CategoryService } from 'src/category/category.service';
 import { ArticleQueryBuilder } from './ArticleQueryBuilder';
+import { ReviewService } from 'src/review/review.service';
 
 @Module({
-  imports:[
-    TypeOrmModule.forFeature([ArticleEntity,ContentEntity,UserEntity,ReviewEntity,CategoryEntity])
+  imports: [
+    TypeOrmModule.forFeature([
+      ArticleEntity,
+      ContentEntity,
+      UserEntity,
+      ReviewEntity,
+      CategoryEntity,
+    ]),
   ],
   controllers: [ArticleController],
-  providers: [ArticleService,ContentService,CategoryService,ArticleQueryBuilder]
+  providers: [
+    ArticleService,
+    ContentService,
+    CategoryService,
+    ArticleQueryBuilder,
+    ContentService,
+    ReviewService
+  ],
 })
 export class ArticleModule {}

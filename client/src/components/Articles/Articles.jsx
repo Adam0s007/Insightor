@@ -64,7 +64,7 @@ const Articles = () => {
       </h2>
       <div className={classes.categories}>
         <CategoryTags
-          categories={categories?.map((cat) => cat.category_name)}
+          categories={categories}
           onCategoryClick={(category) => {
             if (category === "All categories") {
               dispatch(updateFilters({ category: "" }));
