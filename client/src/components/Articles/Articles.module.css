@@ -4,7 +4,7 @@
     place-content:center;
     gap: 0 1.4em;
     min-height:70vh;
-    margin-top:5em;
+    
 }
 
 
@@ -12,43 +12,44 @@
     flex-basis: 100%; /* This will make it take the full width */
     display:flex;
     flex-direction:column;
-    align-items:center;
     justify-content:center;
     position:relative;
 }
 
 
 
-.filterStatus{
+.search{
     flex-basis:100%;
     color:white;
     display:flex;
-    flex-direction: column;
-    justify-content:center;
+    justify-content:flex-start;
     align-items:baseline;
-    background-color:var(--logo-color);
+    background:var(--color);
     padding:0.5em 0.4em 0.5em 4em;
-
     font-size:24px;
+    height:4em;
+    margin-bottom:1em;
+    position:sticky;
+    top:0;
+    z-index:20;
 
 }
-.filterStatus:after{
-    content:'';
-    height:3px;
-    width:min(60vw,400px);
-    background-color:white;
-}
+
 .categories{
     display:flex;
     flex-wrap:wrap;
-    place-content:center;
+    
     flex-basis:100%;
-    max-height:200px;
+    max-height:150px;
     overflow-y:scroll;
     background-color:var(--logo-color-opacity);
     padding:0.5em;
     margin-top:-20px;
     margin-bottom:2em;
+    transition:all 0.3s ease-in-out;
+    position:sticky;
+    top:6em;
+    z-index:19;
     
 }
 .categoryBadge {
@@ -66,13 +67,41 @@
   .categoryBadge:hover {
     background-color:  var(--color);;
   }
+
+  .expandCategories{
+    display:none;
+  }
   
 
-@media only screen and (max-width:450px){
-    .filterStatus{
-        font-size:16px;
+  @media screen and (max-width:630px){
+    
+    .expandCategories{
+        display:flex;
+        position:absolute;
+        top:110%;
+        transform: translateY(-100%);
+        z-index:20;
+        font-size:12px;
+        background-color:var(--dark-color);
+        padding:4px 7px;
+        border-radius:5px;
+        left:30px;
+        cursor:pointer;
+      }
+    .search{
+       align-items: center;
+       padding:0;
+       padding-left:10px;
     }
-    .filterStatus:after{
-        display:none;
+    .categories{
+        max-height:0;
+        opacity:0;
     }
-}
+
+    .active {
+        max-height:150px;
+        opacity:1;
+    }
+    
+    
+  }

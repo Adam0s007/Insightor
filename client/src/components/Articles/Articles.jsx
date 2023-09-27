@@ -3,7 +3,6 @@ import Article from "./Article";
 import classes from "./Articles.module.css";
 import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer";
-import { initialFilters } from "../../store/filters-slice";
 import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
 import SearchBar from "./SearchBar";
@@ -20,6 +19,7 @@ const Articles = () => {
   }, []);
   const token = getSimpleToken();
   const [pageNumber, setPageNumber] = useState(1);
+  const [areCategoriesExpanded, setCategoriesExpanded] = useState(false);
   const filters = useSelector((state) => state.filters);
   const dispatch = useDispatch();
   const { articles, isPending, error, hasMore } = useFetchArticles({
@@ -31,7 +31,6 @@ const Articles = () => {
     queryKey: ["categories"],
     queryFn: ({ signal }) => fetchCategories({ signal }),
   });
-  console.log(categories)
   const observer = useRef();
   const lastArticleElementRef = useCallback(
     (node) => {
@@ -49,27 +48,40 @@ const Articles = () => {
   const filtersSubmitHandler = () => {
     setPageNumber(1);
   };
+  const handleCategoriesClick = () => {
+    setCategoriesExpanded(prevState => !prevState);
+  }
   
+
   return (
     <section className={classes.posts}>
-      <SearchBar
-        onFiltersSubmit={filtersSubmitHandler}
-        isPending={isPending}
-        token={token}
-      />
-      <SortingFilter onFiltersSubmit={filtersSubmitHandler} />
-      <h2 className={classes.filterStatus}>
-        {!filters.category ? "#All categories" : ""}
-        {filters.category && `#${filters.category}`}
-      </h2>
-      <div className={classes.categories}>
+      <div className={classes.search}>
+        <SearchBar
+          onFiltersSubmit={filtersSubmitHandler}
+          isPending={isPending}
+          token={token}
+        />
+        <span
+          onClick={handleCategoriesClick}
+          className={classes.expandCategories}
+        >
+          Tags
+        </span>
+
+        <SortingFilter onFiltersSubmit={filtersSubmitHandler} />
+      </div>
+      <div
+        className={`${classes.categories} ${
+          areCategoriesExpanded ? `${classes.active}` : ""
+        }`}
+      >
         <CategoryTags
           categories={categories}
           onCategoryClick={(category) => {
             if (category === "All categories") {
               dispatch(updateFilters({ category: "" }));
             } else {
-              dispatch(updateFilters({ category}));
+              dispatch(updateFilters({ category }));
             }
             setPageNumber(1);
           }}

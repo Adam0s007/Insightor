@@ -1,26 +1,17 @@
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem;
-  flex-basis:100%;
-}
+
 
 .searchContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--logo-color);
+  background-color: white;
   border-radius: 25px;
   padding: 0.7rem 1.3rem;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.536);
   position: relative;
-  overflow: hidden;
+ 
   flex-grow: 1;
   max-width:20em;
-
 }
 
 .overlay {
@@ -38,13 +29,13 @@
   outline: none;
   font-size: 1rem;
   background-color: transparent;
-  margin-right: 10px;
-  color:white;
-  font-weight:bold;
+  
+  color: var(--main-color);
+ 
   
 }
 .searchInput::placeholder {
-  color: white;
+  color:  var(--main-color);
 }
 
 .icons {
@@ -52,28 +43,30 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+
 }
 
 .icon {
   cursor: pointer;
-  color: white;
+  color:  var(--main-color);
   transition: color 0.3s;
+
 }
 
 .icon:hover {
-  color: white;
+  color:  var(--main-color);
 }
 
-.sortSection, .new {
+.sortSection {
   display: flex;
   align-items: center;
   padding: 0.7rem 1.3rem;
   border-radius: 25px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  flex-grow:1;
+
 }
 
-.sortSection select, .new a {
+.sortSection select {
   width: 100%;
   border: none;
   outline: none;
@@ -81,3 +74,23 @@
   font-size: 1rem;
 }
 
+@media screen and (max-width:840px){
+  .searchContainer{
+    font-size:13px;
+    max-width:15em;
+    width:100%;
+  }
+  .searchInput{
+    font-size:13px;
+    max-width:8em;
+  }
+}
+
+
+@media screen and (max-width:380px){
+  .searchContainer{
+    padding: 0.3rem 0.7rem;
+    position:relative;
+    top:2em;
+  }
+}
