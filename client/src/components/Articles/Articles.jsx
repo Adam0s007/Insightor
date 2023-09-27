@@ -49,9 +49,8 @@ const Articles = () => {
     setPageNumber(1);
   };
   const handleCategoriesClick = () => {
-    setCategoriesExpanded(prevState => !prevState);
-  }
-  
+    setCategoriesExpanded((prevState) => !prevState);
+  };
 
   return (
     <section className={classes.posts}>
@@ -87,24 +86,26 @@ const Articles = () => {
           }}
         />
       </div>
-      {articles &&
-        articles.map((post, index) => {
-          const isLastElement = articles.length === index + 1;
-          return (
-            <Article
-              key={post.id}
-              ref={isLastElement ? lastArticleElementRef : null}
-              id={post.id}
-              title={post.title}
-              description={post.description}
-              date={post.date}
-              personName={`${post.user?.name} ${post.user?.surname}`}
-              img={post.imgUrl}
-              rating={post.rating}
-              reviewsCount={post.reviewsCount}
-            />
-          );
-        })}
+      <div className={classes.articles}>
+        {articles &&
+          articles.map((post, index) => {
+            const isLastElement = articles.length === index + 1;
+            return (
+              <Article
+                key={post.id}
+                ref={isLastElement ? lastArticleElementRef : null}
+                id={post.id}
+                title={post.title}
+                description={post.description}
+                date={post.date}
+                personName={`${post.user?.name} ${post.user?.surname}`}
+                img={post.imgUrl}
+                rating={post.rating}
+                reviewsCount={post.reviewsCount}
+              />
+            );
+          })}
+      </div>
       <div className={classes.fullWidth}>
         {isPending && <LoadingIndicator />}
         {error && (

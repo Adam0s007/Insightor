@@ -1,8 +1,7 @@
 .post {
   width:min(24em,90%);
-  max-height:40em;
+  height:40em;
   position: relative;
-  margin-bottom: 50px;
   display: flex;
   flex-direction:column;
   align-items: center;
