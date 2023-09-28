@@ -1,5 +1,7 @@
 import { IsEmail, IsNotEmpty, Matches } from 'class-validator';
 import { ArticleEntity } from 'src/article/article.entity';
+import { SocialsEntity } from './socials/socials.entity';
+import { SocialsDTO } from './socials/socials.interface';
 
 export class UserDTO {
   @IsNotEmpty()
@@ -52,6 +54,7 @@ export class UserRO {
   token?: string;
   bookmarks?: ArticleEntity[];
   articles?: ArticleEntity[];
+  socials?:SocialsDTO;
 }
 
 

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
@@ -7,6 +7,8 @@ import { UnverifiedUserEntity } from './unverified-user.entity';
 import { EmailService } from 'src/email/email.service';
 import * as fs from 'fs';
 import * as bcrypt from 'bcrypt';
+import { SocialsEntity } from './socials/socials.entity';
+import { SocialsDTO } from './socials/socials.interface';
 @Injectable()
 export class UserService {
   constructor(
@@ -15,6 +17,8 @@ export class UserService {
     @InjectRepository(UnverifiedUserEntity)
     private unverifiedUserRepository: Repository<UnverifiedUserEntity>,
     private emailService: EmailService,
+    @InjectRepository(SocialsEntity)
+    private socialsRepository: Repository<SocialsEntity>,
   ) {}
 
   async generateVerificationCode(): Promise<string> {
@@ -22,14 +26,14 @@ export class UserService {
   }
   async showAll(): Promise<UserRO[]> {
     const users = await this.userRepository.find({
-      relations: ['articles', 'articles.content'],
+      relations: ['articles', 'articles.content','socials'],
     });
-    return users.map((user) => user.toResponseObject(true));
+    return users.map((user) => user.toResponseObject());
   }
 
   async showUser(userId: string): Promise<UserRO> {
     const user = await this.userRepository.findOne({
-      where: { id: userId }
+      where: { id: userId }, relations:['socials']
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -176,6 +180,8 @@ export class UserService {
     await this.userRepository.save(user);
     return user.toResponseObject();
   }
+  
+
   
   
 }

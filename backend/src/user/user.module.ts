@@ -6,14 +6,16 @@ import { UserEntity } from './user.entity';
 import { ConfigService } from '@nestjs/config';
 import { UnverifiedUserEntity } from './unverified-user.entity';
 import { EmailService } from 'src/email/email.service';
+import { SocialsService } from './socials/socials.service';
+import { SocialsEntity } from './socials/socials.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity, UnverifiedUserEntity]),
+    TypeOrmModule.forFeature([UserEntity, UnverifiedUserEntity, SocialsEntity]),
    
   ],
   controllers: [UserController],
-  providers: [UserService, ConfigService, EmailService],
+  providers: [UserService, ConfigService, EmailService, SocialsService],
 })
 export class UserModule {}

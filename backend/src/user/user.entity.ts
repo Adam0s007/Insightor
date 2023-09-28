@@ -1,11 +1,10 @@
 import {
-  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -14,6 +13,7 @@ import * as jwt from 'jsonwebtoken';
 import { UserRO } from './user.dto';
 import { ArticleEntity } from 'src/article/article.entity';
 import { Exclude } from 'class-transformer';
+import { SocialsEntity } from './socials/socials.entity';
 //without 'user' this table will be named 'user_entity
 @Entity('user')
 export class UserEntity {
@@ -37,6 +37,10 @@ export class UserEntity {
   })
   email: string;
 
+  @OneToOne(() => SocialsEntity, socials => socials.user,{cascade:true})
+  @JoinColumn()
+  socials: SocialsEntity;
+
   
   @Column({ type: 'text', nullable: true })
   description: string;
@@ -50,13 +54,16 @@ export class UserEntity {
   articles: ArticleEntity[];
 
   toResponseObject(showToken: boolean = false): UserRO {
-    const { id, created, name, surname, email, token,articles,description,profilePicture } = this;
+    const { id, created, name, surname, email, token,articles,description,profilePicture,socials } = this;
     const responseObject: UserRO = { id, created, email, name, surname,description,profilePicture };
     if (showToken) {
       responseObject.token = token;
     }
     if (articles) {
       responseObject.articles = articles;
+    }
+    if (socials) {
+      responseObject.socials = socials.toResponseObject();
     }
     return responseObject;
   

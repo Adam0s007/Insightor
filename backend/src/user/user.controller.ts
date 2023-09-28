@@ -19,10 +19,12 @@ import { AuthGuard } from 'src/shared/auth.guard';
 import { User } from './user.decorator';
 import { multerOptions } from 'src/config/multer.config';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { SocialsService } from './socials/socials.service';
+import { SocialsDTO } from './socials/socials.interface';
 
 @Controller()
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,private socialsService:SocialsService) {}
   @Get('users')
   showAllUsers() {
     return this.userService.showAll();
@@ -94,5 +96,18 @@ export class UserController {
     @Body() data: UserChangePasswordDTO,
   ) {
     return this.userService.changePassword(userId, data);
+  }
+
+  @Put('socials')
+  @UseGuards(new AuthGuard()) 
+  @UsePipes(new ValidationPipe())
+  async updateSocials(@User('id') userId: string, @Body() data: Partial<SocialsDTO>) {
+    return this.socialsService.updateSocials(userId, data);
+  }
+
+  @Get('socials')
+  @UseGuards(new AuthGuard())
+  async getSocials(@User('id') userId: string) {
+    return this.socialsService.getSocials(userId);
   }
 }
