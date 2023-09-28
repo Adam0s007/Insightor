@@ -7,13 +7,20 @@ import LoadingOverlay from "../../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import ProfilePicture from "./ProfilePicture.jsx";
 import NameSurnameEdit from "./NameSurnameEdit.jsx";
 import DescriptionEdit from "./DescriptionEdit.jsx";
-
+import SocialsEdit from "./SocialsEdit.jsx";
 import useModal from "../../../hooks/use-profile-modal";
 import useProfileMutation from "../../../hooks/use-profile-mutation";
 
 const ProfileDetails = (props) => {
-  const { created, email, name, surname, profilePicture, description } =
-    props.user;
+  const {
+    created,
+    email,
+    name,
+    surname,
+    profilePicture,
+    description,
+    socials,
+  } = props.user;
 
   const {
     showModal,
@@ -30,12 +37,14 @@ const ProfileDetails = (props) => {
     name: false,
     surname: false,
     description: false,
+    socials: false,
   });
 
   const [editedFields, setEditedFields] = useState({
     name: name,
     surname: surname,
     description: description,
+    socials: {...socials},
   });
 
   const handleEditToggle = (field) => {
@@ -46,13 +55,29 @@ const ProfileDetails = (props) => {
   };
 
   const handleFieldChange = (field, value) => {
-    setEditedFields((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setEditedFields((prev) => {
+      // Sprawdzenie, czy aktualizujemy zagnieżdżone pole
+      if (field.includes('.')) {
+        const [parentField, childField] = field.split('.');
+        return {
+          ...prev,
+          [parentField]: {
+            ...prev[parentField],
+            [childField]: value,
+          },
+        };
+      } else {
+        return {
+          ...prev,
+          [field]: value,
+        };
+      }
+    });
   };
+  
 
   const handleFieldSave = (field) => {
+    console.log(editedFields)
     if (editedFields[field] !== props.user[field]) {
       mutation.mutate(
         { updatedFields: editedFields },
@@ -106,6 +131,13 @@ const ProfileDetails = (props) => {
           />
           <p className={styles.email}>{email}</p>
           <DescriptionEdit
+            isEditing={isEditing}
+            editedFields={editedFields}
+            handleEditToggle={handleEditToggle}
+            handleFieldChange={handleFieldChange}
+            handleFieldSave={handleFieldSave}
+          />
+          <SocialsEdit
             isEditing={isEditing}
             editedFields={editedFields}
             handleEditToggle={handleEditToggle}

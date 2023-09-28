@@ -14,6 +14,7 @@ import { UserRO } from './user.dto';
 import { ArticleEntity } from 'src/article/article.entity';
 import { Exclude } from 'class-transformer';
 import { SocialsEntity } from './socials/socials.entity';
+import { Socials } from './socials/socials.dto';
 //without 'user' this table will be named 'user_entity
 @Entity('user')
 export class UserEntity {
@@ -56,6 +57,7 @@ export class UserEntity {
   toResponseObject(showToken: boolean = false): UserRO {
     const { id, created, name, surname, email, token,articles,description,profilePicture,socials } = this;
     const responseObject: UserRO = { id, created, email, name, surname,description,profilePicture };
+    responseObject.socials = new Socials();
     if (showToken) {
       responseObject.token = token;
     }

@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty, Matches } from 'class-validator';
 import { ArticleEntity } from 'src/article/article.entity';
 import { SocialsEntity } from './socials/socials.entity';
-import { SocialsDTO } from './socials/socials.interface';
+import { SocialsDTO } from './socials/socials.dto';
 
 export class UserDTO {
   @IsNotEmpty()
@@ -63,6 +63,7 @@ export class UserUpdateDTO {
   surname?: string;
   description?: string;
   profilePicture?: string;
+  socials?:SocialsDTO;
 }
 
 export class UserChangePasswordDTO {

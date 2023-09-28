@@ -20,7 +20,7 @@ import { User } from './user.decorator';
 import { multerOptions } from 'src/config/multer.config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SocialsService } from './socials/socials.service';
-import { SocialsDTO } from './socials/socials.interface';
+import { SocialsDTO } from './socials/socials.dto';
 
 @Controller()
 export class UserController {

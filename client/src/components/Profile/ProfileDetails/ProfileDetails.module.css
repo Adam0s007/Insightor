@@ -115,6 +115,31 @@
   color:white;
 }
 
+.socialIcon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+.socialIcon:hover {
+  color: #555;
+}
+
+.socialLinks {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.socialLink {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+
 
 
 @media (max-width: 500px) {

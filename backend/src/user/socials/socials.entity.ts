@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { UserEntity } from '../user.entity';
-import { SocialsDTO } from './socials.interface';
+import { SocialsDTO } from './socials.dto';
 
 @Entity('socials')
 export class SocialsEntity {

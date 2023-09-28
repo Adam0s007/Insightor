@@ -8,7 +8,8 @@ import { EmailService } from 'src/email/email.service';
 import * as fs from 'fs';
 import * as bcrypt from 'bcrypt';
 import { SocialsEntity } from './socials/socials.entity';
-import { SocialsDTO } from './socials/socials.interface';
+import { SocialsDTO } from './socials/socials.dto';
+import { SocialsService } from './socials/socials.service';
 @Injectable()
 export class UserService {
   constructor(
@@ -17,8 +18,7 @@ export class UserService {
     @InjectRepository(UnverifiedUserEntity)
     private unverifiedUserRepository: Repository<UnverifiedUserEntity>,
     private emailService: EmailService,
-    @InjectRepository(SocialsEntity)
-    private socialsRepository: Repository<SocialsEntity>,
+    private socialsService: SocialsService
   ) {}
 
   async generateVerificationCode(): Promise<string> {
@@ -134,16 +134,24 @@ export class UserService {
     }
 
     let user = await this.userRepository.findOne({
-      where: { id: userId },
+      where: { id: userId }
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
-
+    let socials = null;
+    if(data.socials){
+      socials = data.socials;
+      delete data.socials;
+    }
     await this.userRepository.update(userId, data);
+    if(socials){
+      await this.socialsService.updateSocials(userId,socials);
+    }
+    
     user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['articles', 'articles.reviews', 'articles.content'],
+      relations: ['articles', 'articles.reviews', 'articles.content','socials'],
     });
     return user.toResponseObject(true);
   }
