@@ -55,36 +55,38 @@ const Articles = () => {
   return (
     <section className={classes.posts}>
       <div className={classes.search}>
-        <SearchBar
-          onFiltersSubmit={filtersSubmitHandler}
-          isPending={isPending}
-          token={token}
-        />
-        <span
-          onClick={handleCategoriesClick}
-          className={classes.expandCategories}
-        >
-          Tags
-        </span>
+        <div className={classes.mainSearch}>
+          <SearchBar
+            onFiltersSubmit={filtersSubmitHandler}
+            isPending={isPending}
+            token={token}
+          />
+          <span
+            onClick={handleCategoriesClick}
+            className={classes.expandCategories}
+          >
+            Tags
+          </span>
 
-        <SortingFilter onFiltersSubmit={filtersSubmitHandler} />
-      </div>
-      <div
-        className={`${classes.categories} ${
-          areCategoriesExpanded ? `${classes.active}` : ""
-        }`}
-      >
-        <CategoryTags
-          categories={categories}
-          onCategoryClick={(category) => {
-            if (category === "All categories") {
-              dispatch(updateFilters({ category: "" }));
-            } else {
-              dispatch(updateFilters({ category }));
-            }
-            setPageNumber(1);
-          }}
-        />
+          <SortingFilter onFiltersSubmit={filtersSubmitHandler} />
+        </div>
+        <div
+          className={`${classes.categories} ${
+            areCategoriesExpanded ? `${classes.active}` : ""
+          }`}
+        >
+          <CategoryTags
+            categories={categories}
+            onCategoryClick={(category) => {
+              if (category === "All categories") {
+                dispatch(updateFilters({ category: "" }));
+              } else {
+                dispatch(updateFilters({ category }));
+              }
+              setPageNumber(1);
+            }}
+          />
+        </div>
       </div>
       <div className={classes.articles}>
         {articles &&

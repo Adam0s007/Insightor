@@ -6,12 +6,12 @@
   justify-content: space-between;
   background-color: white;
   border-radius: 25px;
-  padding: 0.7rem 1.3rem;
+  padding: 0.4rem 0.8rem;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.536);
   position: relative;
  
   flex-grow: 1;
-  max-width:20em;
+  max-width:12em;
 }
 
 .overlay {
@@ -66,31 +66,5 @@
 
 }
 
-.sortSection select {
-  width: 100%;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  font-size: 1rem;
-}
-
-@media screen and (max-width:840px){
-  .searchContainer{
-    font-size:13px;
-    max-width:15em;
-    width:100%;
-  }
-  .searchInput{
-    font-size:13px;
-    max-width:8em;
-  }
-}
 
 
-@media screen and (max-width:380px){
-  .searchContainer{
-    padding: 0.3rem 0.7rem;
-    position:relative;
-    
-  }
-}
