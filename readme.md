@@ -11,7 +11,7 @@ Insightor is a user-friendly platform that allows users to create, rate, and com
 
 ## Preview
    To give you a taste of what to expect, here's a preview of Insightor:
-   ![InsightorPreview](https://github.com/Adam0s007/Blog/assets/109285249/156e3a95-91f9-4fef-a1a8-b2da34a119a0)
+   ![InsightorPreview](https://github.com/Adam0s007/Blog/assets/109285249/841a7400-50c0-4ab9-979c-dc0d16470739)
 
 ## Features
 
@@ -58,9 +58,9 @@ Insightor is a user-friendly platform that allows users to create, rate, and com
       ```
 
       This command will start all the services defined in `docker-compose.yml` file, setting up the entire stack including the frontend, backend, and database.
-
-
-   2. **Inject Sample Data**:
+      ***Note***: Sometimes, the last message you see might be: ``` LOG:  database system is ready to accept connections  ```
+      In such cases, you may need to stop the services by using `CTRL+C` or running the `docker-compose down` command. After stopping the services, restart them by executing `docker-compose up` again. This helps in         ensuring that all the services are properly synchronized and functioning together.
+   3. **Inject Sample Data**:
    
       While the container is running, execute the following command to inject data from `blog_dump.sql` into the database. Replace `blog-postgres-1` with the actual name of your PostgreSQL container if it’s different.
    
