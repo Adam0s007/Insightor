@@ -47,13 +47,42 @@ Insightor is a user-friendly platform that allows users to create, rate, and com
 
 3. **Run the Application**
 
-   Inside the project directory, run the following command:
+   Follow the steps below to run the application:
 
-   ```sh
-   docker-compose up
-   ```
+   1. **Start the Services**:
+   
+      Navigate to the project directory and execute the following command:
+   
+      ```sh
+      docker-compose up
+      ```
 
-   This command will start all the services defined in `docker-compose.yml` file, setting up the entire stack including the frontend, backend, and database.
+      Wait for the last message to be:
+      ```
+      LOG:  database system is ready to accept connections
+      ```
+
+
+   2. **Inject Sample Data**:
+   
+      While the container is running, execute the following command to inject data from `blog_dump.sql` into the database. Replace `blog-postgres-1` with the actual name of your PostgreSQL container if it’s different.
+   
+      ```sh
+      cat blog_dump.sql | docker exec -i blog-postgres-1 psql -U postgres blog
+      ```
+
+   3. **Restart the Services**:
+   
+      After injecting the sample data, stop the running services using `Ctrl+C` or by executing `docker-compose down` in another terminal. Then, start the services again using:
+   
+      ```sh
+      docker-compose up
+      ```
+
+   The application should now be up and running with the sample data from `blog_dump.sql`. 
+   
+   ***Note***: Make sure Docker and Docker Compose are correctly installed and configured on your system before running the above commands. Refer to the [Docker documentation](https://docs.docker.com/get-docker/) and [Docker Compose documentation](https://docs.docker.com/compose/install/) for installation and configuration guidelines.
+
 
 4. **Access the Application**
 
