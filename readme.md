@@ -62,12 +62,12 @@ Insightor is a user-friendly platform that allows users to create, rate, and com
       In such cases, you may need to stop the services by using `CTRL+C` or running the `docker-compose down` command. After stopping the services, restart them by executing `docker-compose up` again. This helps in         ensuring that all the services are properly synchronized and functioning together.
    3. **Inject Sample Data**:
    
-      While the container is running, execute the following command to inject data from `blog_dump.sql` into the database. Replace `blog-postgres-1` with the actual name of your PostgreSQL container if it’s different.
+      While the container is running, execute the following command to inject data from `blog_dump.sql` into the database. Replace `insightor-postgres-1` with the actual name of your PostgreSQL container if it’s different.
    
       ```sh
-      docker exec -i blog-postgres-1 psql -U postgres -c "DROP DATABASE IF EXISTS blog;"
-      docker exec -i blog-postgres-1 psql -U postgres -c "CREATE DATABASE blog;"
-      cat blog_dump.sql | docker exec -i blog-postgres-1 psql -U postgres blog
+      docker exec -i insightor-postgres-1 psql -U postgres -c "DROP DATABASE IF EXISTS blog;"
+      docker exec -i insightor-postgres-1 psql -U postgres -c "CREATE DATABASE blog;"
+      cat blog_dump.sql | docker exec -i insightor-postgres-1 psql -U postgres blog
 
       ```
 
