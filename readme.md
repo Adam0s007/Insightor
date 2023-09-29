@@ -57,10 +57,7 @@ Insightor is a user-friendly platform that allows users to create, rate, and com
       docker-compose up
       ```
 
-      Wait for the last message to be:
-      ```
-      LOG:  database system is ready to accept connections
-      ```
+      This command will start all the services defined in `docker-compose.yml` file, setting up the entire stack including the frontend, backend, and database.
 
 
    2. **Inject Sample Data**:
@@ -68,16 +65,13 @@ Insightor is a user-friendly platform that allows users to create, rate, and com
       While the container is running, execute the following command to inject data from `blog_dump.sql` into the database. Replace `blog-postgres-1` with the actual name of your PostgreSQL container if it’s different.
    
       ```sh
+      docker exec -i blog-postgres-1 psql -U postgres -c "DROP DATABASE IF EXISTS blog;"
+      docker exec -i blog-postgres-1 psql -U postgres -c "CREATE DATABASE blog;"
       cat blog_dump.sql | docker exec -i blog-postgres-1 psql -U postgres blog
+
       ```
 
-   3. **Restart the Services**:
-   
-      After injecting the sample data, stop the running services using `Ctrl+C` or by executing `docker-compose down` in another terminal. Then, start the services again using:
-   
-      ```sh
-      docker-compose up
-      ```
+  
 
    The application should now be up and running with the sample data from `blog_dump.sql`. 
    
