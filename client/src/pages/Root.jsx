@@ -46,6 +46,14 @@ const RootLayout = (props) => {
       return <HeaderNavigation />;
     return element;
   };
+  
+  const FooterNavigationHandler = () => {
+    if (
+      location.pathname === "/articles" 
+    )
+      return null;
+    return <Footer />;
+  }
 
   useEffect(() => {
     if (!token) {
@@ -69,7 +77,7 @@ const RootLayout = (props) => {
       )}
       {HeaderNavigationHandler()}
       <Outlet />
-      <Footer />
+      {FooterNavigationHandler()}
     </>
   );
 };

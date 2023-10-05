@@ -3,11 +3,9 @@ import Article from "./Article";
 import classes from "./Articles.module.css";
 import LoadingIndicator from "../../ui/LoadingIndicator/LoadingIndicator";
 import ErrorContainer from "../../ui/ErrorContainer/ErrorContainer";
-import { getSimpleToken } from "../../utils/auth";
 import { useFetchArticles } from "../../hooks/use-fetch-articles";
 import SearchBar from "./SearchBar";
-import { useSelector, useDispatch } from "react-redux";
-import { updateFilters } from "../../store/filters-slice";
+
 import { useQuery } from "@tanstack/react-query";
 import { fetchCategories } from "../../utils/http";
 import SortingFilter from "./SortingFilter";
@@ -17,11 +15,15 @@ const Articles = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const token = getSimpleToken();
+  
   const [pageNumber, setPageNumber] = useState(1);
   const [areCategoriesExpanded, setCategoriesExpanded] = useState(false);
-  const filters = useSelector((state) => state.filters);
-  const dispatch = useDispatch();
+  const [filters, setFilters] = useState({
+    sort: "",
+    order: "",
+    text: "",
+    category: "",
+  });
   const { articles, isPending, error, hasMore } = useFetchArticles({
     pageNumber,
     filters,
@@ -45,9 +47,11 @@ const Articles = () => {
     },
     [isPending, hasMore]
   );
-  const filtersSubmitHandler = () => {
+  const filtersSubmitHandler = useCallback((newFilters) => {
+    setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
     setPageNumber(1);
-  };
+  }, []);
+  
   const handleCategoriesClick = () => {
     setCategoriesExpanded((prevState) => !prevState);
   };
@@ -58,8 +62,6 @@ const Articles = () => {
         <div className={classes.mainSearch}>
           <SearchBar
             onFiltersSubmit={filtersSubmitHandler}
-            isPending={isPending}
-            token={token}
           />
           <span
             onClick={handleCategoriesClick}
@@ -78,12 +80,8 @@ const Articles = () => {
           <CategoryTags
             categories={categories}
             onCategoryClick={(category) => {
-              if (category === "All categories") {
-                dispatch(updateFilters({ category: "" }));
-              } else {
-                dispatch(updateFilters({ category }));
-              }
-              setPageNumber(1);
+              if(category == "All categories") category = ""
+              filtersSubmitHandler({ category: category });
             }}
           />
         </div>

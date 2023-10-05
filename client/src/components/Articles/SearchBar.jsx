@@ -1,27 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import styles from "./SearchBar.module.css";
-import { useDispatch} from 'react-redux';
-import { updateFilters } from "../../store/filters-slice";
+import useDebounce from "../../hooks/use-debounce"; // Modify this import path based on your folder structure
 
-const SearchBar = (props) => {
-  const dispach = useDispatch();
+const SearchBar = React.memo(props => {
   const [textFilter, setTextFilter] = useState("");
-  
+  const debouncedTextFilter = useDebounce(textFilter, 300); // 300ms delay
+
+  useEffect(() => {
+      props.onFiltersSubmit({ text: debouncedTextFilter });
+  }, [debouncedTextFilter]);
+
   const handleTextChange = (e) => {
     setTextFilter(e.target.value);
   };
 
   const submitHandler = (e) => {
     e && e.preventDefault();
-    if (props.isPending) return;
-    dispach(updateFilters({text:textFilter}));
-    props.onFiltersSubmit();
+    props.onFiltersSubmit({ text: debouncedTextFilter });
   };
 
   return (
     <div className={styles.wrapper}>
-      <form onSubmit={submitHandler} className={styles.searchContainer}>
+      <div className={styles.searchContainer}>
         {props.isPending && <div className={styles.overlay}></div>}
         <input
           type="text"
@@ -34,9 +35,9 @@ const SearchBar = (props) => {
         <div className={styles.icons}>
           <FaSearch className={styles.icon} onClick={submitHandler} />
         </div>
-      </form>
+      </div>
     </div>
   );
-};
+});
 
 export default SearchBar;
